@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from .serializer import UserFeedBackSerializer, HomeHealthFacilitiesSerializer, AssistedLivingFacilitiesSerializer, \
     SkilledNursingFacilitiesSerializer, HospiceFacilitiesSerializer, StateSerializer, ZipCodeSerializer
 from .models import UserFeedback, HomeHealthFacilities, AssistedLivingFacilities, SkilledNursingFacilities, \
-    HospiceFacilities, State, ZipCode
+    HospiceFacilities, States, ZipCodes
 
 
 # Create your views here.
@@ -59,22 +59,22 @@ class HospiceDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class StateListView(generics.ListCreateAPIView):
-    queryset = State.objects.all()
+    queryset = States.objects.all()
     serializer_class = StateSerializer
 
 
 class StateDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = State.objects.all()
+    queryset = States.objects.all()
     serializer_class = StateSerializer
 
 
 class ZipCodeListView(generics.ListCreateAPIView):
-    queryset = ZipCode.objects.all()
+    queryset = ZipCodes.objects.all()
     serializer_class = ZipCodeSerializer
 
 
 class ZipCodeDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = ZipCode.objects.all()
+    queryset = ZipCodes.objects.all()
     serializer_class = ZipCodeSerializer
 
 

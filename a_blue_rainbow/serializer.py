@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
-from .models import UserFeedback, Provider, HomeHealthFacilities, AssistedLivingFacilities, SkilledNursingFacilities, \
-    HospiceFacilities, State, ZipCode
+from .models import UserFeedback, Providers, HomeHealthFacilities, AssistedLivingFacilities, SkilledNursingFacilities, \
+    HospiceFacilities, States, ZipCodes
 
 
 class UserFeedBackSerializer(serializers.ModelSerializer):
@@ -68,17 +68,17 @@ class ProviderSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        model = Provider
+        model = Providers
         fields = ('id', 'home_health', 'assisted_living', 'skilled_nursing', 'hospice')
 
 
 class StateSerializer(serializers.ModelSerializer):
     class Meta:
-        model = State
+        model = States
         fields = ('id', 'state', 'provider')
 
 
 class ZipCodeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ZipCode
+        model = ZipCodes
         fields = ('id', 'zip_code', 'state')

@@ -4,7 +4,8 @@ from .import views
 
 
 urlpatterns = [
-    path('feedback/', views.UserFeedBackListView.as_view()),
+    path('userfeedback', views.UserFeedBackListView.as_view(), name='user_feedback_list'),
+    path('userfeedback/details/<int:pk>', views.UserFeedBackDetailView.as_view(), name='user_feedback_detail'),
     path('hospice', views.HospiceListView.as_view(), name='hospice_list'),
     path('hospice/details/<int:pk>', views.HospiceDetailView.as_view(), name='hospice_detail'),
     path('skillednursing', views.SkilledNursingListView.as_view(), name='skilled_nursing_list'),

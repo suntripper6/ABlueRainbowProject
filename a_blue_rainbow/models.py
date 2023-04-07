@@ -11,30 +11,7 @@ class UserFeedback(models.Model):
         return self.name
 
 
-class Provider(models.Model):
-    def __str__(self):
-        return self.name
-
-
-class State(models.Model):
-    provider = models.ForeignKey(Provider, on_delete=models.CASCADE, related_name='state')
-    state = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.state
-
-
-class ZipCode(models.Model):
-    state = models.ForeignKey(State, on_delete=models.CASCADE, related_name='zip_code')
-    zip_code = models.CharField(max_length=15)
-
-    def __str__(self):
-        return self.zip_code
-
-
-
 class HospiceFacilities(models.Model):
-    provider = models.ForeignKey(Provider, on_delete=models.CASCADE, related_name='hospice')
     name = models.CharField(max_length=500)
     address = models.CharField(max_length=500)
     city = models.CharField(max_length=255)
@@ -53,7 +30,6 @@ class HospiceFacilities(models.Model):
 
 
 class SkilledNursingFacilities(models.Model):
-    provider = models.ForeignKey(Provider, on_delete=models.CASCADE, related_name='skilled_nursing')
     name = models.CharField(max_length=500)
     address = models.CharField(max_length=500)
     city = models.CharField(max_length=255)
@@ -74,7 +50,6 @@ class SkilledNursingFacilities(models.Model):
 
 
 class AssistedLivingFacilities(models.Model):
-    provider = models.ForeignKey(Provider, on_delete=models.CASCADE, related_name='assisted_living')
     name = models.CharField(max_length=500)
     address = models.CharField(max_length=500)
     city = models.CharField(max_length=255)
@@ -95,7 +70,6 @@ class AssistedLivingFacilities(models.Model):
 
 
 class HomeHealthFacilities(models.Model):
-    provider = models.ForeignKey(Provider, on_delete=models.CASCADE, related_name='home_health')
     name = models.CharField(max_length=500)
     address = models.CharField(max_length=500)
     city = models.CharField(max_length=255)
@@ -118,3 +92,31 @@ class HomeHealthFacilities(models.Model):
         return self.name
 
 
+class Providers(models.Model):
+    home_health = models.ForeignKey(HomeHealthFacilities, on_delete=models.CASCADE,
+                                    related_name='home_health')
+    assisted_living = models.ForeignKey(AssistedLivingFacilities, on_delete=models.CASCADE,
+                                        related_name='assisted_living')
+    skilled_nursing = models.ForeignKey(SkilledNursingFacilities, on_delete=models.CASCADE,
+                                        related_name='skilled_nursing')
+    hospice = models.ForeignKey(HospiceFacilities, on_delete=models.CASCADE,
+                                related_name='hospice')
+
+    def __str__(self):
+        return self.home_health.name, self.assisted_living.name, self.skilled_nursing.name, self.hospice.name
+
+
+class States(models.Model):
+    provider = models.ForeignKey(Providers, on_delete=models.CASCADE, related_name='state')
+    state = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.state
+
+
+class ZipCodes(models.Model):
+    state = models.ForeignKey(States, on_delete=models.CASCADE, related_name='zip_code')
+    zip_code = models.CharField(max_length=15)
+
+    def __str__(self):
+        return self.zip_code
