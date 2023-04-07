@@ -1,7 +1,7 @@
 # A BLUE RAINBOW PROJECT
 ### An online database and dashboard for elderly care
 ### This is a centralized, online resource to assist primary caretakers in locating the best possible care for their loved ones.
-### Initial Project will start with 1 county (Manatee) and 1 state (FL) .
+### Initially the Project will start with 1 county (Manatee) and 1 state (FL) .
 
 ## <ins>PROFESSIONAL LINKS</ins>
 ### [LinkedIn](https://www.linkedin.com/in/jason-bundy)
@@ -17,7 +17,7 @@
 * As an user/admin, I want the ability to Delete an entry
 
 ## <ins>MVP</ins>
-* Be a new repo
+* Be a new repo &check;
 * Include a beautiful, professional README.md (use markdown)
 * Your README should have links to socials, a detailed description of your project, technologies used, a getting started section (with links to your deployed site and Trello), screenshots of your final product, future updates, and credits.
 * Include a minimum of 3 models with at least 2 related to each other
@@ -29,6 +29,7 @@
 * Your code should be properly indented, spaced, and within code blocks. DO NOT leave in commented out code that was left unused (bad practice).
 
 ## <ins>STRETCH GOALS</ins>
+* Add auth
 * Add additional counties and states
 * Update DB with Python Web Scraper
 * Add timer to Python Web Scraper
@@ -43,6 +44,6 @@
 
 ## <ins>TECHNOLOGIES USED</ins>
 * PyCharm
-* Python libraries: plotly, pandas
+* Python libraries: dash, plotly, pandas, requests, beautifulsoup4
 
 

@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -38,17 +38,28 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "a_blue_rainbow",
-    "a_blue_rainbow.apps.ABlueRainbowConfig",
+    # "a_blue_rainbow.apps.ABlueRainbowConfig",
     "rest_framework",
+    "rest_framework_simplejwt.token_blacklist",
     "corsheaders",
 ]
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+      ],
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"
     ]
+}
+
+SIMPLE_JWT = {
+     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
+     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+     "ROTATE_REFRESH_TOKENS": True,
+     "BLACKLIST_AFTER_ROTATION": True
 }
 
 MIDDLEWARE = [
@@ -64,7 +75,7 @@ MIDDLEWARE = [
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-ROOT_URLCONF = "ABlueRainbowProject.urls"
+ROOT_URLCONF = 'ABlueRainbowProject.urls'
 
 TEMPLATES = [
     {
