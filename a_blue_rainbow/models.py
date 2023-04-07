@@ -25,7 +25,7 @@ class State(models.Model):
 
 
 class ZipCode(models.Model):
-    state = models.ForeignKey(State, on_delete=models.CASCADE(, related_name='zip_code')
+    state = models.ForeignKey(State, on_delete=models.CASCADE, related_name='zip_code')
     zip_code = models.CharField(max_length=15)
 
     def __str__(self):
