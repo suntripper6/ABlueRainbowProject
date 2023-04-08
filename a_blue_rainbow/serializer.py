@@ -11,65 +11,90 @@ class UserFeedBackSerializer(serializers.ModelSerializer):
 
 
 class HomeHealthFacilitiesSerializer(serializers.ModelSerializer):
+    provider = serializers.HyperlinkedRelatedField(
+        view_name='provider_detail',
+        many=True,
+        read_only=True
+    )
+
     class Meta:
         model = HomeHealthFacilities
         fields = ('id', 'name', 'address', 'city', 'state', 'zip_code', 'phone_number',
-                  'type', 'medicare_elig', 'private_duty_aide', 'private_duty_nurse',
+                  'type_id', 'medicare_elig', 'private_duty_aide', 'private_duty_nurse',
                   'skilled_therapy', 'transportation_services', 'case_management', 'map',
-                  'rating', 'reviews', 'official_website')
+                  'rating', 'reviews', 'official_website', 'provider')
 
 
 class AssistedLivingFacilitiesSerializer(serializers.ModelSerializer):
+    provider = serializers.HyperlinkedRelatedField(
+        view_name='provider_detail',
+        many=True,
+        read_only=True
+    )
+
     class Meta:
         model = AssistedLivingFacilities
         fields = ('id', 'name', 'address', 'city', 'state', 'zip_code', 'phone_number',
-                  'type', 'medicare_elig', 'skilled_therapy', 'transportation_services', 'case_management',
-                  'map', 'rating', 'reviews', 'official_website')
+                  'type_id', 'medicare_elig', 'skilled_therapy', 'transportation_services', 'case_management',
+                  'map', 'rating', 'reviews', 'official_website', 'provider')
 
 
 class SkilledNursingFacilitiesSerializer(serializers.ModelSerializer):
+    provider = serializers.HyperlinkedRelatedField(
+        view_name='provider_detail',
+        many=True,
+        read_only=True
+    )
+
     class Meta:
         model = SkilledNursingFacilities
         fields = ('id', 'name', 'address', 'city', 'state', 'zip_code', 'phone_number',
-                  'type', 'medicare_elig', 'skilled_therapy', 'transportation_services', 'case_management',
-                  'map', 'rating', 'reviews', 'official_website')
+                  'type_id', 'medicare_elig', 'transportation_services', 'case_management',
+                  'map', 'rating', 'reviews', 'official_website', 'provider')
 
 
 class HospiceFacilitiesSerializer(serializers.ModelSerializer):
+    provider = serializers.HyperlinkedRelatedField(
+        view_name='provider_detail',
+        many=True,
+        read_only=True
+    )
+
     class Meta:
         model = HospiceFacilities
         fields = ('id', 'name', 'address', 'city', 'state', 'zip_code', 'phone_number',
-                  'type', 'medicare_elig', 'map', 'rating', 'reviews', 'official_website')
+                  'type_id', 'medicare_elig', 'map', 'rating', 'reviews', 'official_website', 'provider')
 
 
 class ProviderSerializer(serializers.ModelSerializer):
-    home_health = serializers.HyperlinkedRelatedField(
-        view_name='home_health_detail',
-        many=True,
-        read_only=True
-    )
-
-    assisted_living = serializers.HyperlinkedRelatedField(
-        view_name='assisted_living_detail',
-        many=True,
-        read_only=True
-    )
-
-    skilled_nursing = serializers.HyperlinkedRelatedField(
-        view_name='skilled_nursing_detail',
-        many=True,
-        read_only=True
-    )
-
-    hospice = serializers.HyperlinkedRelatedField(
-        view_name='hospice_detail',
-        many=True,
-        read_only=True
-    )
+    # home_health = serializers.HyperlinkedRelatedField(
+    #     view_name='home_health_detail',
+    #     many=True,
+    #     read_only=True
+    # )
+    #
+    # assisted_living = serializers.HyperlinkedRelatedField(
+    #     view_name='assisted_living_detail',
+    #     many=True,
+    #     read_only=True
+    # )
+    #
+    # skilled_nursing = serializers.HyperlinkedRelatedField(
+    #     view_name='skilled_nursing_detail',
+    #     many=True,
+    #     read_only=True
+    # )
+    #
+    # hospice = serializers.HyperlinkedRelatedField(
+    #     view_name='hospice_detail',
+    #     many=True,
+    #     read_only=True
+    # )
 
     class Meta:
         model = Providers
-        fields = ('id', 'home_health', 'assisted_living', 'skilled_nursing', 'hospice')
+        # fields = ('id', 'home_health', 'assisted_living', 'skilled_nursing', 'hospice')
+        fields = ('id', 'type')
 
 
 class StateSerializer(serializers.ModelSerializer):
