@@ -2,9 +2,9 @@ from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.views import APIView
 from .serializer import UserFeedBackSerializer, HomeHealthFacilitiesSerializer, AssistedLivingFacilitiesSerializer, \
-    SkilledNursingFacilitiesSerializer, HospiceFacilitiesSerializer, StateSerializer, ZipCodeSerializer
+    SkilledNursingFacilitiesSerializer, HospiceFacilitiesSerializer, StateSerializer, ProviderSerializer
 from .models import UserFeedback, HomeHealthFacilities, AssistedLivingFacilities, SkilledNursingFacilities, \
-    HospiceFacilities, States, ZipCodes
+    HospiceFacilities, States, Providers
 
 
 # Create your views here.
@@ -68,14 +68,11 @@ class StateDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = StateSerializer
 
 
-class ZipCodeListView(generics.ListCreateAPIView):
-    queryset = ZipCodes.objects.all()
-    serializer_class = ZipCodeSerializer
+class ProviderListView(generics.ListCreateAPIView):
+    queryset = Providers.objects.all()
+    serializer_class = ProviderSerializer
 
 
-class ZipCodeDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = ZipCodes.objects.all()
-    serializer_class = ZipCodeSerializer
-
-
-
+class ProviderDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Providers.objects.all()
+    serializer_class = ProviderSerializer

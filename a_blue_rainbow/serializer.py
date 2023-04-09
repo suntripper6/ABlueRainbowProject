@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from .models import UserFeedback, Providers, HomeHealthFacilities, AssistedLivingFacilities, SkilledNursingFacilities, \
-    HospiceFacilities, States, ZipCodes
+    HospiceFacilities, States
 
 
 class UserFeedBackSerializer(serializers.ModelSerializer):
@@ -17,12 +17,18 @@ class HomeHealthFacilitiesSerializer(serializers.ModelSerializer):
         read_only=True
     )
 
+    state = serializers.HyperlinkedRelatedField(
+        view_name='state_detail',
+        many=True,
+        read_only=True
+    )
+
     class Meta:
         model = HomeHealthFacilities
-        fields = ('id', 'name', 'address', 'city', 'state', 'zip_code', 'phone_number',
+        fields = ('id', 'name', 'address', 'city', 'state_name', 'zip_code', 'phone_number',
                   'type_id', 'medicare_elig', 'private_duty_aide', 'private_duty_nurse',
                   'skilled_therapy', 'transportation_services', 'case_management', 'map',
-                  'rating', 'reviews', 'official_website', 'provider')
+                  'rating', 'reviews', 'official_website', 'provider', 'state')
 
 
 class AssistedLivingFacilitiesSerializer(serializers.ModelSerializer):
@@ -34,7 +40,7 @@ class AssistedLivingFacilitiesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AssistedLivingFacilities
-        fields = ('id', 'name', 'address', 'city', 'state', 'zip_code', 'phone_number',
+        fields = ('id', 'name', 'address', 'city', 'state_name', 'zip_code', 'phone_number',
                   'type_id', 'medicare_elig', 'skilled_therapy', 'transportation_services', 'case_management',
                   'map', 'rating', 'reviews', 'official_website', 'provider')
 
@@ -48,7 +54,7 @@ class SkilledNursingFacilitiesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SkilledNursingFacilities
-        fields = ('id', 'name', 'address', 'city', 'state', 'zip_code', 'phone_number',
+        fields = ('id', 'name', 'address', 'city', 'state_name', 'zip_code', 'phone_number',
                   'type_id', 'medicare_elig', 'transportation_services', 'case_management',
                   'map', 'rating', 'reviews', 'official_website', 'provider')
 
@@ -62,34 +68,11 @@ class HospiceFacilitiesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HospiceFacilities
-        fields = ('id', 'name', 'address', 'city', 'state', 'zip_code', 'phone_number',
+        fields = ('id', 'name', 'address', 'city', 'state_name', 'zip_code', 'phone_number',
                   'type_id', 'medicare_elig', 'map', 'rating', 'reviews', 'official_website', 'provider')
 
 
 class ProviderSerializer(serializers.ModelSerializer):
-    # home_health = serializers.HyperlinkedRelatedField(
-    #     view_name='home_health_detail',
-    #     many=True,
-    #     read_only=True
-    # )
-    #
-    # assisted_living = serializers.HyperlinkedRelatedField(
-    #     view_name='assisted_living_detail',
-    #     many=True,
-    #     read_only=True
-    # )
-    #
-    # skilled_nursing = serializers.HyperlinkedRelatedField(
-    #     view_name='skilled_nursing_detail',
-    #     many=True,
-    #     read_only=True
-    # )
-    #
-    # hospice = serializers.HyperlinkedRelatedField(
-    #     view_name='hospice_detail',
-    #     many=True,
-    #     read_only=True
-    # )
 
     class Meta:
         model = Providers
@@ -100,10 +83,8 @@ class ProviderSerializer(serializers.ModelSerializer):
 class StateSerializer(serializers.ModelSerializer):
     class Meta:
         model = States
-        fields = ('id', 'state', 'provider')
+        fields = ('id', 'zip', 'lat', 'lng', 'city', 'state_name', 'zcta', 'parent_zcta', 'population',
+                  'density', 'county_fips', 'county_name', 'county_weights', 'county_names_all',
+                  'county_fips_all', 'imprecise', 'military', 'timezone', 'state_id')
 
 
-class ZipCodeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ZipCodes
-        fields = ('id', 'zip_code', 'state')
