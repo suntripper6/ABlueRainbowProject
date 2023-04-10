@@ -9,4 +9,3 @@ admin.site.register(SkilledNursingFacilities)
 admin.site.register(HospiceFacilities)
 admin.site.register(Providers)
 admin.site.register(States)
-

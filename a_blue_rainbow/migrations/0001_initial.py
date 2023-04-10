@@ -45,7 +45,7 @@ class Migration(migrations.Migration):
                 ("state_name", models.CharField(max_length=50, null=True)),
                 ("zcta", models.BooleanField(null=True)),
                 ("parent_zcta", models.CharField(max_length=50, null=True)),
-                ("population", models.CharField(null=True)),
+                ("population", models.IntegerField(null=True)),
                 ("density", models.FloatField(null=True)),
                 ("county_fips", models.IntegerField(null=True)),
                 ("county_name", models.CharField(max_length=50, null=True)),
