@@ -19,7 +19,7 @@ class States(models.Model):
     state = models.CharField(max_length=50, null=True)
     zcta = models.BooleanField(null=True)
     parent_zcta = models.CharField(max_length=50, null=True)
-    population = models.CharField(null=True)
+    population = models.IntegerField(null=True)
     density = models.FloatField(null=True)
     county_fips = models.IntegerField(null=True)
     county_name = models.CharField(max_length=50, null=True)
@@ -32,7 +32,7 @@ class States(models.Model):
     state_abbrev = models.CharField(max_length=50, null=True)
 
     def __str__(self):
-        return self.state_abbrev, self.state_name, self.county_name, self.city, self.zip
+        return self.state_abbrev, self.state, self.county_name, self.city, self.zip
 
 
 class Providers(models.Model):
@@ -43,7 +43,8 @@ class Providers(models.Model):
 
 
 class HospiceFacilities(models.Model):
-    type = models.ForeignKey(Providers, on_delete=models.CASCADE, related_name='hospice')
+    type = models.ForeignKey(
+        Providers, on_delete=models.CASCADE, related_name='hospice')
     name = models.CharField(max_length=500)
     address = models.CharField(max_length=500)
     city = models.CharField(max_length=255)
@@ -61,7 +62,8 @@ class HospiceFacilities(models.Model):
 
 
 class SkilledNursingFacilities(models.Model):
-    type = models.ForeignKey(Providers, on_delete=models.CASCADE, related_name='skilled_nursing')
+    type = models.ForeignKey(
+        Providers, on_delete=models.CASCADE, related_name='skilled_nursing')
     name = models.CharField(max_length=500)
     address = models.CharField(max_length=500)
     city = models.CharField(max_length=255)
@@ -81,7 +83,8 @@ class SkilledNursingFacilities(models.Model):
 
 
 class AssistedLivingFacilities(models.Model):
-    type = models.ForeignKey(Providers, on_delete=models.CASCADE, related_name='assisted_living')
+    type = models.ForeignKey(
+        Providers, on_delete=models.CASCADE, related_name='assisted_living')
     name = models.CharField(max_length=500)
     address = models.CharField(max_length=500)
     city = models.CharField(max_length=255)
@@ -101,7 +104,8 @@ class AssistedLivingFacilities(models.Model):
 
 
 class HomeHealthFacilities(models.Model):
-    type = models.ForeignKey(Providers, on_delete=models.CASCADE, related_name='home_health')
+    type = models.ForeignKey(
+        Providers, on_delete=models.CASCADE, related_name='home_health')
     name = models.CharField(max_length=500)
     address = models.CharField(max_length=500)
     city = models.CharField(max_length=255)
@@ -121,4 +125,3 @@ class HomeHealthFacilities(models.Model):
 
     def __str__(self):
         return self.name
-
