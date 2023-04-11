@@ -25,7 +25,7 @@ class HomeHealthFacilitiesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HomeHealthFacilities
-        fields = ('id', 'name', 'address', 'city', 'state_name', 'zip_code', 'phone_number',
+        fields = ('id', 'name', 'address', 'city', 'state', 'zip_code', 'phone_number',
                   'type_id', 'medicare_elig', 'private_duty_aide', 'private_duty_nurse',
                   'skilled_therapy', 'transportation_services', 'case_management', 'map',
                   'rating', 'reviews', 'official_website', 'provider', 'state')
@@ -40,7 +40,7 @@ class AssistedLivingFacilitiesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AssistedLivingFacilities
-        fields = ('id', 'name', 'address', 'city', 'state_name', 'zip_code', 'phone_number',
+        fields = ('id', 'name', 'address', 'city', 'state', 'zip_code', 'phone_number',
                   'type_id', 'medicare_elig', 'skilled_therapy', 'transportation_services', 'case_management',
                   'map', 'rating', 'reviews', 'official_website', 'provider')
 
@@ -54,7 +54,7 @@ class SkilledNursingFacilitiesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SkilledNursingFacilities
-        fields = ('id', 'name', 'address', 'city', 'state_name', 'zip_code', 'phone_number',
+        fields = ('id', 'name', 'address', 'city', 'state', 'zip_code', 'phone_number',
                   'type_id', 'medicare_elig', 'transportation_services', 'case_management',
                   'map', 'rating', 'reviews', 'official_website', 'provider')
 
@@ -68,7 +68,7 @@ class HospiceFacilitiesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HospiceFacilities
-        fields = ('id', 'name', 'address', 'city', 'state_name', 'zip_code', 'phone_number',
+        fields = ('id', 'name', 'address', 'city', 'state', 'zip_code', 'phone_number',
                   'type_id', 'medicare_elig', 'map', 'rating', 'reviews', 'official_website', 'provider')
 
 
@@ -83,8 +83,8 @@ class ProviderSerializer(serializers.ModelSerializer):
 class StateSerializer(serializers.ModelSerializer):
     class Meta:
         model = States
-        fields = ('id', 'zip', 'lat', 'lng', 'city', 'state_name', 'zcta', 'parent_zcta', 'population',
+        fields = ('id', 'zip_code', 'latitude', 'longitude', 'city', 'state', 'zcta', 'parent_zcta', 'population',
                   'density', 'county_fips', 'county_name', 'county_weights', 'county_names_all',
-                  'county_fips_all', 'imprecise', 'military', 'timezone', 'state_id')
+                  'county_fips_all', 'imprecise', 'military', 'timezone', 'state_abbrev')
 
 
