@@ -83,8 +83,6 @@ class ProviderSerializer(serializers.ModelSerializer):
 class StateSerializer(serializers.ModelSerializer):
     class Meta:
         model = States
-        fields = ('id', 'zip', 'lat', 'lng', 'city', 'state_name', 'zcta', 'parent_zcta', 'population',
+        fields = ('id', 'zip_code', 'latitude', 'longitude', 'city', 'state', 'zcta', 'parent_zcta', 'population',
                   'density', 'county_fips', 'county_name', 'county_weights', 'county_names_all',
                   'county_fips_all', 'imprecise', 'military', 'timezone', 'state_id')
-
-

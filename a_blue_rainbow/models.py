@@ -12,11 +12,11 @@ class UserFeedback(models.Model):
 
 
 class States(models.Model):
-    zip = models.IntegerField(null=True)
-    lat = models.FloatField(null=True)
-    lng = models.FloatField(null=True)
+    zip_code = models.IntegerField(null=True)
+    latitude = models.FloatField(null=True)
+    longitude = models.FloatField(null=True)
     city = models.CharField(max_length=50, null=True)
-    state_name = models.CharField(max_length=50, null=True)
+    state = models.CharField(max_length=50, null=True)
     zcta = models.BooleanField(null=True)
     parent_zcta = models.CharField(max_length=50, null=True)
     population = models.IntegerField(null=True)
@@ -32,7 +32,7 @@ class States(models.Model):
     state_abbrev = models.CharField(max_length=50, null=True)
 
     def __str__(self):
-        return self.state_abbrev, self.state_name, self.county_name, self.city, self.zip
+        return self.state_abbrev, self.state, self.county_name, self.city, self.zip
 
 
 class Providers(models.Model):
