@@ -32,7 +32,7 @@ class States(models.Model):
     state_abbrev = models.CharField(max_length=50, null=True)
 
     def __str__(self):
-        return self.state_abbrev, self.state, self.county_name, self.city, self.zip
+        return self.state, self.state_abbrev, self.county_name, self.city
 
 
 class Providers(models.Model):
