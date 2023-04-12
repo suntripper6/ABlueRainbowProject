@@ -1,0 +1,13 @@
+{% extends "base.html" %} {% block content %}
+
+<div>
+  <h2>{{ hospice_obj.name }}</h2>
+  <p>{{ hospice_obj.address }}</p>
+  <p>{{ hospice_obj.city }}</p>
+  <p>{{ hospice_obj.state }}</p>
+  <p>{{ hospice_obj.zip_code }}</p>
+  <p>{{ hospice_obj.phone_number }}</p>
+  <p>Medicare Eligible: {{ hospice_obj.medicare_elig }}</p>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,79 @@
+{% extends "base.html" %} {% block content %}
+<div>
+  <select>
+    Select Provider
+    <option value="0">Select type:</option>
+    {% for provider in provider_qs %}
+    <option value="{{ provider.id }}>
+      <a href="/providers/{{ provider.id }}">{{ provider }}</a>
+    </option>
+    {% endfor %}
+  </select>
+</div>
+
+<div>
+  <h2>Assisted Living Facilities</h2>
+    <table>
+      {% for alf in assisted_qs %}
+        <tr>
+          <th>Name</th>
+          <th>Address</th>
+        </tr>  
+        <tr>
+          <td><a href="/assistedliving/details/{{ alf.id }}">{{ alf.name }}</a></td>
+          <td>{{ alf.address }}, {{ alf.city }}, {{ alf.state }} {{ alf.zip_code }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+</div>
+
+<div>
+  <h2>Home Health Care Resources</h2>
+    <table>
+      {% for hhc in homehealth_qs %}
+        <tr>
+          <th>Name</th>
+          <th>Address</th>
+        </tr>  
+        <tr>
+          <td><a href="/homehealth/details/{{ hhc.id }}">{{ hhc.name }}</a></td>
+          <td>{{ hhc.address }}, {{ hhc.city }}, {{ hhc.state }} {{ hhc.zip_code }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+</div>
+
+<div>
+  <h2>Skilled Nursing Facilities</h2>
+    <table>
+      {% for snf in skillednursing_qs %}
+        <tr>
+          <th>Name</th>
+          <th>Address</th>
+        </tr>  
+        <tr>
+          <td><a href="/skillednursing/details/{{ snf.id }}">{{ snf.name }}</a></td>
+          <td>{{ snf.address }}, {{ snf.city }}, {{ snf.state }} {{ snf.zip_code }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+</div>
+
+<div>
+  <h2>Hospice</h2>
+    <table>
+      {% for hospice in hospice_qs %}
+        <tr>
+          <th>Name</th>
+          <th>Address</th>
+        </tr>  
+        <tr>
+          <td><a href="/hospice/details/{{ hospice.id }}">{{ hospice.name }}</a></td>
+          <td>{{ hospice.address }}, {{ hospice.city }}, {{ hospice.state }} {{ hospice.zip_code }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+</div>
+<br>
+<p><a href="/feedback/">User Feedback Form</a></p>
+{% endblock content %}

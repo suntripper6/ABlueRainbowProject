@@ -11,36 +11,50 @@ from .models import UserFeedback, HomeHealthFacilities, AssistedLivingFacilities
 
 # PROVIDER SELECTION
 def home_view(request):
-    provider_obj = Providers.objects.get(id=2)
     provider_qs = Providers.objects.all()
+    assisted_qs = AssistedLivingFacilities.objects.all()
+    homehealth_qs = HomeHealthFacilities.objects.all()
+    skillednursing_qs = SkilledNursingFacilities.objects.all()
+    hospice_qs = HospiceFacilities.objects.all()
 
     context = {
-        "id": provider_obj.id,
-        "type": provider_obj.type,
         "provider_qs": provider_qs,
+        "assisted_qs": assisted_qs,
+        "homehealth_qs": homehealth_qs,
+        "skillednursing_qs": skillednursing_qs,
+        "hospice_qs": hospice_qs
     }
 
-    HTML_STRING = render_to_string("provider-view.html", context=context)
-    # HTML_STRING = """<h1>{type} (id: {id})</h1>""".format(**context)
+    HTML_STRING = render_to_string("home-view.html", context=context)
 
     return HttpResponse(HTML_STRING)
 
 
 # HOSPICE VIEW (FOR NOW)
 def hospice_view(request):
-    hospice_obj = HospiceFacilities.objects.get(id=2)
     hospice_qs = HospiceFacilities.objects.all()
 
     context = {
-        "id": hospice_obj.id,
-        "type": hospice_obj.type,
-        "hospice_qs": hospice_qs,
+        "hospice_qs": hospice_qs
     }
 
     HTML_STRING = render_to_string("hospice-view.html", context=context)
     # HTML_STRING = """<h1>{type} (id: {id})</h1>""".format(**context)
 
     return HttpResponse(HTML_STRING)
+
+
+def hospice_detail_view(request, id=None):
+    hospice_obj = None
+
+    if id is not None:
+        hospice_obj = HospiceFacilities.objects.get(id=id)
+
+    context = {
+        "hospice_obj": hospice_obj
+    }
+
+    return render(request, "hospice/detail.html", context=context)
 
 
 class UserFeedBackListView(generics.ListCreateAPIView):
