@@ -12,6 +12,18 @@
 </div>
 
 <div>
+  <select>
+    Select State
+    <option value="0">States:</option>
+    {% for states in states_qs %}
+    <option value="{{ states.id }}>
+      <a href="/providers/{{ states.id }}">{{ states }}</a>
+    </option>
+    {% endfor %}
+  </select>
+</div>
+
+<div>
   <h2>Assisted Living Facilities</h2>
     <table>
       {% for alf in assisted_qs %}
@@ -75,5 +87,4 @@
     </table>
 </div>
 <br>
-<p><a href="/feedback/">User Feedback Form</a></p>
 {% endblock content %}

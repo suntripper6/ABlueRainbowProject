@@ -9,28 +9,50 @@ from .models import UserFeedback, HomeHealthFacilities, AssistedLivingFacilities
     HospiceFacilities, States, Providers
 
 
+def hospice_search_view(request):
+    query_dict = request.GET
+    query = query_dict.get("q")
+    hospice_obj = None
+
+    try:
+        query = int(query_dict.get("q"))
+    except:
+        query = None
+
+    if query is not None:
+        hospice_obj = HospiceFacilities.objects.get(id=query)
+
+    context = {
+        "object": hospice_obj,
+    }
+
+    return render(request, "hospice/search.html", context=context)
+
 # PROVIDER SELECTION
+
+
 def home_view(request):
     provider_qs = Providers.objects.all()
     assisted_qs = AssistedLivingFacilities.objects.all()
     homehealth_qs = HomeHealthFacilities.objects.all()
     skillednursing_qs = SkilledNursingFacilities.objects.all()
     hospice_qs = HospiceFacilities.objects.all()
+    states_qs = States.objects.order_by("state").values_list(
+        "state", flat=True).distinct("state")
 
     context = {
         "provider_qs": provider_qs,
         "assisted_qs": assisted_qs,
         "homehealth_qs": homehealth_qs,
         "skillednursing_qs": skillednursing_qs,
-        "hospice_qs": hospice_qs
+        "hospice_qs": hospice_qs,
+        "states_qs": states_qs,
     }
 
-    HTML_STRING = render_to_string("home-view.html", context=context)
-
-    return HttpResponse(HTML_STRING)
+    return render(request, "home-view.html", context=context)
 
 
-# HOSPICE VIEW (FOR NOW)
+# HOSPICE VIEWS
 def hospice_view(request):
     hospice_qs = HospiceFacilities.objects.all()
 
@@ -38,10 +60,7 @@ def hospice_view(request):
         "hospice_qs": hospice_qs
     }
 
-    HTML_STRING = render_to_string("hospice-view.html", context=context)
-    # HTML_STRING = """<h1>{type} (id: {id})</h1>""".format(**context)
-
-    return HttpResponse(HTML_STRING)
+    return render(request, "hospice-view.html", context=context)
 
 
 def hospice_detail_view(request, id=None):

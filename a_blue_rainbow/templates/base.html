@@ -9,8 +9,17 @@
     <title>A Blue Rainbow</title>
   </head>
   <body>
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">User Feedback</a></li>
+      </ul>
+    </nav>
     <h1>A Blue Rainbow · an online resource for primary caretakers</h1>
-
+    <form action="/hospice/" method="GET">
+      <input type="text" name="q" />
+      <input type="submit" />
+    </form>
     {% block content %} {% endblock content %}
   </body>
 </html>

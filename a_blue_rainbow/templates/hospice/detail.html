@@ -1,13 +1,15 @@
 {% extends "base.html" %} {% block content %}
 
-<div>
-  <h2>{{ hospice_obj.name }}</h2>
-  <p>{{ hospice_obj.address }}</p>
-  <p>{{ hospice_obj.city }}</p>
-  <p>{{ hospice_obj.state }}</p>
-  <p>{{ hospice_obj.zip_code }}</p>
-  <p>{{ hospice_obj.phone_number }}</p>
-  <p>Medicare Eligible: {{ hospice_obj.medicare_elig }}</p>
+<div class="facility-details">
+  <h2 class="facility-detail-info">{{ hospice_obj.name }}</h2>
+  <p class="facility-detail-info">{{ hospice_obj.address }}</p>
+  <p class="facility-detail-info">
+    {{ hospice_obj.city }}, {{ hospice_obj.state }} {{ hospice_obj.zip_code }}
+  </p>
+  <p class="facility-detail-info">{{ hospice_obj.phone_number }}</p>
+  <p class="facility-detail-info">
+    Medicare Eligible: {{ hospice_obj.medicare_elig }}
+  </p>
 </div>
 
 {% endblock content %}
