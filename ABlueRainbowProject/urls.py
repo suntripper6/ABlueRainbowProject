@@ -25,6 +25,7 @@ urlpatterns = [
     # path("homehealthcare/details/<int:id>", views.hospice_view),
     # path("skillednursing/details/<int:id>", views.hospice_view),
     path("hospice/", views.hospice_search_view),
+    path("hospice/create", views.hospice_create_view),
     path("hospice/details/<int:id>", views.hospice_detail_view),
     path("admin/", admin.site.urls),
     # path('api/', include('a_blue_rainbow.urls')),

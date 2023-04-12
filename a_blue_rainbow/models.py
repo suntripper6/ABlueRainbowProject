@@ -50,12 +50,12 @@ class HospiceFacilities(models.Model):
     city = models.CharField(max_length=255)
     state = models.CharField(max_length=255)
     zip_code = models.CharField(max_length=15)
-    phone_number = models.CharField(max_length=15)
-    medicare_elig = models.BooleanField(default=True)
-    map = models.TextField()
-    rating = models.IntegerField()
-    reviews = models.TextField()
-    official_website = models.CharField(max_length=255)
+    phone_number = models.CharField(max_length=15, null=True)
+    medicare_elig = models.BooleanField(default=True, null=True)
+    map = models.TextField(null=True)
+    rating = models.IntegerField(null=True)
+    reviews = models.TextField(null=True)
+    official_website = models.CharField(max_length=255, null=True)
 
     def __str__(self):
         return self.name

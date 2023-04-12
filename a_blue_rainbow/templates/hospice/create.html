@@ -1,1 +1,45 @@
-{% extends "base.html" %} {% block content %} {% endblock content %}
+{% extends "base.html" %} {% block content %} {% if not created %}
+<div class="hospice-form">
+  <form action="." method="POST">
+    {% csrf_token %}
+    <input
+      type="text"
+      name="name"
+      id="hospice-name"
+      placeholder="name..."
+      required
+    />
+    <input
+      type="text"
+      name="address"
+      id="hospice-address"
+      placeholder="address..."
+      required
+    />
+    <input
+      type="text"
+      name="city"
+      id="hospice-city"
+      placeholder="city..."
+      required
+    />
+    <input
+      type="text"
+      name="state"
+      id="hospice-state"
+      placeholder="state..."
+      required
+    />
+    <input
+      type="text"
+      name="zip_code"
+      id="hospice-zipcode"
+      placeholder="zip code..."
+      required
+    />
+    <button type="submit">Create Hospice Facility</button>
+  </form>
+</div>
+{% else %}
+<h1>NOT CREATED!</h1>
+{% endif %} {% endblock content %}

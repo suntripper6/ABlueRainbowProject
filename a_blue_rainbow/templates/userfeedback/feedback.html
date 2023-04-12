@@ -1,0 +1,30 @@
+{% extends "base.html" %} {% block content %}
+<div class="feedback-form">
+  <form action="." method="POST">
+    {% csrf_token %}
+    <input
+      type="text"
+      name="name"
+      id="feedback-name"
+      placeholder="name..."
+      required
+    />
+    <input
+      type="email"
+      name="email"
+      id="feedback-email"
+      placeholder="email..."
+      required
+    />
+    <textarea
+      name="comments"
+      id="feedback-comments"
+      cols="30"
+      rows="10"
+      placeholder="comments..."
+      required
+    ></textarea>
+    <button type="submit">Create Hospice Facility</button>
+  </form>
+</div>
+{% endblock content %}

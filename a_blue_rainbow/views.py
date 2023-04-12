@@ -9,25 +9,6 @@ from .models import UserFeedback, HomeHealthFacilities, AssistedLivingFacilities
     HospiceFacilities, States, Providers
 
 
-def hospice_search_view(request):
-    query_dict = request.GET
-    query = query_dict.get("q")
-    hospice_obj = None
-
-    try:
-        query = int(query_dict.get("q"))
-    except:
-        query = None
-
-    if query is not None:
-        hospice_obj = HospiceFacilities.objects.get(id=query)
-
-    context = {
-        "object": hospice_obj,
-    }
-
-    return render(request, "hospice/search.html", context=context)
-
 # PROVIDER SELECTION
 
 
@@ -74,6 +55,63 @@ def hospice_detail_view(request, id=None):
     }
 
     return render(request, "hospice/detail.html", context=context)
+
+
+def hospice_search_view(request):
+    query_dict = request.GET
+    query = query_dict.get("q")
+    hospice_obj = None
+
+    try:
+        query = int(query_dict.get("q"))
+    except:
+        query = None
+
+    if query is not None:
+        hospice_obj = HospiceFacilities.objects.get(id=query)
+
+    context = {
+        "object": hospice_obj,
+    }
+
+    return render(request, "hospice/search.html", context=context)
+
+
+def hospice_create_view(request):
+    context = {}
+
+    if request.method == "POST":
+        name = request.POST.get("name")
+        address = request.POST.get("address")
+        city = request.POST.get("city")
+        state = request.POST.get("state")
+        zipcode = request.POST.get("zip_code")
+        HospiceFacilities.objects.create(
+            name=name, address=address, city=city, state=state, zip_code=zipcode, type_id=3)
+
+        context["name"] = name
+        context["address"] = address
+        context["city"] = city
+        context["state"] = state
+        context["zip_code"] = zipcode
+        context["type_id"] = 3
+        context["created"] = True
+
+    return render(request, "hospice/create.html", context=context)
+
+
+def userfeedback_create_view(request):
+    context = {}
+
+    if request.method == "POST":
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        comments = request.POST.get("comments")
+        UserFeedback.objects.create(
+            name=name, email=email, comments=comments)
+        context["created"] = True
+
+    return render(request, "hospice/create.html", context=context)
 
 
 class UserFeedBackListView(generics.ListCreateAPIView):
