@@ -5,7 +5,7 @@ from .import views
 
 urlpatterns = [
     path("", views.home_view),
-    path("hospice_view", views.hospice_view),
+    path("hospice", views.hospice_view),
     path('userfeedback', views.UserFeedBackListView.as_view(),
          name='user_feedback_list'),
     path('userfeedback/details/<int:pk>',
@@ -13,9 +13,9 @@ urlpatterns = [
     path('providers', views.ProviderListView.as_view(), name='provider_list'),
     path('provider/details/<int:pk>',
          views.ProviderDetailView.as_view(), name='provider_detail'),
-    path('hospice', views.HospiceListView.as_view(), name='hospice_list'),
-    path('hospice/details/<int:pk>',
-         views.HospiceDetailView.as_view(), name='hospice_detail'),
+    # path('hospice', views.HospiceListView.as_view(), name='hospice_list'),
+    # path('hospice/details/<int:pk>',
+    #      views.HospiceDetailView.as_view(), name='hospice_detail'),
     path('skillednursing', views.SkilledNursingListView.as_view(),
          name='skilled_nursing_list'),
     path('skillednursing/details/<int:pk>',

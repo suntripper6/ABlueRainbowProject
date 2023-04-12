@@ -9,7 +9,7 @@ from .models import UserFeedback, HomeHealthFacilities, AssistedLivingFacilities
     HospiceFacilities, States, Providers
 
 
-# PROVIDER VIEW (FOR NOW)
+# PROVIDER SELECTION
 def home_view(request):
     provider_obj = Providers.objects.get(id=2)
     provider_qs = Providers.objects.all()
