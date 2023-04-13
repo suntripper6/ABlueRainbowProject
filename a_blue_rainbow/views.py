@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template.loader import render_to_string
 from rest_framework import generics
 from rest_framework.views import APIView
@@ -7,6 +7,7 @@ from .serializer import UserFeedBackSerializer, HomeHealthFacilitiesSerializer, 
     SkilledNursingFacilitiesSerializer, HospiceFacilitiesSerializer, StateSerializer, ProviderSerializer
 from .models import UserFeedback, HomeHealthFacilities, AssistedLivingFacilities, SkilledNursingFacilities, \
     HospiceFacilities, States, Providers
+from .forms import HospiceForm
 
 
 # PROVIDER SELECTION
@@ -58,8 +59,24 @@ def hospice_detail_view(request, id=None):
 
 
 def hospice_update_view(request, id=None):
-    
-    pass
+    submitted = False
+
+    if request.method == "POST":
+        form = HospiceForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("/?submitted=True")
+    else:
+        form = HospiceForm
+        if "submitted" in request.Get:
+            submitted = True
+
+    context = {
+        "form": form,
+        "submitted": submitted
+    }
+
+    return render(request, "hospice/update.html", context=context)
 
 
 def hospice_delete_view(request, id=None):
@@ -69,7 +86,7 @@ def hospice_delete_view(request, id=None):
         hospice_obj = HospiceFacilities.objects.get(pk=id)
         hospice_obj.delete()
 
-    return redirect("home-view.html")
+    return redirect("/")
 
 
 def hospice_search_view(request):

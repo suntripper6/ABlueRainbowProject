@@ -64,7 +64,7 @@ input {
   background: whitesmoke;
 }
 
-table,
+/* table,
 th,
 td {
   border: 1px solid black;
@@ -73,7 +73,7 @@ td {
 
 td {
   padding: 2rem;
-}
+} */
 
 input[type="submit"],
 a.delete {
