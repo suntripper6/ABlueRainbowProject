@@ -63,12 +63,15 @@ def hospice_search_view(request):
     hospice_obj = None
 
     try:
-        query = int(query_dict.get("q"))
+        query = query_dict.get("q")
     except:
         query = None
 
     if query is not None:
-        hospice_obj = HospiceFacilities.objects.get(id=query)
+        hospice_obj = HospiceFacilities.objects.filter(
+            name__icontains=query).get()
+
+    print(hospice_obj)
 
     context = {
         "object": hospice_obj,
@@ -161,12 +164,6 @@ class SkilledNursingDetailView(generics.RetrieveUpdateDestroyAPIView):
 class HospiceListView(generics.ListCreateAPIView):
     queryset = HospiceFacilities.objects.all()
     serializer_class = HospiceFacilitiesSerializer
-
-    # context = {
-    #     "query": queryset,
-    # }
-
-    # HTML_STRING = render_to_string("hospice-view.html", context=context)
 
 
 class HospiceDetailView(generics.RetrieveUpdateDestroyAPIView):

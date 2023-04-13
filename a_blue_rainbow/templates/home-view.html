@@ -5,7 +5,7 @@
     <option value="0">Select type:</option>
     {% for provider in provider_qs %}
     <option value="{{ provider.id }}>
-      <a href="/providers/{{ provider.id }}">{{ provider }}</a>
+      <a href="/providers/{{ provider.id }}">{{ provider.facility_type }}</a>
     </option>
     {% endfor %}
   </select>
