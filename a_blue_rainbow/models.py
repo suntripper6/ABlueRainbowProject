@@ -39,7 +39,7 @@ class Providers(models.Model):
     facility_type = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.type
+        return self.facility_type
 
 
 class HospiceFacilities(models.Model):

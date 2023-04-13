@@ -20,6 +20,7 @@ from a_blue_rainbow import views
 
 
 urlpatterns = [
+    path("admin/", admin.site.urls),
     path("", views.home_view),
     # path("assistedliving/details/<int:id>", views.hospice_view),
     # path("homehealthcare/details/<int:id>", views.hospice_view),
@@ -28,6 +29,6 @@ urlpatterns = [
     path("hospice/create", views.hospice_create_view),
     path("hospice/details/<int:id>", views.hospice_detail_view),
     path("feedback/", views.userfeedback_create_view),
-    path("admin/", admin.site.urls),
+
     # path('api/', include('a_blue_rainbow.urls')),
 ]
