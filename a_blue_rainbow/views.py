@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from rest_framework import generics
@@ -57,6 +57,21 @@ def hospice_detail_view(request, id=None):
     return render(request, "hospice/detail.html", context=context)
 
 
+def hospice_update_view(request, id=None):
+    
+    pass
+
+
+def hospice_delete_view(request, id=None):
+    hospice_obj = None
+
+    if id is not None:
+        hospice_obj = HospiceFacilities.objects.get(pk=id)
+        hospice_obj.delete()
+
+    return redirect("home-view.html")
+
+
 def hospice_search_view(request):
     query_dict = request.GET
     query = query_dict.get("q")
@@ -85,24 +100,17 @@ def hospice_create_view(request):
 
     if request.method == "POST":
         name = request.POST.get("name")
+        print(name)
         address = request.POST.get("address")
         city = request.POST.get("city")
         state = request.POST.get("state")
         zipcode = request.POST.get("zip_code")
-        facility_type = 3
-        HospiceFacilities.objects.create(
-            name=name, address=address, city=city, state=state, zip_code=zipcode, facility_type_id=facility_type)
+        hospice = HospiceFacilities.objects.create(
+            name=name, address=address, city=city, state=state, zip_code=zipcode, facility_type_id=3,
+            phone_number="", medicare_elig="", map="", rating=0, reviews="", official_website="")
 
-        context["name"] = name
-        context["address"] = address
-        context["city"] = city
-        context["state"] = state
-        context["zip_code"] = zipcode
-        context["type"] = 3
+        hospice.save()
         context["created"] = True
-
-        print(context)
-        print("hospice create has been clicked and created")
 
     return render(request, "hospice/create.html", context=context)
 

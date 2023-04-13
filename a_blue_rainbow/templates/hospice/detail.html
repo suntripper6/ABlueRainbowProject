@@ -11,5 +11,8 @@
     Medicare Eligible: {{ hospice_obj.medicare_elig }}
   </p>
 </div>
-
+<div>
+  <a href="{% url 'hospice-update-view' hospice_obj.id %}">UPDATE</a>
+  <a href="{% url 'hospice-delete-view' hospice_obj.id %}">DELETE</a>
+</div>
 {% endblock content %}

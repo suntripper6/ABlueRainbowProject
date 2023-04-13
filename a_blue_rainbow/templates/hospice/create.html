@@ -1,4 +1,5 @@
-{% extends "base.html" %} {% block content %} {% if not created %}
+{% extends "base.html" %} {% block content %}
+
 <div class="hospice-form">
   <form action="." method="POST">
     {% csrf_token %}
@@ -40,6 +41,5 @@
     <button type="submit">Create Hospice Facility</button>
   </form>
 </div>
-{% else %}
-<h1>NOT CREATED!</h1>
-{% endif %} {% endblock content %}
+
+{% endblock content %}
