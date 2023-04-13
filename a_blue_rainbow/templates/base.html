@@ -11,20 +11,25 @@
   </head>
   <body>
     <div>
-      <nav>
-        <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/feedback">User Feedback</a></li>
+      <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="javascript:void(0)">A Blue Rainbow</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="mynavbar">
+            <ul class="navbar-nav me-auto">
+              <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="/feedback">User Feedback</a></li>
         </ul>
+        <form class="d-flex" action="/hospice/" method="GET">
+          <input type="text" name="q" />
+          <input type="submit" class="btn btn-secondary" />
+        </form>
       </nav>
+    </div>    
+    <div>    
+      {% block content %} {% endblock content %}
     </div>
-    <div>
-      <h1>A Blue Rainbow · an online resource for primary caretakers</h1>
-    </div>
-    <form action="/hospice/" method="GET">
-      <input type="text" name="q" />
-      <input type="submit" class="btn btn-secondary" />
-    </form>
-    {% block content %} {% endblock content %}
   </body>
 </html>

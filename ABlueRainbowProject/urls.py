@@ -21,15 +21,24 @@ from a_blue_rainbow import views
 
 urlpatterns = [
     path("", views.home_view, name="home-view"),
+    # ASSISTED LIVING
     # path("assistedliving/details/<int:id>", views.hospice_view),
-    # path("homehealthcare/details/<int:id>", views.hospice_view),
+
+    # HOME HEALTH
+    # path("homehealthcare/details/<int:id>", views.hospice_view),\
+
+    # SKILLED NURSING
     # path("skillednursing/details/<int:id>", views.hospice_view),
+
+    # HOSPICE
     path("hospice/", views.hospice_search_view),
     path("hospice/create", views.hospice_create_view),
     path("hospice/details/<int:id>", views.hospice_detail_view),
     path("hospice/update/<int:id>", views.hospice_update_view,
          name="hospice-update-view"),
-    path("<int:id>", views.hospice_delete_view, name="hospice-delete-view"),
+    path("hospice/delete/<int:id>", views.hospice_delete_view,
+         name="hospice-delete-view"),
+
     path("feedback/", views.userfeedback_create_view),
     path("admin/", admin.site.urls),
     # path('api/', include('a_blue_rainbow.urls')),
