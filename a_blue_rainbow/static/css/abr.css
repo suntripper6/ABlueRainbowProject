@@ -1,0 +1,27 @@
+/* ELEMENTS */
+body {
+  align-items: center;
+  background: linear-gradient(
+    180deg,
+    rgb(145, 194, 255) 0%,
+    rgb(87, 115, 225) 100%
+  );
+}
+
+a {
+  text-decoration: none !important;
+  color: #fefefe !important;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+/* CLASSES */
+.details {
+  text-align: center;
+}
+
+/* IDS */
+/* KEYFRAMES */
+/* MEDIA QUERIES */

@@ -1,29 +1,30 @@
 {% extends "base.html" %} {% block content %}
 
-<div>
-  <center>
-    <h2>{{ hospice_obj.name }}</h2>
-    <ul>
-      <li>{{ hospice_obj.address }}</li>
-      <li>
-        {{ hospice_obj.city }}, {{ hospice_obj.state }} {{ hospice_obj.zip_code
-        }}
-      </li>
-      <li>{{ hospice_obj.phone_number }}</li>
-    </ul>
-    <div>
-      <a
-        href="{% url 'hospice-update-view' hospice_obj.id %}"
-        class="btn btn-secondary"
-        >UPDATE</a
-      >
-      <a
-        href="{% url 'hospice-delete-view' hospice_obj.id %}"
-        class="btn btn-danger"
-        >DELETE</a
-      >
-    </div>
-  </center>
+<div class="container p-5 my-5 details">
+  <h2>{{ hospice_obj.name }}</h2>
+  <p>{{ hospice_obj.address }}</p>
+  <p>
+    {{ hospice_obj.city }}, {{ hospice_obj.state }} {{ hospice_obj.zip_code }}
+  </p>
+  <p>{{ hospice_obj.phone_number }}</p>
+  <p>
+    <a href="{{ hospice_obj.official_website }}"
+      >{{ hospice_obj.official_website }}</a
+    >
+  </p>
+  <br />
+  <div>
+    <a
+      href="{% url 'hospice-update-view' hospice_obj.id %}"
+      class="btn btn-secondary"
+      >UPDATE</a
+    >
+    <a
+      href="{% url 'hospice-delete-view' hospice_obj.id %}"
+      class="btn btn-danger"
+      >DELETE</a
+    >
+  </div>
 </div>
 
 {% endblock content %}
