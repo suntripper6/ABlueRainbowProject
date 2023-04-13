@@ -86,16 +86,20 @@ def hospice_create_view(request):
         city = request.POST.get("city")
         state = request.POST.get("state")
         zipcode = request.POST.get("zip_code")
+        facility_type = 3
         HospiceFacilities.objects.create(
-            name=name, address=address, city=city, state=state, zip_code=zipcode, type_id=3)
+            name=name, address=address, city=city, state=state, zip_code=zipcode, facility_type_id=facility_type)
 
         context["name"] = name
         context["address"] = address
         context["city"] = city
         context["state"] = state
         context["zip_code"] = zipcode
-        context["type_id"] = 3
+        context["type"] = 3
         context["created"] = True
+
+        print(context)
+        print("hospice create has been clicked and created")
 
     return render(request, "hospice/create.html", context=context)
 
@@ -111,7 +115,7 @@ def userfeedback_create_view(request):
             name=name, email=email, comments=comments)
         context["created"] = True
 
-    return render(request, "hospice/create.html", context=context)
+    return render(request, "userfeedback/feedback.html", context=context)
 
 
 class UserFeedBackListView(generics.ListCreateAPIView):

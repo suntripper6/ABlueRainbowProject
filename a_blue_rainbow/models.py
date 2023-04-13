@@ -36,14 +36,14 @@ class States(models.Model):
 
 
 class Providers(models.Model):
-    type = models.CharField(max_length=50)
+    facility_type = models.CharField(max_length=50)
 
     def __str__(self):
         return self.type
 
 
 class HospiceFacilities(models.Model):
-    type = models.ForeignKey(
+    facility_type = models.ForeignKey(
         Providers, on_delete=models.CASCADE, related_name='hospice')
     name = models.CharField(max_length=500)
     address = models.CharField(max_length=500)
@@ -62,7 +62,7 @@ class HospiceFacilities(models.Model):
 
 
 class SkilledNursingFacilities(models.Model):
-    type = models.ForeignKey(
+    facility_type = models.ForeignKey(
         Providers, on_delete=models.CASCADE, related_name='skilled_nursing')
     name = models.CharField(max_length=500)
     address = models.CharField(max_length=500)
@@ -83,7 +83,7 @@ class SkilledNursingFacilities(models.Model):
 
 
 class AssistedLivingFacilities(models.Model):
-    type = models.ForeignKey(
+    facility_type = models.ForeignKey(
         Providers, on_delete=models.CASCADE, related_name='assisted_living')
     name = models.CharField(max_length=500)
     address = models.CharField(max_length=500)
@@ -104,7 +104,7 @@ class AssistedLivingFacilities(models.Model):
 
 
 class HomeHealthFacilities(models.Model):
-    type = models.ForeignKey(
+    facility_type = models.ForeignKey(
         Providers, on_delete=models.CASCADE, related_name='home_health')
     name = models.CharField(max_length=500)
     address = models.CharField(max_length=500)
