@@ -1,45 +1,15 @@
 {% extends "base.html" %} {% block content %}
 
-<div class="hospice-form">
-  <form action="." method="POST">
-    {% csrf_token %}
-    <input
-      type="text"
-      name="name"
-      id="hospice-name"
-      placeholder="name..."
-      required
-    />
-    <input
-      type="text"
-      name="address"
-      id="hospice-address"
-      placeholder="address..."
-      required
-    />
-    <input
-      type="text"
-      name="city"
-      id="hospice-city"
-      placeholder="city..."
-      required
-    />
-    <input
-      type="text"
-      name="state"
-      id="hospice-state"
-      placeholder="state..."
-      required
-    />
-    <input
-      type="text"
-      name="zip_code"
-      id="hospice-zipcode"
-      placeholder="zip code..."
-      required
-    />
-    <button type="submit">Create Hospice Facility</button>
+<h1>Update Hospice Details</h1>
+<div class="facility-details">{{ hospice_qs }}</div>
+<div>
+  {% if submitted %}
+  <p>Hospice Facility updated</p>
+  {% else %}
+  <form action="" method="POST" class="form-control">
+    {% csrf_token %} {{ form.as_p }}
+    <input type="submit" value="Submit" class="btn btn-secondary" />
   </form>
+  {% endif %}
 </div>
-
 {% endblock content %}

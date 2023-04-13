@@ -12,7 +12,15 @@
   </p>
 </div>
 <div>
-  <a href="{% url 'hospice-update-view' hospice_obj.id %}">UPDATE</a>
-  <a href="{% url 'hospice-delete-view' hospice_obj.id %}">DELETE</a>
+  <a
+    href="{% url 'hospice-update-view' hospice_obj.id %}"
+    class="btn btn-secondary"
+    >UPDATE</a
+  >
+  <a
+    href="{% url 'hospice-delete-view' hospice_obj.id %}"
+    class="btn btn-danger"
+    >DELETE</a
+  >
 </div>
 {% endblock content %}

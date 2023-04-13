@@ -1,15 +1,10 @@
 {% extends "base.html" %} {% block content %}
 
 <h1>Update Hospice Details</h1>
-<div class="facility-details">{{ hospice_qs }}</div>
-<div>
-  {% if submitted %}
-  <p>Hospice Facility updated</p>
-  {% else %}
-  <form action="" method="POST" class="form-control">
-    {% csrf_token %} {{ form.as_p }}
-    <input type="submit" value="Submit" class="btn btn-secondary" />
-  </form>
-  {% endif %}
-</div>
+<form action="" method="POST">
+  {% csrf_token %}
+  <div>{{ form.as_p }}</div>
+  <input type="submit" value="Update" class="btn btn-secondary" />
+</form>
+
 {% endblock content %}

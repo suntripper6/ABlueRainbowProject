@@ -58,25 +58,40 @@ def hospice_detail_view(request, id=None):
     return render(request, "hospice/detail.html", context=context)
 
 
-def hospice_update_view(request, id=None):
-    submitted = False
-
-    if request.method == "POST":
-        form = HospiceForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("/?submitted=True")
-    else:
-        form = HospiceForm
-        if "submitted" in request.Get:
-            submitted = True
+def hospice_update_view(request, id):
+    hospice_obj = HospiceFacilities.objects.get(id=id)
+    form = HospiceForm(request.POST or None, instance=hospice_obj)
 
     context = {
-        "form": form,
-        "submitted": submitted
+        "hospice_obj": hospice_obj,
+        "form": form
     }
 
+    if form.is_valid():
+        form.save()
+        return redirect("/")
+
     return render(request, "hospice/update.html", context=context)
+
+# def hospice_create_view(request, id=None):
+#     submitted = False
+
+#     if request.method == "POST":
+#         form = HospiceForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect("/?submitted=True")
+#     else:
+#         form = HospiceForm
+#         if "submitted" in request.Get:
+#             submitted = True
+
+#     context = {
+#         "form": form,
+#         "submitted": submitted
+#     }
+
+#     return render(request, "hospice/update.html", context=context)
 
 
 def hospice_delete_view(request, id=None):
