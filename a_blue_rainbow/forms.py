@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import HospiceFacilities
+from .models import HospiceFacilities, UserFeedback
 
 
 class HospiceForm(ModelForm):
@@ -20,4 +20,20 @@ class HospiceForm(ModelForm):
             "city": forms.TextInput(attrs={"class": "form-control"}),
             "state": forms.TextInput(attrs={"class": "form-control"}),
             "zip_code": forms.TextInput(attrs={"class": "form-control"}),
+        }
+
+
+class FeedbackForm(ModelForm):
+    class Meta:
+        model = UserFeedback
+        fields = ("name", "email", "comments")
+        label = {
+            "name": "",
+            "email": "",
+            "comments": "",
+        }
+        widgets = {
+            "name": forms.TextInput(attrs={"class": "form-control"}),
+            "email": forms.EmailInput(attrs={"class": "form-control"}),
+            "comments": forms.Textarea(attrs={"class": "form-control"}),
         }

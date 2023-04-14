@@ -7,7 +7,7 @@ from .serializer import UserFeedBackSerializer, HomeHealthFacilitiesSerializer, 
     SkilledNursingFacilitiesSerializer, HospiceFacilitiesSerializer, StateSerializer, ProviderSerializer
 from .models import UserFeedback, HomeHealthFacilities, AssistedLivingFacilities, SkilledNursingFacilities, \
     HospiceFacilities, States, Providers
-from .forms import HospiceForm
+from .forms import HospiceForm, FeedbackForm
 
 
 # PROVIDER SELECTION
@@ -148,15 +148,16 @@ def hospice_create_view(request):
 
 
 def userfeedback_create_view(request):
-    context = {}
+    form = FeedbackForm(request.POST or None)
 
     if request.method == "POST":
-        name = request.POST.get("name")
-        email = request.POST.get("email")
-        comments = request.POST.get("comments")
-        UserFeedback.objects.create(
-            name=name, email=email, comments=comments)
-        context["created"] = True
+        if form.is_valid():
+            form.save()
+            return redirect("/?submitted")
+
+    context = {
+        "form": form,
+    }
 
     return render(request, "userfeedback/feedback.html", context=context)
 
