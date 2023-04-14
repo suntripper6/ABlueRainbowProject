@@ -83,7 +83,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for snf in skillednursing_qs %}
+      {% for snf in snfs %}
       <tr>
         <td>
           <a href="/skillednursing/details/{{ snf.id }}">{{ snf.name }}</a>
@@ -96,6 +96,20 @@
       </tr>
     </tbody>
   </table>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination">
+      {% if snfs.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
+      <li class="page-item"><a class="page-link" href="?page={{ snfs.previous_page_number }}">Previous</a></li>
+    {% endif %}
+      <li class="page-item disabled"><a class="page-link" href="#">Page {{ snfs.number }} of {{ snfs.paginator.num_pages }}</a></li>
+    {% if snfs.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ snfs.next_page_number }}">Next</a></li>
+      <li class="page-item"></li><a class="page-link" href="?page={{ snfs.paginator.num_pages }}">Last &raquo;</a></li>
+    {% endif %}
+    </ul>
+  </nav>
+ 
 </div>
 
 <div class="container p-5 my-5 border">
@@ -127,4 +141,5 @@
   </table>
 </div>
 <br />
+
 {% endblock content %}

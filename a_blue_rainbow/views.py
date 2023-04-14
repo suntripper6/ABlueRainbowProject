@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.template.loader import render_to_string
 from rest_framework import generics
 from rest_framework.views import APIView
@@ -8,23 +8,31 @@ from .serializer import UserFeedBackSerializer, HomeHealthFacilitiesSerializer, 
 from .models import UserFeedback, HomeHealthFacilities, AssistedLivingFacilities, SkilledNursingFacilities, \
     HospiceFacilities, States, Providers
 from .forms import HospiceForm, HomeHealthForm, AssistedLivingForm, SkilledNursingForm, FeedbackForm
+from django.core.paginator import Paginator
+
+# GLOBALS
+
+provider_qs = Providers.objects.all()
+assisted_qs = AssistedLivingFacilities.objects.all()
+homehealth_qs = HomeHealthFacilities.objects.all()
+skillednursing_qs = SkilledNursingFacilities.objects.all()
+hospice_qs = HospiceFacilities.objects.all()
+states_qs = States.objects.order_by("state").values_list(
+    "state", flat=True).distinct("state")
 
 
 # HOME VIEW
 def home_view(request):
-    provider_qs = Providers.objects.all()
-    assisted_qs = AssistedLivingFacilities.objects.all()
-    homehealth_qs = HomeHealthFacilities.objects.all()
-    skillednursing_qs = SkilledNursingFacilities.objects.all()
-    hospice_qs = HospiceFacilities.objects.all()
-    states_qs = States.objects.order_by("state").values_list(
-        "state", flat=True).distinct("state")
+    snf_p = Paginator(SkilledNursingFacilities.objects.all(), 2)
+    page = request.GET.get("page")
+    snfs = snf_p.get_page(page)
 
     context = {
         "provider_qs": provider_qs,
         "assisted_qs": assisted_qs,
         "homehealth_qs": homehealth_qs,
         "skillednursing_qs": skillednursing_qs,
+        "snfs": snfs,
         "hospice_qs": hospice_qs,
         "states_qs": states_qs,
     }
@@ -32,27 +40,16 @@ def home_view(request):
     return render(request, "home-view.html", context=context)
 
 
+# SELECT FACILITY
+
+
 # SEARCH FACILITIES
 def search_facilities(request):
     if request.method == "POST":
         searched = request.POST["searched"]
-        try:
-            alf = AssistedLivingFacilities.objects.filter(
-                name__icontains=searched).get()
-            return render(request, "search_facilities.html", {"searched": searched, "object": alf})
-        except:
-            hhc = HomeHealthFacilities.objects.filter(
-                name__icontains=searched).get()
-            return render(request, "search_facilities.html", {"searched": searched, "object": hhc})
-    else:
-        try:
-            snf = SkilledNursingFacilities.objects.filter(
-                name__icontains=searched).get()
-            return render(request, "search_facilities.html", {"searched": searched, "object": snf})
-        except:
-            hosp = HospiceFacilities.objects.filter(
-                name__icontains=searched).get()
-            return render(request, "search_facilities.html", {"searched": searched, "object": hosp})
+        alf = AssistedLivingFacilities.objects.filter(
+            name__icontains=searched).get()
+        return render(request, "search_facilities.html", {"searched": searched, "object": alf})
 
 
 # ASSISTED LIVING VIEWS
