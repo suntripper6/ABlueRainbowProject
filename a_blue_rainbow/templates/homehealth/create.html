@@ -1,10 +1,10 @@
 {% extends "base.html" %} {% block content %}
 
-<h1>Update Home Health Care Details</h1>
+<h1>Update Home Health Care Resource Details</h1>
 <div class="facility-details">{{ alf_qs }}</div>
 <div>
   {% if submitted %}
-  <p>Home Health Care Facility updated</p>
+  <p>Home Health Care Resource updated</p>
   {% else %}
   <form action="" method="POST" class="form-control">
     {% csrf_token %} {{ form.as_p }}
