@@ -10,9 +10,7 @@ from .models import UserFeedback, HomeHealthFacilities, AssistedLivingFacilities
 from .forms import HospiceForm, FeedbackForm
 
 
-# PROVIDER SELECTION
-
-
+# HOME VIEW
 def home_view(request):
     provider_qs = Providers.objects.all()
     assisted_qs = AssistedLivingFacilities.objects.all()
@@ -32,6 +30,11 @@ def home_view(request):
     }
 
     return render(request, "home-view.html", context=context)
+
+
+# ASSISTED LIVING VIEWS
+
+
 
 
 # HOSPICE VIEWS
@@ -72,26 +75,6 @@ def hospice_update_view(request, id):
         return redirect("/")
 
     return render(request, "hospice/update.html", context=context)
-
-# def hospice_create_view(request, id=None):
-#     submitted = False
-
-#     if request.method == "POST":
-#         form = HospiceForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect("/?submitted=True")
-#     else:
-#         form = HospiceForm
-#         if "submitted" in request.Get:
-#             submitted = True
-
-#     context = {
-#         "form": form,
-#         "submitted": submitted
-#     }
-
-#     return render(request, "hospice/update.html", context=context)
 
 
 def hospice_delete_view(request, id=None):
@@ -147,6 +130,7 @@ def hospice_create_view(request):
     return render(request, "hospice/create.html", context=context)
 
 
+# USER FEEDBACK
 def userfeedback_create_view(request):
     form = FeedbackForm(request.POST or None)
 
