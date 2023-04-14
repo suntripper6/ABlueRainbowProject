@@ -7,7 +7,7 @@ from .serializer import UserFeedBackSerializer, HomeHealthFacilitiesSerializer, 
     SkilledNursingFacilitiesSerializer, HospiceFacilitiesSerializer, StateSerializer, ProviderSerializer
 from .models import UserFeedback, HomeHealthFacilities, AssistedLivingFacilities, SkilledNursingFacilities, \
     HospiceFacilities, States, Providers
-from .forms import HospiceForm, FeedbackForm
+from .forms import HospiceForm, HomeHealthForm, AssistedLivingForm, SkilledNursingForm, FeedbackForm
 
 
 # HOME VIEW
@@ -58,7 +58,7 @@ def alf_detail_view(request, id=None):
 
 def alf_update_view(request, id):
     alf_obj = AssistedLivingFacilities.objects.get(id=id)
-    form = HospiceForm(request.POST or None, instance=alf_obj)
+    form = AssistedLivingForm(request.POST or None, instance=alf_obj)
 
     context = {
         "alf_obj": alf_obj,
@@ -129,10 +129,10 @@ def hhc_detail_view(request, id=None):
 
 def hhc_update_view(request, id):
     hhc_obj = HomeHealthFacilities.objects.get(id=id)
-    form = HospiceForm(request.POST or None, instance=hhc_obj)
+    form = HomeHealthForm(request.POST or None, instance=hhc_obj)
 
     context = {
-        "alf_obj": alf_obj,
+        "hhc_obj": hhc_obj,
         "form": form
     }
 
@@ -140,23 +140,23 @@ def hhc_update_view(request, id):
         form.save()
         return redirect("/")
 
-    return render(request, "assistedliving/update.html", context=context)
+    return render(request, "homehealth/update.html", context=context)
 
 
-def alf_delete_view(request, id=None):
-    alf_obj = None
+def hhc_delete_view(request, id=None):
+    hhc_obj = None
 
     if id is not None:
-        alf_obj = AssistedLivingFacilities.objects.get(pk=id)
-        alf_obj.delete()
+        hhc_obj = AssistedLivingFacilities.objects.get(pk=id)
+        hhc_obj.delete()
 
     return redirect("/")
 
 
-def alf_search_view(request):
+def hhc_search_view(request):
     query_dict = request.GET
     query = query_dict.get("q")
-    alf_obj = None
+    hhc_obj = None
 
     try:
         query = query_dict.get("q")
@@ -164,14 +164,14 @@ def alf_search_view(request):
         query = None
 
     if query is not None:
-        alf_obj = AssistedLivingFacilities.objects.filter(
+        hhc_obj = HomeHealthFacilities.objects.filter(
             name__icontains=query).get()
 
     context = {
-        "object": alf_obj,
+        "object": hhc_obj,
     }
 
-    return render(request, "assistedliving/search.html", context=context)
+    return render(request, "homehealth/search.html", context=context)
 
 
 # HOSPICE VIEWS
