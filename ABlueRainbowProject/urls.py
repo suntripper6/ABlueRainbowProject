@@ -26,11 +26,16 @@ urlpatterns = [
     path("assistedliving/details/<int:id>", views.alf_detail_view),
     path("assistedliving/update/<int:id>", views.alf_update_view,
          name="alf-update-view"),
-    path("hospice/delete/<int:id>", views.alf_delete_view,
+    path("assistedliving/delete/<int:id>", views.alf_delete_view,
          name="alf-delete-view"),
 
     # HOME HEALTH
-    # path("homehealthcare/details/<int:id>", views.hospice_view),\
+    path("homeheatlhcare/", views.hhc_search_view),
+    path("homehealthcare/details/<int:id>", views.hhc_detail_view),
+    path("homehealthcare/update/<int:id>", views.hhc_update_view,
+         name="hhc-update-view"),
+    path("homehealthcare/delete/<int:id>", views.hhc_delete_view,
+         name="hhc-delete-view"),
 
     # SKILLED NURSING
     # path("skillednursing/details/<int:id>", views.hospice_view),
