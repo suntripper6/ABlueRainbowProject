@@ -1,10 +1,10 @@
 {% extends "base.html" %} {% block content %}
 
-<h1>Update Hospice Details</h1>
-<div class="facility-details">{{ hospice_qs }}</div>
+<h1>Update Skilled Nursing Facility Details</h1>
+<div class="facility-details">{{ snf_qs }}</div>
 <div>
   {% if submitted %}
-  <p>Hospice Facility updated</p>
+  <p>Skilled Nursing Facility updated</p>
   {% else %}
   <form action="" method="POST" class="form-control">
     {% csrf_token %} {{ form.as_p }}
