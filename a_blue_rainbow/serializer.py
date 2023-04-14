@@ -77,7 +77,7 @@ class ProviderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Providers
         # fields = ('id', 'home_health', 'assisted_living', 'skilled_nursing', 'hospice')
-        fields = ('id', 'type')
+        fields = ('id', 'type', 'facility_name')
 
 
 class StateSerializer(serializers.ModelSerializer):
