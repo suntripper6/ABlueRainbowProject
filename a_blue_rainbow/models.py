@@ -45,7 +45,7 @@ class Providers(models.Model):
 
 class HospiceFacilities(models.Model):
     facility_type = models.ForeignKey(
-        Providers, on_delete=models.CASCADE, related_name='hospice')
+        Providers, on_delete=models.CASCADE, related_name='hospice', default=3)
     name = models.CharField(max_length=500)
     address = models.CharField(max_length=500)
     city = models.CharField(max_length=255)
@@ -64,7 +64,7 @@ class HospiceFacilities(models.Model):
 
 class SkilledNursingFacilities(models.Model):
     facility_type = models.ForeignKey(
-        Providers, on_delete=models.CASCADE, related_name='skilled_nursing')
+        Providers, on_delete=models.CASCADE, related_name='skilled_nursing', default=4)
     name = models.CharField(max_length=500)
     address = models.CharField(max_length=500)
     city = models.CharField(max_length=255)
@@ -85,7 +85,7 @@ class SkilledNursingFacilities(models.Model):
 
 class AssistedLivingFacilities(models.Model):
     facility_type = models.ForeignKey(
-        Providers, on_delete=models.CASCADE, related_name='assisted_living')
+        Providers, on_delete=models.CASCADE, related_name='assisted_living', default=1)
     name = models.CharField(max_length=500)
     address = models.CharField(max_length=500)
     city = models.CharField(max_length=255)
@@ -106,7 +106,7 @@ class AssistedLivingFacilities(models.Model):
 
 class HomeHealthFacilities(models.Model):
     facility_type = models.ForeignKey(
-        Providers, on_delete=models.CASCADE, related_name='home_health')
+        Providers, on_delete=models.CASCADE, related_name='home_health', default=2)
     name = models.CharField(max_length=500)
     address = models.CharField(max_length=500)
     city = models.CharField(max_length=255)

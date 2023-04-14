@@ -10,19 +10,17 @@ from .models import UserFeedback, HomeHealthFacilities, AssistedLivingFacilities
 from .forms import HospiceForm, HomeHealthForm, AssistedLivingForm, SkilledNursingForm, FeedbackForm
 from django.core.paginator import Paginator
 
-# GLOBALS
-
-provider_qs = Providers.objects.all()
-assisted_qs = AssistedLivingFacilities.objects.all()
-homehealth_qs = HomeHealthFacilities.objects.all()
-skillednursing_qs = SkilledNursingFacilities.objects.all()
-hospice_qs = HospiceFacilities.objects.all()
-states_qs = States.objects.order_by("state").values_list(
-    "state", flat=True).distinct("state")
-
 
 # HOME VIEW
 def home_view(request):
+    provider_qs = Providers.objects.all()
+    assisted_qs = AssistedLivingFacilities.objects.all()
+    homehealth_qs = HomeHealthFacilities.objects.all()
+    skillednursing_qs = SkilledNursingFacilities.objects.all()
+    hospice_qs = HospiceFacilities.objects.all()
+    states_qs = States.objects.order_by("state").values_list(
+        "state", flat=True).distinct("state")
+
     snf_p = Paginator(SkilledNursingFacilities.objects.all(), 2)
     page = request.GET.get("page")
     snfs = snf_p.get_page(page)
@@ -337,23 +335,34 @@ def hospice_search_view(request):
 
 
 def hospice_create_view(request):
-    context = {}
+    form = HospiceForm(request.POST or None)
 
     if request.method == "POST":
-        name = request.POST.get("name")
-        print(name)
-        address = request.POST.get("address")
-        city = request.POST.get("city")
-        state = request.POST.get("state")
-        zipcode = request.POST.get("zip_code")
-        hospice = HospiceFacilities.objects.create(
-            name=name, address=address, city=city, state=state, zip_code=zipcode, facility_type_id=3,
-            phone_number="", medicare_elig="", map="", rating=0, reviews="", official_website="")
+        if form.is_valid():
+            form.save()
+            return redirect("/?submitted")
 
-        hospice.save()
-        context["created"] = True
+    context = {
+        "form": form,
+    }
 
-    return render(request, "hospice/create.html", context=context)
+    return render(request, "userfeedback/feedback.html", context=context)
+    # context = {}
+
+    # if request.method == "POST":
+    #     name = request.POST.get("name")
+    #     address = request.POST.get("address")
+    #     city = request.POST.get("city")
+    #     state = request.POST.get("state")
+    #     zipcode = request.POST.get("zip_code")
+    #     hospice = HospiceFacilities.objects.create(
+    #         name=name, address=address, city=city, state=state, zip_code=zipcode, facility_type_id=3,
+    #         phone_number="", medicare_elig="", map="", rating=0, reviews="", official_website="")
+
+    #     hospice.save()
+    #     context["created"] = True
+
+    # return render(request, "hospice/create.html", context=context)
 
 
 # USER FEEDBACK
