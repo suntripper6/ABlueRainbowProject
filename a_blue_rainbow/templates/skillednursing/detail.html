@@ -1,0 +1,22 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="container p-5 my-5 details">
+  <h2>{{ alf_obj.name }}</h2>
+  <p>{{ alf_obj.address }}</p>
+  <p>{{ alf_obj.city }}, {{ alf_obj.state }} {{ alf_obj.zip_code }}</p>
+  <p>{{ alf_obj.phone_number }}</p>
+  <p>
+    <a href="{{ alf_obj.official_website }}">{{ alf_obj.official_website }}</a>
+  </p>
+  <br />
+  <div>
+    <a href="{% url 'alf-update-view' alf_obj.id %}" class="btn btn-secondary"
+      >UPDATE</a
+    >
+    <a href="{% url 'alf-delete-view' alf_obj.id %}" class="btn btn-danger"
+      >DELETE</a
+    >
+  </div>
+</div>
+
+{% endblock content %}

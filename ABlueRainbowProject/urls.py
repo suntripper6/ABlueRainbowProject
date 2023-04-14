@@ -22,7 +22,12 @@ from a_blue_rainbow import views
 urlpatterns = [
     path("", views.home_view, name="home-view"),
     # ASSISTED LIVING
-    # path("assistedliving/details/<int:id>", views.hospice_view),
+    path("assistedliving/", views.alf_search_view),
+    path("assistedliving/details/<int:id>", views.alf_detail_view),
+    path("assistedliving/update/<int:id>", views.alf_update_view,
+         name="alf-update-view"),
+    path("hospice/delete/<int:id>", views.alf_delete_view,
+         name="alf-delete-view"),
 
     # HOME HEALTH
     # path("homehealthcare/details/<int:id>", views.hospice_view),\

@@ -33,11 +33,78 @@ def home_view(request):
 
 
 # ASSISTED LIVING VIEWS
+def alf_view(request):
+    alf_qs = AssistedLivingFacilities.objects.get()
+
+    context = {
+        "alf_qs": alf_qs
+    }
+
+    return render(request, "assistedliving-view.html", context=context)
 
 
+def alf_detail_view(request, id=None):
+    alf_obj = None
 
+    if id is not None:
+        alf_obj = AssistedLivingFacilities.objects.get(id=id)
+
+    context = {
+        "alf_obj": alf_obj
+    }
+
+    return render(request, "assistedliving/detail.html", context=context)
+
+
+def alf_update_view(request, id):
+    alf_obj = AssistedLivingFacilities.objects.get(id=id)
+    form = HospiceForm(request.POST or None, instance=alf_obj)
+
+    context = {
+        "alf_obj": alf_obj,
+        "form": form
+    }
+
+    if form.is_valid():
+        form.save()
+        return redirect("/")
+
+    return render(request, "assistedliving/update.html", context=context)
+
+
+def alf_delete_view(request, id=None):
+    alf_obj = None
+
+    if id is not None:
+        alf_obj = AssistedLivingFacilities.objects.get(pk=id)
+        alf_obj.delete()
+
+    return redirect("/")
+
+
+def alf_search_view(request):
+    query_dict = request.GET
+    query = query_dict.get("q")
+    alf_obj = None
+
+    try:
+        query = query_dict.get("q")
+    except:
+        query = None
+
+    if query is not None:
+        alf_obj = AssistedLivingFacilities.objects.filter(
+            name__icontains=query).get()
+
+    context = {
+        "object": alf_obj,
+    }
+
+    return render(request, "assistedliving/search.html", context=context)
 
 # HOSPICE VIEWS
+
+
 def hospice_view(request):
     hospice_qs = HospiceFacilities.objects.all()
 
@@ -100,8 +167,6 @@ def hospice_search_view(request):
     if query is not None:
         hospice_obj = HospiceFacilities.objects.filter(
             name__icontains=query).get()
-
-    print(hospice_obj)
 
     context = {
         "object": hospice_obj,
