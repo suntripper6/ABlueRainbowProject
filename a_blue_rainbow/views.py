@@ -147,7 +147,7 @@ def hhc_delete_view(request, id=None):
     hhc_obj = None
 
     if id is not None:
-        hhc_obj = AssistedLivingFacilities.objects.get(pk=id)
+        hhc_obj = HomeHealthFacilities.objects.get(pk=id)
         hhc_obj.delete()
 
     return redirect("/")

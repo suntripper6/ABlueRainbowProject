@@ -20,9 +20,12 @@ from a_blue_rainbow import views
 
 
 urlpatterns = [
+    # HOME
     path("", views.home_view, name="home-view"),
+
     # ASSISTED LIVING
     path("assistedliving/", views.alf_search_view),
+    # path("assistedliving/create", views.alf_create_view),
     path("assistedliving/details/<int:id>", views.alf_detail_view),
     path("assistedliving/update/<int:id>", views.alf_update_view,
          name="alf-update-view"),
@@ -30,15 +33,21 @@ urlpatterns = [
          name="alf-delete-view"),
 
     # HOME HEALTH
-    path("homeheatlhcare/", views.hhc_search_view),
-    path("homehealthcare/details/<int:id>", views.hhc_detail_view),
-    path("homehealthcare/update/<int:id>", views.hhc_update_view,
+    path("homehealth/", views.hhc_search_view),
+    # path("homehealth/create", views.hhc_create_view),
+    path("homehealth/details/<int:id>", views.hhc_detail_view),
+    path("homehealth/update/<int:id>", views.hhc_update_view,
          name="hhc-update-view"),
-    path("homehealthcare/delete/<int:id>", views.hhc_delete_view,
+    path("homehealth/delete/<int:id>", views.hhc_delete_view,
          name="hhc-delete-view"),
 
     # SKILLED NURSING
-    # path("skillednursing/details/<int:id>", views.hospice_view),
+    # path("skillednursing/create", views.snf_create_view),
+    path("skillednursing/details/<int:id>", views.snf_detail_view),
+    path("skillednursing/update/<int:id>", views.snf_update_view,
+         name="snf-update-view"),
+    path("skillednursing/delete/<int:id>", views.snf_delete_view,
+         name="snf-delete-view"),
 
     # HOSPICE
     path("hospice/", views.hospice_search_view),
