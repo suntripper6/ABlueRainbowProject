@@ -1,10 +1,10 @@
 {% extends "base.html" %} {% block content %}
-
-<h1>Update {{ hhc_obj.name }} Details</h1>
-<form action="" method="POST">
-  {% csrf_token %}
-  <div>{{ form.as_p }}</div>
-  <input type="submit" value="Update" class="btn btn-secondary" />
-</form>
-
+<div class="container p-5 my-5 details">
+  <h1>Update For {{ hhc_obj.name }}</h1>
+  <form action="" method="POST">
+    {% csrf_token %}
+    <div>{{ form.as_p }}</div>
+    <input type="submit" value="Update" class="btn btn-secondary" />
+  </form>
+</div>
 {% endblock content %}

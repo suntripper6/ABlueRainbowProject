@@ -1,42 +1,19 @@
 {% extends "base.html" %} {% block content %}
-<!-- <div>
-  <select>
-    Select Provider
-    <option value="0">Select type:</option>
-    {% for provider in provider_qs %}
-    <option value="{{ provider.id }}>
-      <a href="/providers/{{ provider.id }}">{{ provider.facility_type }}</a>
-    </option>
-    {% endfor %}
-  </select>
-</div>
-
-<div>
-  <select>
-    Select State
-    <option value="0">States:</option>
-    {% for states in states_qs %}
-    <option value="{{ states.id }}>
-      <a href="/providers/{{ states.id }}">{{ states }}</a>
-    </option>
-    {% endfor %}
-  </select>
-</div> -->
 
 <div class="container header-center">
   <h1>A Blue Rainbow</h1>
   <h2>· an online resource for primary caretakers ·</h2>
-</div>
-
-<div class="dropdown-center">
-  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Select A Resource Type
-  </button>
-  <ul class="dropdown-menu">
-    {% for provider in provider_qs %}
-    <li><button class="dropdown-item" type="button" value="{{ provider.id }}">{{ provider.facility_type }}</button></li>
-    {% endfor %}
-  </ul>
+  <br />
+  <div class="dropdown-center">
+    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Select A Resource Type
+    </button>
+    <ul class="dropdown-menu">
+      {% for provider in provider_qs %}
+      <li><button class="dropdown-item" type="button" value="{{ provider.id }}">{{ provider.facility_type }} - {{ provider.facility_name }}</button></li>
+      {% endfor %}
+    </ul>
+  </div>
 </div>
 
 <div class="container p-5 my-5 border">
