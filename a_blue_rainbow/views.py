@@ -174,6 +174,77 @@ def hhc_search_view(request):
     return render(request, "homehealth/search.html", context=context)
 
 
+# SKILLED NURSING VIEWS
+def snf_view(request):
+    snf_qs = SkilledNursingFacilities.objects.get()
+
+    context = {
+        "snf_qs": snf_qs
+    }
+
+    return render(request, "skillednursing-view.html", context=context)
+
+
+def snf_detail_view(request, id=None):
+    snf_obj = None
+
+    if id is not None:
+        snf_obj = SkilledNursingFacilities.objects.get(id=id)
+
+    context = {
+        "snf_obj": snf_obj
+    }
+
+    return render(request, "skillednursing/detail.html", context=context)
+
+
+def snf_update_view(request, id):
+    snf_obj = SkilledNursingFacilities.objects.get(id=id)
+    form = SkilledNursingForm(request.POST or None, instance=snf_obj)
+
+    context = {
+        "snf_obj": snf_obj,
+        "form": form
+    }
+
+    if form.is_valid():
+        form.save()
+        return redirect("/")
+
+    return render(request, "skillednursing/update.html", context=context)
+
+
+def snf_delete_view(request, id=None):
+    snf_obj = None
+
+    if id is not None:
+        snf_obj = SkilledNursingFacilities.objects.get(pk=id)
+        snf_obj.delete()
+
+    return redirect("/")
+
+
+def snf_search_view(request):
+    query_dict = request.GET
+    query = query_dict.get("q")
+    snf_obj = None
+
+    try:
+        query = query_dict.get("q")
+    except:
+        query = None
+
+    if query is not None:
+        snf_obj = HomeHealthFacilities.objects.filter(
+            name__icontains=query).get()
+
+    context = {
+        "object": snf_obj,
+    }
+
+    return render(request, "skillednursing/search.html", context=context)
+
+
 # HOSPICE VIEWS
 def hospice_view(request):
     hospice_qs = HospiceFacilities.objects.all()
