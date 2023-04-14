@@ -32,6 +32,29 @@ def home_view(request):
     return render(request, "home-view.html", context=context)
 
 
+# SEARCH FACILITIES
+def search_facilities(request):
+    if request.method == "POST":
+        searched = request.POST["searched"]
+        try:
+            alf = AssistedLivingFacilities.objects.filter(
+                name__icontains=searched).get()
+            return render(request, "search_facilities.html", {"searched": searched, "object": alf})
+        except:
+            hhc = HomeHealthFacilities.objects.filter(
+                name__icontains=searched).get()
+            return render(request, "search_facilities.html", {"searched": searched, "object": hhc})
+    else:
+        try:
+            snf = SkilledNursingFacilities.objects.filter(
+                name__icontains=searched).get()
+            return render(request, "search_facilities.html", {"searched": searched, "object": snf})
+        except:
+            hosp = HospiceFacilities.objects.filter(
+                name__icontains=searched).get()
+            return render(request, "search_facilities.html", {"searched": searched, "object": hosp})
+
+
 # ASSISTED LIVING VIEWS
 def alf_view(request):
     alf_qs = AssistedLivingFacilities.objects.get()
