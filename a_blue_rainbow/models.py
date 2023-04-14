@@ -37,6 +37,7 @@ class States(models.Model):
 
 class Providers(models.Model):
     facility_type = models.CharField(max_length=50)
+    facility_name = models.CharField(max_length=255)
 
     def __str__(self):
         return self.facility_type
