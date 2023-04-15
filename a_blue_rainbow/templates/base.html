@@ -11,7 +11,7 @@
   </head>
   <body>
     <div>
-      <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <nav class="navbar navbar-expand-sm navbar-dark bg-light">
         <div class="container-fluid">
           <a class="navbar-brand" href="javascript:void(0)">A Blue Rainbow</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
@@ -20,8 +20,18 @@
           <div class="collapse navbar-collapse" id="mynavbar">
             <ul class="navbar-nav me-auto">
               <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Resources
+                </a>
+                <ul class="dropdown-menu">
+                  {% for provider in provider_qs %}
+                  <li><button class="dropdown-item" type="button" value="{{ provider.id }}">{{ provider.facility_type }} - {{ provider.facility_name }}</button></li>
+                  {% endfor %}
+                </ul>
+              </li>
               <li class="nav-item"><a class="nav-link" href="/feedback">User Feedback</a></li>
-        </ul>
+            </ul>
         <form class="d-flex" action="{% url 'search-facilities' %}" method="POST">
           {% csrf_token %}
           <input type="search" class="form-control me-2" aria-label="Search" placeholder="Search Facilities" name="searched">
