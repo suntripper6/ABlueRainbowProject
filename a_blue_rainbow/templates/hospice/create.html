@@ -2,7 +2,12 @@
 <div class="container p-5 my-5 details">
   <h1>Create Hospice Facility</h1>
   {% if submitted %} The Facility Was Added Successfully! {% else %}
-  <form action="" method="POST" class="form-control">
+  <form
+    action=""
+    method="POST"
+    class="form-control"
+    style="background-color: rgb(137, 221, 249)"
+  >
     {% csrf_token %}
     <div>{{ form.as_p }}</div>
     <input type="submit" value="Submit" class="btn btn-secondary" />

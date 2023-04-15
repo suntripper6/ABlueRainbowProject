@@ -1,7 +1,12 @@
 {% extends "base.html" %} {% block content %}
 <div class="container p-5 my-5 details">
   <h1>Update For {{ hhc_obj.name }}</h1>
-  <form action="" method="POST">
+  <form
+    action=""
+    method="POST"
+    class="form-control"
+    style="background-color: rgb(137, 221, 249)"
+  >
     {% csrf_token %}
     <div>{{ form.as_p }}</div>
     <input type="submit" value="Update" class="btn btn-warning" />
