@@ -1,7 +1,7 @@
 {% extends "base.html" %} {% block content %}
 <div class="container p-5 my-5 details">
   <h1>Send User Feedback</h1>
-  <form action="" method="POST">
+  <form action="" method="POST" class="form-control">
     {% csrf_token %}
     <div>{{ form.as_p }}</div>
     <input type="submit" value="Submit" class="btn btn-secondary" />

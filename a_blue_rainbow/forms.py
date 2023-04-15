@@ -15,11 +15,11 @@ class HospiceForm(ModelForm):
             "zip_code": "",
         }
         widgets = {
-            "name": forms.TextInput(attrs={"class": "form-control"}),
-            "address": forms.TextInput(attrs={"class": "form-control"}),
-            "city": forms.TextInput(attrs={"class": "form-control"}),
-            "state": forms.TextInput(attrs={"class": "form-control"}),
-            "zip_code": forms.TextInput(attrs={"class": "form-control"}),
+            "name": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility Name"}),
+            "address": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility Address"}),
+            "city": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility City"}),
+            "state": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility State"}),
+            "zip_code": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility Zip Code"}),
         }
 
 
@@ -35,11 +35,11 @@ class AssistedLivingForm(ModelForm):
             "zip_code": "",
         }
         widgets = {
-            "name": forms.TextInput(attrs={"class": "form-control"}),
-            "address": forms.TextInput(attrs={"class": "form-control"}),
-            "city": forms.TextInput(attrs={"class": "form-control"}),
-            "state": forms.TextInput(attrs={"class": "form-control"}),
-            "zip_code": forms.TextInput(attrs={"class": "form-control"}),
+            "name": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility Name"}),
+            "address": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility Address"}),
+            "city": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility City"}),
+            "state": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility State"}),
+            "zip_code": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility Zip Code"}),
         }
 
 
@@ -55,11 +55,11 @@ class HomeHealthForm(ModelForm):
             "zip_code": "",
         }
         widgets = {
-            "name": forms.TextInput(attrs={"class": "form-control"}),
-            "address": forms.TextInput(attrs={"class": "form-control"}),
-            "city": forms.TextInput(attrs={"class": "form-control"}),
-            "state": forms.TextInput(attrs={"class": "form-control"}),
-            "zip_code": forms.TextInput(attrs={"class": "form-control"}),
+            "name": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility Name"}),
+            "address": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility Address"}),
+            "city": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility City"}),
+            "state": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility State"}),
+            "zip_code": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility Zip Code"}),
         }
 
 
@@ -75,11 +75,11 @@ class SkilledNursingForm(ModelForm):
             "zip_code": "",
         }
         widgets = {
-            "name": forms.TextInput(attrs={"class": "form-control"}),
-            "address": forms.TextInput(attrs={"class": "form-control"}),
-            "city": forms.TextInput(attrs={"class": "form-control"}),
-            "state": forms.TextInput(attrs={"class": "form-control"}),
-            "zip_code": forms.TextInput(attrs={"class": "form-control"}),
+            "name": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility Name"}),
+            "address": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility Address"}),
+            "city": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility City"}),
+            "state": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility State"}),
+            "zip_code": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility Zip Code"}),
         }
 
 
@@ -87,13 +87,13 @@ class FeedbackForm(ModelForm):
     class Meta:
         model = UserFeedback
         fields = ("name", "email", "comments")
-        label = {
+        labels = {
             "name": "",
             "email": "",
             "comments": "",
         }
         widgets = {
-            "name": forms.TextInput(attrs={"class": "form-control"}),
-            "email": forms.EmailInput(attrs={"class": "form-control"}),
-            "comments": forms.Textarea(attrs={"class": "form-control"}),
+            "name": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter your name"}),
+            "email": forms.EmailInput(attrs={"class": "form-control", "placeholder": "Enter your email address"}),
+            "comments": forms.Textarea(attrs={"class": "form-control", "placeholder": "Enter your comments"}),
         }

@@ -61,9 +61,9 @@ urlpatterns = [
          name="hospice-update-view"),
     path("hospice/delete/<int:id>", views.hospice_delete_view,
          name="hospice-delete-view"),
-
     path("feedback/", views.userfeedback_create_view),
     path("search_facilities", views.search_facilities, name="search-facilities"),
     path("admin/", admin.site.urls),
+
     # path('api/', include('a_blue_rainbow.urls')),
 ]

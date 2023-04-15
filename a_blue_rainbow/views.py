@@ -379,6 +379,7 @@ def hospice_search_view(request):
 
 
 def hospice_create_view(request):
+    submitted = False
     form = HospiceForm(request.POST or None)
 
     if request.method == "POST":
@@ -391,22 +392,6 @@ def hospice_create_view(request):
     }
 
     return render(request, "hospice/create.html", context=context)
-    # context = {}
-
-    # if request.method == "POST":
-    #     name = request.POST.get("name")
-    #     address = request.POST.get("address")
-    #     city = request.POST.get("city")
-    #     state = request.POST.get("state")
-    #     zipcode = request.POST.get("zip_code")
-    #     hospice = HospiceFacilities.objects.create(
-    #         name=name, address=address, city=city, state=state, zip_code=zipcode, facility_type_id=3,
-    #         phone_number="", medicare_elig="", map="", rating=0, reviews="", official_website="")
-
-    #     hospice.save()
-    #     context["created"] = True
-
-    # return render(request, "hospice/create.html", context=context)
 
 
 # USER FEEDBACK
