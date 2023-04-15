@@ -71,7 +71,7 @@ class SkilledNursingFacilities(models.Model):
     state = models.CharField(max_length=255)
     zip_code = models.CharField(max_length=15)
     phone_number = models.CharField(max_length=15)
-    medicare_elig = models.BooleanField(default=True,  null=True)
+    medicare_elig = models.BooleanField(default=True, null=True)
     transportation_services = models.BooleanField(default=True, null=True)
     case_management = models.BooleanField(default=True, null=True)
     map = models.TextField(null=True)
@@ -96,7 +96,7 @@ class AssistedLivingFacilities(models.Model):
     transportation_services = models.BooleanField(default=True, null=True)
     case_management = models.BooleanField(default=True, null=True)
     map = models.TextField(null=True)
-    rating = models.IntegerField()
+    rating = models.IntegerField(null=True)
     reviews = models.TextField(null=True)
     official_website = models.CharField(max_length=255, null=True)
 
