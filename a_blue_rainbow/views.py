@@ -47,6 +47,33 @@ def hospice_list_view(request):
     return render(request, "hospice/list.html", context=context)
 
 
+def assistedliving_list_view(request):
+    assisted_qs = AssistedLivingFacilities.objects.all()
+    context = {
+        "assisted_qs": assisted_qs,
+    }
+
+    return render(request, "assistedliving/list.html", context=context)
+
+
+def skillednursing_list_view(request):
+    skillednursing_qs = SkilledNursingFacilities.objects.all()
+    context = {
+        "skillednursing_qs": skillednursing_qs
+    }
+
+    return render(request, "skillednursing/list.html", context=context)
+
+
+def homehealth_list_view(request):
+    homehealth_qs = HomeHealthFacilities.objects.all()
+    context = {
+        "homehealth_qs": homehealth_qs
+    }
+
+    return render(request, "homehealth/list.html", context=context)
+
+
 # SELECT FACILITY
 
 

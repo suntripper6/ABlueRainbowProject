@@ -35,7 +35,7 @@ urlpatterns = [
 
     # HOME HEALTH
     path("homehealth/", views.hhc_search_view),
-    path("homehealth/list", views.homeheatlh_list_view),
+    path("homehealth/list", views.homehealth_list_view),
     # path("homehealth/create", views.hhc_create_view),
     path("homehealth/details/<int:id>", views.hhc_detail_view),
     path("homehealth/update/<int:id>", views.hhc_update_view,
