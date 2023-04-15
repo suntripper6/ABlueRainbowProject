@@ -1,19 +1,7 @@
 {% extends "base.html" %} {% block content %}
-
+{% load static %}
 <div class="container header-center">
-  <h1>A Blue Rainbow</h1>
-  <h2>· an online resource for primary caretakers ·</h2>
-  <br />
-  <!-- <div class="dropdown-center">
-    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-      Select A Resource Type
-    </button>
-    <ul class="dropdown-menu">
-      {% for provider in provider_qs %}
-      <li><button class="dropdown-item" type="button" value="{{ provider.id }}">{{ provider.facility_type }} - {{ provider.facility_name }}</button></li>
-      {% endfor %}
-    </ul>
-  </div> -->
+  <img src="{% static 'img/a blue rainbow-1.png' %}" class="site-logo" style="height: 30rem", width="auto">
 </div>
 
 <div class="container p-5 my-5 border">
