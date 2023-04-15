@@ -128,6 +128,7 @@ def alf_delete_view(request, id=None):
     if id is not None:
         alf_obj = AssistedLivingFacilities.objects.get(pk=id)
         alf_obj.delete()
+        return HttpResponseRedirect("/assistedliving/list")
 
     return redirect("/")
 
@@ -219,6 +220,7 @@ def hhc_delete_view(request, id=None):
     if id is not None:
         hhc_obj = HomeHealthFacilities.objects.get(pk=id)
         hhc_obj.delete()
+        return HttpResponseRedirect("/homehealth/list")
 
     return redirect("/")
 
@@ -310,6 +312,7 @@ def snf_delete_view(request, id=None):
     if id is not None:
         snf_obj = SkilledNursingFacilities.objects.get(pk=id)
         snf_obj.delete()
+        return HttpResponseRedirect("/skillednursing/list")
 
     return redirect("/")
 
@@ -413,8 +416,9 @@ def hospice_delete_view(request, id=None):
     if id is not None:
         hospice_obj = HospiceFacilities.objects.get(pk=id)
         hospice_obj.delete()
+        return HttpResponseRedirect("/hospice/list")
 
-    return redirect("hospice/list.html")
+    return render(request, "hospice/list.html")
 
 
 def hospice_search_view(request):

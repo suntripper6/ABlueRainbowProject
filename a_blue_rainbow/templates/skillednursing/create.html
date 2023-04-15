@@ -1,13 +1,10 @@
 {% extends "base.html" %} {% block content %}
-
-<h1>Update Skilled Nursing Facility Details</h1>
-<div class="facility-details">{{ snf_qs }}</div>
-<div>
-  {% if submitted %}
-  <p>Skilled Nursing Facility updated</p>
-  {% else %}
+<div class="container p-5 my-5 details">
+  <h1>Create Skilled Nursing Facility</h1>
+  {% if submitted %} The Facility Was Added Successfully! {% else %}
   <form action="" method="POST" class="form-control">
-    {% csrf_token %} {{ form.as_p }}
+    {% csrf_token %}
+    <div>{{ form.as_p }}</div>
     <input type="submit" value="Submit" class="btn btn-secondary" />
   </form>
   {% endif %}
