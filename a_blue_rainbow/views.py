@@ -21,16 +21,12 @@ def home_view(request):
     states_qs = States.objects.order_by("state").values_list(
         "state", flat=True).distinct("state")
 
-    snf_p = Paginator(SkilledNursingFacilities.objects.all(), 2)
-    page = request.GET.get("page")
-    snfs = snf_p.get_page(page)
-
     context = {
         "provider_qs": provider_qs,
         "assisted_qs": assisted_qs,
         "homehealth_qs": homehealth_qs,
         "skillednursing_qs": skillednursing_qs,
-        "snfs": snfs,
+
         "hospice_qs": hospice_qs,
         "states_qs": states_qs,
     }
@@ -49,17 +45,25 @@ def hospice_list_view(request):
 
 def assistedliving_list_view(request):
     assisted_qs = AssistedLivingFacilities.objects.all()
+    alf_p = Paginator(AssistedLivingFacilities.objects.all(), 2)
+    page = request.GET.get("page")
+    alfs = alf_p.get_page(page)
     context = {
-        "assisted_qs": assisted_qs,
+        "alfs": alfs,
     }
+    # context = {
+    #     "assisted_qs": assisted_qs,
+    # }
 
     return render(request, "assistedliving/list.html", context=context)
 
 
 def skillednursing_list_view(request):
-    skillednursing_qs = SkilledNursingFacilities.objects.all()
+    snf_p = Paginator(SkilledNursingFacilities.objects.all(), 2)
+    page = request.GET.get("page")
+    snfs = snf_p.get_page(page)
     context = {
-        "skillednursing_qs": skillednursing_qs
+        "snfs": snfs,
     }
 
     return render(request, "skillednursing/list.html", context=context)
