@@ -1,8 +1,7 @@
 {% extends "base.html" %} {% block content %}
-
-<h1>Create Hospice Facility</h1>
 <div class="container p-5 my-5 details">
-  <form action="" method="POST" class="form-control">
+  <h1>Create Hospice Facility</h1>
+  <form action="" method="POST">
     {% csrf_token %}
     <div>{{ form.as_p }}</div>
     <input type="submit" value="Submit" class="btn btn-secondary" />

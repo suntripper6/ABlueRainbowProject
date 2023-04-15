@@ -34,26 +34,14 @@ def home_view(request):
     return render(request, "home-view.html", context=context)
 
 
-def hospice_list_view(request):
-    hospice_qs = HospiceFacilities.objects.all()
-    context = {
-        "hospice_qs": hospice_qs
-    }
-
-    return render(request, "hospice/list.html", context=context)
-
-
 def assistedliving_list_view(request):
-    assisted_qs = AssistedLivingFacilities.objects.all()
     alf_p = Paginator(AssistedLivingFacilities.objects.all(), 2)
     page = request.GET.get("page")
     alfs = alf_p.get_page(page)
+
     context = {
         "alfs": alfs,
     }
-    # context = {
-    #     "assisted_qs": assisted_qs,
-    # }
 
     return render(request, "assistedliving/list.html", context=context)
 
@@ -62,6 +50,7 @@ def skillednursing_list_view(request):
     snf_p = Paginator(SkilledNursingFacilities.objects.all(), 2)
     page = request.GET.get("page")
     snfs = snf_p.get_page(page)
+
     context = {
         "snfs": snfs,
     }
@@ -70,9 +59,12 @@ def skillednursing_list_view(request):
 
 
 def homehealth_list_view(request):
-    homehealth_qs = HomeHealthFacilities.objects.all()
+    hhc_p = Paginator(HomeHealthFacilities.objects.all(), 2)
+    page = request.GET.get("page")
+    hhcs = hhc_p.get_page(page)
+
     context = {
-        "homehealth_qs": homehealth_qs
+        "hhcs": hhcs,
     }
 
     return render(request, "homehealth/list.html", context=context)
@@ -314,6 +306,18 @@ def hospice_view(request):
     return render(request, "hospice-view.html", context=context)
 
 
+def hospice_list_view(request):
+    hosp_pg = Paginator(HospiceFacilities.objects.all(), 2)
+    page = request.GET.get("page")
+    hosps = hosp_pg.get_page(page)
+
+    context = {
+        "hosps": hosps,
+    }
+
+    return render(request, "hospice/list.html", context=context)
+
+
 def hospice_detail_view(request, id=None):
     hospice_obj = None
 
@@ -386,7 +390,7 @@ def hospice_create_view(request):
         "form": form,
     }
 
-    return render(request, "userfeedback/feedback.html", context=context)
+    return render(request, "hospice/create.html", context=context)
     # context = {}
 
     # if request.method == "POST":

@@ -55,7 +55,7 @@ urlpatterns = [
     # HOSPICE
     path("hospice/", views.hospice_search_view),
     path("hospice/list", views.hospice_list_view),
-    path("hospice/create", views.hospice_create_view),
+    path("hospice/create", views.hospice_create_view, name="hospice-create-view"),
     path("hospice/details/<int:id>", views.hospice_detail_view),
     path("hospice/update/<int:id>", views.hospice_update_view,
          name="hospice-update-view"),
