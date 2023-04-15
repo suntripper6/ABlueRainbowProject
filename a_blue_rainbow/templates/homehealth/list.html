@@ -13,28 +13,28 @@
     </thead>
     <tbody>
       {% for hhc in hhcs %}
-      <tr>
-        <td><a href="/homehealth/details/{{ hhc.id }}">{{ hhc.name }}</a></td>
-        <td>{{ hhc.address }}</td>
-        <td>{{ hhc.city }}</td>
-        <td>{{ hhc.state }}</td>
-        <td>{{ hhc.zip_code }}</td>
-        {% endfor %}
-      </tr>
+        <tr>
+          <td><a href="/homehealth/details/{{ hhc.id }}">{{ hhc.name }}</a></td>
+          <td>{{ hhc.address }}</td>
+          <td>{{ hhc.city }}</td>
+          <td>{{ hhc.state }}</td>
+          <td>{{ hhc.zip_code }}</td>
+      {% endfor %}
+        </tr>
     </tbody>
   </table>
   <div>
     <nav aria-label="Page navigation example">
       <ul class="pagination">
         {% if hhcs.has_previous %}
-        <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
-        <li class="page-item"><a class="page-link" href="?page={{ hhcs.previous_page_number }}">Previous</a></li>
-      {% endif %}
-        <li class="page-item disabled"><a class="page-link" href="#">Page {{ hhcs.number }} of {{ hhcs.paginator.num_pages }}</a></li>
-      {% if hhcs.has_next %}
-        <li class="page-item"><a class="page-link" href="?page={{ hhcs.next_page_number }}">Next</a></li>
-        <li class="page-item"></li><a class="page-link" href="?page={{ hhcs.paginator.num_pages }}">Last &raquo;</a></li>
-      {% endif %}
+          <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
+          <li class="page-item"><a class="page-link" href="?page={{ hhcs.previous_page_number }}">Previous</a></li>
+        {% endif %}
+          <li class="page-item disabled"><a class="page-link" href="#">Page {{ hhcs.number }} of {{ hhcs.paginator.num_pages }}</a></li>
+        {% if hhcs.has_next %}
+          <li class="page-item"><a class="page-link" href="?page={{ hhcs.next_page_number }}">Next</a></li>
+          <li class="page-item"></li><a class="page-link" href="?page={{ hhcs.paginator.num_pages }}">Last &raquo;</a></li>
+        {% endif %}
       </ul>
     </nav>
   </div>

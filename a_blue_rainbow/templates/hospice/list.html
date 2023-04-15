@@ -13,15 +13,15 @@
       </thead>
       <tbody>
         {% for hospice in hosps %}
-        <tr>
-          <td>
-            <a href="/hospice/details/{{ hospice.id }}">{{ hospice.name }}</a>
-          </td>
-          <td> {{ hospice.address }}</td>
-          <td>{{ hospice.city }}</td>
-          <td>{{ hospice.state }}</td>
-          <td> {{ hospice.zip_code }}</td>
-          </td>
+          <tr>
+            <td>
+              <a href="/hospice/details/{{ hospice.id }}">{{ hospice.name }}</a>
+            </td>
+            <td> {{ hospice.address }}</td>
+            <td>{{ hospice.city }}</td>
+            <td>{{ hospice.state }}</td>
+            <td> {{ hospice.zip_code }}</td>
+            </td>
           {% endfor %}
         </tr>
       </tbody>
@@ -30,14 +30,14 @@
       <nav aria-label="Page navigation example">
         <ul class="pagination">
           {% if hosps.has_previous %}
-          <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
-          <li class="page-item"><a class="page-link" href="?page={{ hosps.previous_page_number }}">Previous</a></li>
-        {% endif %}
-          <li class="page-item disabled"><a class="page-link" href="#">Page {{ hosps.number }} of {{ hosps.paginator.num_pages }}</a></li>
-        {% if hosps.has_next %}
-          <li class="page-item"><a class="page-link" href="?page={{ hosps.next_page_number }}">Next</a></li>
-          <li class="page-item"></li><a class="page-link" href="?page={{ hosps.paginator.num_pages }}">Last &raquo;</a></li>
-        {% endif %}
+            <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ hosps.previous_page_number }}">Previous</a></li>
+          {% endif %}
+            <li class="page-item disabled"><a class="page-link" href="#">Page {{ hosps.number }} of {{ hosps.paginator.num_pages }}</a></li>
+          {% if hosps.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ hosps.next_page_number }}">Next</a></li>
+            <li class="page-item"></li><a class="page-link" href="?page={{ hosps.paginator.num_pages }}">Last &raquo;</a></li>
+          {% endif %}
         </ul>
       </nav>
       <div>
