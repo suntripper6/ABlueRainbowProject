@@ -25,6 +25,7 @@ urlpatterns = [
 
     # ASSISTED LIVING
     path("assistedliving/", views.alf_search_view),
+    path("assistedliving/list", views.assistedliving_list_view),
     # path("assistedliving/create", views.alf_create_view),
     path("assistedliving/details/<int:id>", views.alf_detail_view),
     path("assistedliving/update/<int:id>", views.alf_update_view,
@@ -34,6 +35,7 @@ urlpatterns = [
 
     # HOME HEALTH
     path("homehealth/", views.hhc_search_view),
+    path("homehealth/list", views.homeheatlh_list_view),
     # path("homehealth/create", views.hhc_create_view),
     path("homehealth/details/<int:id>", views.hhc_detail_view),
     path("homehealth/update/<int:id>", views.hhc_update_view,
@@ -42,6 +44,7 @@ urlpatterns = [
          name="hhc-delete-view"),
 
     # SKILLED NURSING
+    path("skillednursing/list", views.skillednursing_list_view),
     # path("skillednursing/create", views.snf_create_view),
     path("skillednursing/details/<int:id>", views.snf_detail_view),
     path("skillednursing/update/<int:id>", views.snf_update_view,
