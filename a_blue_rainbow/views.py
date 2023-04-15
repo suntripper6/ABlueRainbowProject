@@ -13,50 +13,7 @@ from django.core.paginator import Paginator
 
 # HOME VIEW
 def home_view(request):
-    provider_qs = Providers.objects.all()
-    assisted_qs = AssistedLivingFacilities.objects.all()
-    homehealth_qs = HomeHealthFacilities.objects.all()
-    skillednursing_qs = SkilledNursingFacilities.objects.all()
-    hospice_qs = HospiceFacilities.objects.all()
-    states_qs = States.objects.order_by("state").values_list(
-        "state", flat=True).distinct("state")
-
-    context = {
-        "provider_qs": provider_qs,
-        "assisted_qs": assisted_qs,
-        "homehealth_qs": homehealth_qs,
-        "skillednursing_qs": skillednursing_qs,
-
-        "hospice_qs": hospice_qs,
-        "states_qs": states_qs,
-    }
-
-    return render(request, "home-view.html", context=context)
-
-
-def snf_list_view(request):
-    snf_p = Paginator(SkilledNursingFacilities.objects.all(), 2)
-    page = request.GET.get("page")
-    snfs = snf_p.get_page(page)
-
-    context = {
-        "snfs": snfs,
-    }
-
-    return render(request, "skillednursing/list.html", context=context)
-
-
-def hhc_list_view(request):
-    hhc_p = Paginator(HomeHealthFacilities.objects.all(), 2)
-    page = request.GET.get("page")
-    hhcs = hhc_p.get_page(page)
-
-    context = {
-        "hhcs": hhcs,
-    }
-
-    return render(request, "homehealth/list.html", context=context)
-
+    return render(request, "home-view.html")
 
 # SELECT FACILITY
 
@@ -117,7 +74,7 @@ def alf_update_view(request, id):
 
     if form.is_valid():
         form.save()
-        return redirect("/")
+        return HttpResponseRedirect("/assistedliving/list")
 
     return render(request, "assistedliving/update.html", context=context)
 
@@ -185,6 +142,18 @@ def hhc_view(request):
     return render(request, "homehealth-view.html", context=context)
 
 
+def hhc_list_view(request):
+    hhc_p = Paginator(HomeHealthFacilities.objects.all(), 2)
+    page = request.GET.get("page")
+    hhcs = hhc_p.get_page(page)
+
+    context = {
+        "hhcs": hhcs,
+    }
+
+    return render(request, "homehealth/list.html", context=context)
+
+
 def hhc_detail_view(request, id=None):
     hhc_obj = None
 
@@ -209,7 +178,7 @@ def hhc_update_view(request, id):
 
     if form.is_valid():
         form.save()
-        return redirect("/")
+        return HttpResponseRedirect("/homehealth/list")
 
     return render(request, "homehealth/update.html", context=context)
 
@@ -277,6 +246,18 @@ def snf_view(request):
     return render(request, "skillednursing-view.html", context=context)
 
 
+def snf_list_view(request):
+    snf_p = Paginator(SkilledNursingFacilities.objects.all(), 2)
+    page = request.GET.get("page")
+    snfs = snf_p.get_page(page)
+
+    context = {
+        "snfs": snfs,
+    }
+
+    return render(request, "skillednursing/list.html", context=context)
+
+
 def snf_detail_view(request, id=None):
     snf_obj = None
 
@@ -301,7 +282,7 @@ def snf_update_view(request, id):
 
     if form.is_valid():
         form.save()
-        return redirect("/")
+        return HttpResponseRedirect("/skillednursing/list")
 
     return render(request, "skillednursing/update.html", context=context)
 
@@ -405,7 +386,7 @@ def hospice_update_view(request, id):
 
     if form.is_valid():
         form.save()
-        return redirect("/")
+        return HttpResponseRedirect("/hospice/list")
 
     return render(request, "hospice/update.html", context=context)
 
