@@ -34,7 +34,7 @@ def home_view(request):
     return render(request, "home-view.html", context=context)
 
 
-def assistedliving_list_view(request):
+def alf_list_view(request):
     alf_p = Paginator(AssistedLivingFacilities.objects.all(), 2)
     page = request.GET.get("page")
     alfs = alf_p.get_page(page)
@@ -46,7 +46,7 @@ def assistedliving_list_view(request):
     return render(request, "assistedliving/list.html", context=context)
 
 
-def skillednursing_list_view(request):
+def snf_list_view(request):
     snf_p = Paginator(SkilledNursingFacilities.objects.all(), 2)
     page = request.GET.get("page")
     snfs = snf_p.get_page(page)
@@ -58,7 +58,7 @@ def skillednursing_list_view(request):
     return render(request, "skillednursing/list.html", context=context)
 
 
-def homehealth_list_view(request):
+def hhc_list_view(request):
     hhc_p = Paginator(HomeHealthFacilities.objects.all(), 2)
     page = request.GET.get("page")
     hhcs = hhc_p.get_page(page)
@@ -151,6 +151,26 @@ def alf_search_view(request):
     }
 
     return render(request, "assistedliving/search.html", context=context)
+
+
+def alf_create_view(request):
+    submitted = False
+    if request.method == "POST":
+        form = AssistedLivingForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("create?submitted=True")
+    else:
+        form = AssistedLivingForm
+        if "submitted" in request.GET:
+            submitted = True
+
+    context = {
+        "form": form,
+        "submitted": submitted,
+    }
+
+    return render(request, "assistedliving/create.html", context=context)
 
 
 # HOMEHEALTHCARE VIEWS
@@ -354,7 +374,7 @@ def hospice_delete_view(request, id=None):
         hospice_obj = HospiceFacilities.objects.get(pk=id)
         hospice_obj.delete()
 
-    return redirect("/")
+    return redirect("hospice/list.html")
 
 
 def hospice_search_view(request):
@@ -380,15 +400,19 @@ def hospice_search_view(request):
 
 def hospice_create_view(request):
     submitted = False
-    form = HospiceForm(request.POST or None)
-
     if request.method == "POST":
+        form = HospiceForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("/?submitted")
+            return HttpResponseRedirect("create?submitted=True")
+    else:
+        form = HospiceForm
+        if "submitted" in request.GET:
+            submitted = True
 
     context = {
         "form": form,
+        "submitted": submitted,
     }
 
     return render(request, "hospice/create.html", context=context)

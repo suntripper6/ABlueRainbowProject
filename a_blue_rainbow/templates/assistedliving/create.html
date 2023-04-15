@@ -1,11 +1,7 @@
 {% extends "base.html" %} {% block content %}
-
-<h1>Update Assisted Living Facility Details</h1>
-<div class="facility-details">{{ alf_qs }}</div>
-<div>
-  {% if submitted %}
-  <p>Assisted Living Facility updated</p>
-  {% else %}
+<div class="container p-5 my-5 details">
+  <h1>Create Assisted Living Facility</h1>
+  {% if submitted %} The Facility Was Added Successfully! {% else %}
   <form action="" method="POST" class="form-control">
     {% csrf_token %}
     <div>{{ form.as_p }}</div>
