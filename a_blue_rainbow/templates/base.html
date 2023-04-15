@@ -25,9 +25,10 @@
                   Resources
                 </a>
                 <ul class="dropdown-menu">
-                  {% for provider in provider_qs %}
-                  <li><button class="dropdown-item" type="button" value="{{ provider.id }}">{{ provider.facility_type }} - {{ provider.facility_name }}</button></li>
-                  {% endfor %}
+                  <li><a class="dropdown-item" href="assistedliving/list">Assisted Living</a></li>
+                  <li><a class="dropdown-item" href="homeheatlh/list">Home Health Care</a></li>
+                  <li><a class="dropdown-item" href="skillednursing/list">Skilled Nursing</a></li>
+                  <li><a class="dropdown-item" href="hospice/list">Hospice</a></li>
                 </ul>
               </li>
               <li class="nav-item"><a class="nav-link" href="/feedback">User Feedback</a></li>

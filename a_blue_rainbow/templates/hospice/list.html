@@ -1,0 +1,30 @@
+{% extends "base.html" %} {% block content %} 
+<div class="container p-5 my-5 border">
+    <h2>Hospice</h2>
+    <table class="table table-striped table-hover table-bordered">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Address</th>
+          <th>City</th>
+          <th>State</th>
+          <th>Zip Code</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for hospice in hospice_qs %}
+        <tr>
+          <td>
+            <a href="/hospice/details/{{ hospice.id }}">{{ hospice.name }}</a>
+          </td>
+          <td> {{ hospice.address }}</td>
+          <td>{{ hospice.city }}</td>
+          <td>{{ hospice.state }}</td>
+          <td> {{ hospice.zip_code }}</td>
+          </td>
+          {% endfor %}
+        </tr>
+      </tbody>
+    </table>
+  </div>
+{% endblock content %}

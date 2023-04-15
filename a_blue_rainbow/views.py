@@ -38,6 +38,15 @@ def home_view(request):
     return render(request, "home-view.html", context=context)
 
 
+def hospice_list_view(request):
+    hospice_qs = HospiceFacilities.objects.all()
+    context = {
+        "hospice_qs": hospice_qs
+    }
+
+    return render(request, "hospice/list.html", context=context)
+
+
 # SELECT FACILITY
 
 
