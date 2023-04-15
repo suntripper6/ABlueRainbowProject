@@ -1,0 +1,41 @@
+{% extends "base.html" %} {% block content %} 
+<div class="container p-5 my-5 border">
+    <h2>Skilled Nursing Facilities</h2>
+    <table class="table table-striped table-hover table-bordered">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Address</th>
+          <th>City</th>
+          <th>State</th>
+          <th>Zip Code</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for snf in snfs %}
+        <tr>
+          <td>
+            <a href="/skillednursing/details/{{ snf.id }}">{{ snf.name }}</a>
+          </td>
+          <td>{{ snf.address }}</td>
+          <td>{{ snf.city }}</td>
+          <td>{{ snf.state }}</td>
+          <td>{{ snf.zip_code }}</td>
+          {% endfor %}
+        </tr>
+      </tbody>
+    </table>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        {% if snfs.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ snfs.previous_page_number }}">Previous</a></li>
+      {% endif %}
+        <li class="page-item disabled"><a class="page-link" href="#">Page {{ snfs.number }} of {{ snfs.paginator.num_pages }}</a></li>
+      {% if snfs.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ snfs.next_page_number }}">Next</a></li>
+        <li class="page-item"></li><a class="page-link" href="?page={{ snfs.paginator.num_pages }}">Last &raquo;</a></li>
+      {% endif %}
+      </ul>
+    </nav>
+    {% endblock content %}
