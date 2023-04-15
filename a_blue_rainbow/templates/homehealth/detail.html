@@ -6,11 +6,18 @@
   <p>{{ hhc_obj.city }}, {{ hhc_obj.state }} {{ hhc_obj.zip_code }}</p>
   <p>{{ hhc_obj.phone_number }}</p>
   <p>
-    <a href="{{ hhc_obj.official_website }}">{{ hhc_obj.official_website }}</a>
+    <a href="{{ hhc_obj.official_website }}"
+      >Official Website: {{ hhc_obj.name }}</a
+    >
+  </p>
+  <p>
+    <a href="{{ hhc_obj.map }}" target="_blank" class="btn btn-success"
+      >Find On Map</a
+    >
   </p>
   <br />
   <div>
-    <a href="{% url 'hhc-update-view' hhc_obj.id %}" class="btn btn-secondary"
+    <a href="{% url 'hhc-update-view' hhc_obj.id %}" class="btn btn-warning"
       >UPDATE</a
     >
     <a href="{% url 'hhc-delete-view' hhc_obj.id %}" class="btn btn-danger"

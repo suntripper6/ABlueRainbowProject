@@ -9,19 +9,19 @@
   <p>{{ hospice_obj.phone_number }}</p>
   <p>
     <a href="{{ hospice_obj.official_website }}"
-      >{{ hospice_obj.official_website }}</a
+      >Official Website: {{ hospice_ob.name }}</a
     >
   </p>
   <p>
-    <a href="{{ hospice_obj.map }}" target="_blank" class="btn btn-secondary"
-      >Click to locate</a
+    <a href="{{ hospice_obj.map }}" target="_blank" class="btn btn-success"
+      >Find On Map</a
     >
   </p>
   <br />
   <div>
     <a
       href="{% url 'hospice-update-view' hospice_obj.id %}"
-      class="btn btn-secondary"
+      class="btn btn-warning"
       >UPDATE</a
     >
     <a

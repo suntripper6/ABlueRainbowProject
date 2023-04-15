@@ -6,11 +6,18 @@
   <p>{{ alf_obj.city }}, {{ alf_obj.state }} {{ alf_obj.zip_code }}</p>
   <p>{{ alf_obj.phone_number }}</p>
   <p>
-    <a href="{{ alf_obj.official_website }}">{{ alf_obj.official_website }}</a>
+    <a href="{{ alf_obj.official_website }}"
+      >Official Website: {{ alf_obj.name }}</a
+    >
+  </p>
+  <p>
+    <a href="{{ alf_obj.map }}" target="_blank" class="btn btn-success"
+      >Find On Map</a
+    >
   </p>
   <br />
   <div>
-    <a href="{% url 'alf-update-view' alf_obj.id %}" class="btn btn-secondary"
+    <a href="{% url 'alf-update-view' alf_obj.id %}" class="btn btn-warning"
       >UPDATE</a
     >
     <a href="{% url 'alf-delete-view' alf_obj.id %}" class="btn btn-danger"

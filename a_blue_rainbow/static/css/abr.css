@@ -1,11 +1,13 @@
 /* ELEMENTS */
-body {
+body,
+form {
   align-items: center;
+  background-color: rgb(32, 197, 252);
 }
 
 a {
   text-decoration: none !important;
-  color: #878787 !important;
+  color: #000000 !important;
 }
 
 p {

@@ -6,11 +6,18 @@
   <p>{{ snf_obj.city }}, {{ snf_obj.state }} {{ snf_obj.zip_code }}</p>
   <p>{{ snf_obj.phone_number }}</p>
   <p>
-    <a href="{{ snf_obj.official_website }}">{{ snf_obj.official_website }}</a>
+    <a href="{{ snf_obj.official_website }}"
+      >Official Website: {{ snf_obj.name }}</a
+    >
+  </p>
+  <p>
+    <a href="{{ snf_obj.map }}" target="_blank" class="btn btn-success"
+      >Find On Map</a
+    >
   </p>
   <br />
   <div>
-    <a href="{% url 'snf-update-view' snf_obj.id %}" class="btn btn-secondary"
+    <a href="{% url 'snf-update-view' snf_obj.id %}" class="btn btn-warning"
       >UPDATE</a
     >
     <a href="{% url 'snf-delete-view' snf_obj.id %}" class="btn btn-danger"
