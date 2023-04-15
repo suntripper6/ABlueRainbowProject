@@ -36,7 +36,7 @@ urlpatterns = [
     # HOME HEALTH
     path("homehealth/", views.hhc_search_view),
     path("homehealth/list", views.hhc_list_view),
-    # path("homehealth/create", views.hhc_create_view),
+    path("homehealth/create", views.hhc_create_view, name="hhc-create-view"),
     path("homehealth/details/<int:id>", views.hhc_detail_view),
     path("homehealth/update/<int:id>", views.hhc_update_view,
          name="hhc-update-view"),
@@ -45,7 +45,7 @@ urlpatterns = [
 
     # SKILLED NURSING
     path("skillednursing/list", views.snf_list_view),
-    # path("skillednursing/create", views.snf_create_view),
+    path("skillednursing/create", views.snf_create_view, name="snf-create-view"),
     path("skillednursing/details/<int:id>", views.snf_detail_view),
     path("skillednursing/update/<int:id>", views.snf_update_view,
          name="snf-update-view"),

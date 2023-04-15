@@ -34,18 +34,6 @@ def home_view(request):
     return render(request, "home-view.html", context=context)
 
 
-def alf_list_view(request):
-    alf_p = Paginator(AssistedLivingFacilities.objects.all(), 2)
-    page = request.GET.get("page")
-    alfs = alf_p.get_page(page)
-
-    context = {
-        "alfs": alfs,
-    }
-
-    return render(request, "assistedliving/list.html", context=context)
-
-
 def snf_list_view(request):
     snf_p = Paginator(SkilledNursingFacilities.objects.all(), 2)
     page = request.GET.get("page")
@@ -91,6 +79,18 @@ def alf_view(request):
     }
 
     return render(request, "assistedliving-view.html", context=context)
+
+
+def alf_list_view(request):
+    alf_p = Paginator(AssistedLivingFacilities.objects.all(), 2)
+    page = request.GET.get("page")
+    alfs = alf_p.get_page(page)
+
+    context = {
+        "alfs": alfs,
+    }
+
+    return render(request, "assistedliving/list.html", context=context)
 
 
 def alf_detail_view(request, id=None):
@@ -244,6 +244,26 @@ def hhc_search_view(request):
     return render(request, "homehealth/search.html", context=context)
 
 
+def hhc_create_view(request):
+    submitted = False
+    if request.method == "POST":
+        form = HomeHealthForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("create?submitted=True")
+    else:
+        form = HomeHealthForm
+        if "submitted" in request.GET:
+            submitted = True
+
+    context = {
+        "form": form,
+        "submitted": submitted,
+    }
+
+    return render(request, "homehealth/create.html", context=context)
+
+
 # SKILLED NURSING VIEWS
 def snf_view(request):
     snf_qs = SkilledNursingFacilities.objects.get()
@@ -313,6 +333,26 @@ def snf_search_view(request):
     }
 
     return render(request, "skillednursing/search.html", context=context)
+
+
+def snf_create_view(request):
+    submitted = False
+    if request.method == "POST":
+        form = SkilledNursingForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("create?submitted=True")
+    else:
+        form = SkilledNursingForm
+        if "submitted" in request.GET:
+            submitted = True
+
+    context = {
+        "form": form,
+        "submitted": submitted,
+    }
+
+    return render(request, "skillednursing/create.html", context=context)
 
 
 # HOSPICE VIEWS
