@@ -55,19 +55,19 @@
 
 ---
 
-## [<img src="https://i.imgur.com/gaQKJDe.png">](https://trello.com/invite/b/1SdKlV4i/ATTI4fff3197d33c9f135d00c0c16341fbd5E8239493/a-blue-rainbow)
+## [<img src="https://i.imgur.com/gaQKJDe.png" width="auto" height="auto">](https://trello.com/invite/b/1SdKlV4i/ATTI4fff3197d33c9f135d00c0c16341fbd5E8239493/a-blue-rainbow)
 
 ## FIGMA
 
 ---
 
-## [<img src="https://i.imgur.com/H9Ewk1I.png">](https://www.figma.com/file/9wPt9jTNYenlrenaPXJ1EN/a-blue-rainbow?node-id=0%3A1&t=NCAIVY6DkH5cBFRv-1)
+## [<img src="https://i.imgur.com/H9Ewk1I.png" width="auto" height="auto">](https://www.figma.com/file/9wPt9jTNYenlrenaPXJ1EN/a-blue-rainbow?node-id=0%3A1&t=NCAIVY6DkH5cBFRv-1)
 
 ## ERD
 
 ---
 
-## [<img src="https://i.imgur.com/15im14W.png">](https://lucid.app/lucidchart/484a42ec-2a22-42e9-b235-1cf9540c5ee5/edit?viewport_loc=32%2C-142%2C2160%2C2460%2C0_0&invitationId=inv_61cfa2cd-203f-49d1-976a-6ec5c7470dd5)
+## [<img src="https://i.imgur.com/15im14W.png" width="auto" height="auto">](https://lucid.app/lucidchart/484a42ec-2a22-42e9-b235-1cf9540c5ee5/edit?viewport_loc=32%2C-142%2C2160%2C2460%2C0_0&invitationId=inv_61cfa2cd-203f-49d1-976a-6ec5c7470dd5)
 
 ## TECHNOLOGIES USED
 
