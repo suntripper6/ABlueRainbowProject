@@ -73,7 +73,16 @@
 
 ---
 
+- VS Code
 - PyCharm
 - Django for FE & BE
 - PSQL
 - Bootstrap 5
+
+## RESOURCES
+
+---
+
+- [W3 SCHOOLS](https://www.w3schools.com/)
+- [Django Docs](https://docs.djangoproject.com/en/4.2/)
+- [Microsoft Entity Framework](https://learn.microsoft.com/en-us/ef/core/) - super weird, I know
