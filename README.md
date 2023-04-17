@@ -78,6 +78,7 @@
 - Django for FE & BE
 - PSQL
 - Bootstrap 5
+- Adobe Express
 
 ## RESOURCES
 
