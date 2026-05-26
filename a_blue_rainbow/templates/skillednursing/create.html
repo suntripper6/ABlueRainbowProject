@@ -1,17 +1,23 @@
 {% extends "base.html" %} {% block content %}
-<div class="container p-5 my-5 details">
-  <h1>Create Skilled Nursing Facility</h1>
-  {% if submitted %} The Facility Was Added Successfully! {% else %}
-  <form
-    action=""
-    method="POST"
-    class="form-control"
-    style="background-color: rgb(137, 221, 249)"
-  >
-    {% csrf_token %}
-    <div>{{ form.as_p }}</div>
-    <input type="submit" value="Submit" class="btn btn-secondary" />
-  </form>
-  {% endif %}
-</div>
+<section class="page-shell">
+  <div class="page-intro">
+    <p class="section-kicker">Skilled Nursing</p>
+    <h1 class="page-title">Add a Skilled Nursing Facility</h1>
+    <p class="page-subtitle">Use the refreshed form layout to add a new skilled nursing record.</p>
+  </div>
+  <div class="panel form-panel">
+    {% if submitted %}
+      <div class="status-banner">
+        <strong>Facility added successfully.</strong>
+        <p>Your skilled nursing entry is now in the directory.</p>
+      </div>
+    {% else %}
+      <form action="" method="POST" class="form-shell">
+        {% csrf_token %}
+        <div>{{ form.as_p }}</div>
+        <input type="submit" value="Save Facility" class="btn btn-secondary" />
+      </form>
+    {% endif %}
+  </div>
+</section>
 {% endblock content %}

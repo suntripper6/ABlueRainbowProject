@@ -1,49 +1,68 @@
 {% extends "base.html" %} {% block content %}
-<div class="container p-5 my-5">
-  <h2>Home Health Care Resources</h2>
-  <table class="table table-striped table-hover">
-    <thead class="table-info">
-      <tr>
-        <th>Name</th>
-        <th>Address</th>
-        <th>City</th>
-        <th>State</th>
-        <th>Zip Code</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for hhc in hhcs %}
-        <tr>
-          <td><a href="/homehealth/details/{{ hhc.id }}">{{ hhc.name }}</a></td>
-          <td>{{ hhc.address }}</td>
-          <td>{{ hhc.city }}</td>
-          <td>{{ hhc.state }}</td>
-          <td>{{ hhc.zip_code }}</td>
-      {% endfor %}
-        </tr>
-    </tbody>
-  </table>
-  <div>
-    <nav aria-label="Page navigation example">
-      <ul class="pagination">
-        {% if hhcs.has_previous %}
-          <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
-          <li class="page-item"><a class="page-link" href="?page={{ hhcs.previous_page_number }}">Previous</a></li>
-        {% endif %}
-          <li class="page-item disabled"><a class="page-link" href="#">Page {{ hhcs.number }} of {{ hhcs.paginator.num_pages }}</a></li>
-        {% if hhcs.has_next %}
-          <li class="page-item"><a class="page-link" href="?page={{ hhcs.next_page_number }}">Next</a></li>
-          <li class="page-item"></li><a class="page-link" href="?page={{ hhcs.paginator.num_pages }}">Last &raquo;</a></li>
-        {% endif %}
-      </ul>
-    </nav>
+<section class="page-shell page-shell--wide">
+  <div class="page-intro">
+    <p class="section-kicker">Care Directory</p>
+    <div class="section-heading">
+      <div>
+        <h1 class="page-title">Home Health Care Resources</h1>
+        <p class="page-subtitle">Review home health support providers in a cleaner, more readable resource table.</p>
+        <div class="page-meta">
+          <span class="count-pill">{{ hhcs.paginator.count }} resources</span>
+        </div>
+      </div>
+      <a href="{% url 'hhc-create-view' %}" class="btn btn-primary page-cta">Add Resource</a>
+    </div>
   </div>
-  <div>
-    <a
-      href="{% url 'hhc-create-view' %}"
-      class="btn btn-primary"
-      >CREATE</a
-    >
+  <div class="panel table-panel">
+    <div class="table-responsive">
+      <table class="table app-table align-middle">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Zip Code</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for hhc in hhcs %}
+            <tr>
+              <td><a href="/homehealth/details/{{ hhc.id }}">{{ hhc.name }}</a></td>
+              <td>{{ hhc.address }}</td>
+              <td>{{ hhc.city }}</td>
+              <td>{{ hhc.state }}</td>
+              <td>{{ hhc.zip_code }}</td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="5" class="empty-cell">
+                <div class="table-empty-state">
+                  <strong>No home health resources yet</strong>
+                  <p>Add the first home health provider to make this directory section useful.</p>
+                  <a href="{% url 'hhc-create-view' %}" class="btn btn-secondary">Create First Entry</a>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="pagination-bar mt-4">
+      <nav aria-label="Home health pagination">
+        <ul class="pagination mb-0">
+          {% if hhcs.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ hhcs.previous_page_number }}">Previous</a></li>
+          {% endif %}
+          <li class="page-item disabled"><span class="page-link">Page {{ hhcs.number }} of {{ hhcs.paginator.num_pages }}</span></li>
+          {% if hhcs.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ hhcs.next_page_number }}">Next</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ hhcs.paginator.num_pages }}">Last</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
   </div>
-</div>
+</section>
 {% endblock content %}

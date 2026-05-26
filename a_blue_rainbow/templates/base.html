@@ -4,17 +4,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A Blue Rainbow helps families find elder care providers and local care resources."
+    />
     <title>A Blue Rainbow</title>
-    {% load bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %}
-    <link rel="short cut icon" type="img/png" href="{% static "favicon.ico" %}">
+    {% load django_bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}">
     <link rel="stylesheet" href="{% static 'css/abr.css' %}" />
   </head>
-  <body>
-    <div>
-      <nav class="navbar navbar-expand-sm navbar-dark style="background-color: rgb(32, 197, 252);">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="javascript:void(0)">A Blue Rainbow</a>
+  <body class="site-chrome d-flex flex-column min-vh-100">
+    <header class="site-header">
+      <nav class="navbar navbar-expand-lg navbar-dark site-nav">
+        <div class="container-fluid px-0">
+          <a class="navbar-brand brand-mark" href="/">A Blue Rainbow</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -34,20 +41,23 @@
               </li>
               <li class="nav-item"><a class="nav-link" href="/feedback">Feedback</a></li>
             </ul>
-        <form class="d-flex" action="{% url 'search-facilities' %}" method="POST">
-          {% csrf_token %}
-          <input type="search" class="form-control me-2" aria-label="Search" placeholder="Search Facilities" name="searched">
-          <button class="btn btn-outline-secondary" type="submit">Search</button>
-        </form>
-      </nav>
-    </div>    
-    <div class="jumbotron">    
-      {% block content %} {% endblock content %}
-    </div>
-    <footer class="bg-light text-center text-lg-start style="background-color: rgb(32, 197, 252);">
-        <div class="text-center p-3" style="background-color: rgb(32, 197, 252);">
-          &copy; <script type="text/javascript">document.write(new Date().getFullYear());</script> A Blue Rainbow
+            <form class="d-flex top-search" action="{% url 'search-facilities' %}" method="POST">
+              {% csrf_token %}
+              <input type="search" class="form-control" aria-label="Search" placeholder="Search facilities by name" name="searched">
+              <button class="btn btn-outline-secondary" type="submit">Search</button>
+            </form>
+          </div>
         </div>
+      </nav>
+    </header>
+    <main class="app-main flex-grow-1">
+      {% block content %} {% endblock content %}
+    </main>
+    <footer class="site-footer">
+      <div class="footer-panel text-center text-lg-start d-flex flex-column flex-lg-row justify-content-between gap-2">
+        <div><strong>A Blue Rainbow</strong> helps families compare care options with a calmer, clearer experience.</div>
+        <div>&copy; <script type="text/javascript">document.write(new Date().getFullYear());</script> A Blue Rainbow</div>
+      </div>
     </footer>
   </body>
 </html>

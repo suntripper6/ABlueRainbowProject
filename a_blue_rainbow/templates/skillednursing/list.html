@@ -1,51 +1,68 @@
-{% extends "base.html" %} {% block content %} 
-<div class="container p-5 my-5">
-    <h2>Skilled Nursing Facilities</h2>
-    <table class="table table-striped table-hover">
-      <thead class="table-info">
-        <tr>
-          <th>Name</th>
-          <th>Address</th>
-          <th>City</th>
-          <th>State</th>
-          <th>Zip Code</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for snf in snfs %}
+{% extends "base.html" %} {% block content %}
+<section class="page-shell page-shell--wide">
+  <div class="page-intro">
+    <p class="section-kicker">Care Directory</p>
+    <div class="section-heading">
+      <div>
+        <h1 class="page-title">Skilled Nursing Facilities</h1>
+        <p class="page-subtitle">Explore skilled nursing facilities with stronger hierarchy, softer surfaces, and more legible pagination.</p>
+        <div class="page-meta">
+          <span class="count-pill">{{ snfs.paginator.count }} facilities</span>
+        </div>
+      </div>
+      <a href="{% url 'snf-create-view' %}" class="btn btn-primary page-cta">Add Facility</a>
+    </div>
+  </div>
+  <div class="panel table-panel">
+    <div class="table-responsive">
+      <table class="table app-table align-middle">
+        <thead>
           <tr>
-            <td>
-              <a href="/skillednursing/details/{{ snf.id }}">{{ snf.name }}</a>
-            </td>
-            <td>{{ snf.address }}</td>
-            <td>{{ snf.city }}</td>
-            <td>{{ snf.state }}</td>
-            <td>{{ snf.zip_code }}</td>
+            <th>Name</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Zip Code</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for snf in snfs %}
+            <tr>
+              <td><a href="/skillednursing/details/{{ snf.id }}">{{ snf.name }}</a></td>
+              <td>{{ snf.address }}</td>
+              <td>{{ snf.city }}</td>
+              <td>{{ snf.state }}</td>
+              <td>{{ snf.zip_code }}</td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="5" class="empty-cell">
+                <div class="table-empty-state">
+                  <strong>No skilled nursing facilities yet</strong>
+                  <p>Add the first skilled nursing provider to populate this section.</p>
+                  <a href="{% url 'snf-create-view' %}" class="btn btn-secondary">Create First Entry</a>
+                </div>
+              </td>
+            </tr>
           {% endfor %}
-        </tr>
-      </tbody>
-    </table>
-  <div>
-    <nav aria-label="Page navigation example">
-      <ul class="pagination">
-        {% if snfs.has_previous %}
-          <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
-          <li class="page-item"><a class="page-link" href="?page={{ snfs.previous_page_number }}">Previous</a></li>
-        {% endif %}
-          <li class="page-item disabled"><a class="page-link" href="#">Page {{ snfs.number }} of {{ snfs.paginator.num_pages }}</a></li>
-        {% if snfs.has_next %}
-          <li class="page-item"><a class="page-link" href="?page={{ snfs.next_page_number }}">Next</a></li>
-          <li class="page-item"></li><a class="page-link" href="?page={{ snfs.paginator.num_pages }}">Last &raquo;</a></li>
-        {% endif %}
-      </ul>
-    </nav>
+        </tbody>
+      </table>
+    </div>
+    <div class="pagination-bar mt-4">
+      <nav aria-label="Skilled nursing pagination">
+        <ul class="pagination mb-0">
+          {% if snfs.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ snfs.previous_page_number }}">Previous</a></li>
+          {% endif %}
+          <li class="page-item disabled"><span class="page-link">Page {{ snfs.number }} of {{ snfs.paginator.num_pages }}</span></li>
+          {% if snfs.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ snfs.next_page_number }}">Next</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ snfs.paginator.num_pages }}">Last</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
   </div>
-  <div>
-    <a
-      href="{% url 'snf-create-view' %}"
-      class="btn btn-primary"
-      >CREATE</a
-    >
-  </div>
-</div>
+</section>
 {% endblock content %}

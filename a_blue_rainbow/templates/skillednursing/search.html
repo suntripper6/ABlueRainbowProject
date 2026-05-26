@@ -1,5 +1,29 @@
-{% extends "base.html" %} {% block content %} {% if object %}
-<p>{{ object.name }}</p>
-<!-- <p>{{ object.address }}</p> -->
-
-{% endif %} {% endblock content %}
+{% extends "base.html" %} {% block content %}
+<section class="page-shell">
+	<div class="panel result-panel">
+		<p class="section-kicker">Skilled Nursing Search</p>
+		{% if object %}
+			<div class="search-result-card">
+				<div>
+					<h1 class="page-title">{{ object.name }}</h1>
+					<p class="page-subtitle">A matching skilled nursing facility is ready to review.</p>
+				</div>
+				<div class="search-meta">
+					<span><strong>Address:</strong> {{ object.address|default:"Not listed" }}</span>
+					<span><strong>City:</strong> {{ object.city|default:"Not listed" }}</span>
+					<span><strong>Phone:</strong> {{ object.phone_number|default:"Not listed" }}</span>
+				</div>
+				<div class="action-row">
+					<a href="/skillednursing/details/{{ object.id }}" class="btn btn-primary">Open Details</a>
+					<a href="/skillednursing/list" class="btn btn-secondary">Back to Directory</a>
+				</div>
+			</div>
+		{% else %}
+			<div class="empty-state">
+				<h1 class="page-title">No skilled nursing match</h1>
+				<p>Try another facility name or browse the full directory instead.</p>
+			</div>
+		{% endif %}
+	</div>
+</section>
+{% endblock content %}

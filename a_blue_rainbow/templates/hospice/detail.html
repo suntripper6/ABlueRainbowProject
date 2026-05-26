@@ -1,35 +1,39 @@
 {% extends "base.html" %} {% block content %}
+<section class="page-shell">
+  <div class="panel detail-panel">
+    <p class="section-kicker">Hospice</p>
+    <h1 class="page-title">{{ hospice_obj.name }}</h1>
+    <p class="detail-address">{{ hospice_obj.address }}</p>
+    <p class="detail-description">{{ hospice_obj.city }}, {{ hospice_obj.state }} {{ hospice_obj.zip_code }}</p>
 
-<div class="container p-5 my-5 details">
-  <h2>{{ hospice_obj.name }}</h2>
-  <p>{{ hospice_obj.address }}</p>
-  <p>
-    {{ hospice_obj.city }}, {{ hospice_obj.state }} {{ hospice_obj.zip_code }}
-  </p>
-  <p>{{ hospice_obj.phone_number }}</p>
-  <p>
-    <a href="{{ hospice_obj.official_website }}"
-      >Official Website: {{ hospice_ob.name }}</a
-    >
-  </p>
-  <p>
-    <a href="{{ hospice_obj.map }}" target="_blank" class="btn btn-success"
-      >Find On Map</a
-    >
-  </p>
-  <br />
-  <div>
-    <a
-      href="{% url 'hospice-update-view' hospice_obj.id %}"
-      class="btn btn-warning"
-      >UPDATE</a
-    >
-    <a
-      href="{% url 'hospice-delete-view' hospice_obj.id %}"
-      class="btn btn-danger"
-      >DELETE</a
-    >
+    <div class="detail-grid">
+      <div class="detail-card">
+        <h3>Phone</h3>
+        <p>{{ hospice_obj.phone_number|default:"Not listed" }}</p>
+      </div>
+      <div class="detail-card">
+        <h3>Website</h3>
+        {% if hospice_obj.official_website %}
+          <a href="{{ hospice_obj.official_website }}" class="detail-link" target="_blank" rel="noreferrer">Visit official site</a>
+        {% else %}
+          <p>Not listed</p>
+        {% endif %}
+      </div>
+      <div class="detail-card">
+        <h3>Map</h3>
+        {% if hospice_obj.map %}
+          <a href="{{ hospice_obj.map }}" class="detail-link" target="_blank" rel="noreferrer">Open map</a>
+        {% else %}
+          <p>Not listed</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="action-row">
+      {% if hospice_obj.map %}<a href="{{ hospice_obj.map }}" target="_blank" rel="noreferrer" class="btn btn-success">Find on Map</a>{% endif %}
+      <a href="{% url 'hospice-update-view' hospice_obj.id %}" class="btn btn-warning">Update</a>
+      <a href="{% url 'hospice-delete-view' hospice_obj.id %}" class="btn btn-danger">Delete</a>
+    </div>
   </div>
-</div>
-
+</section>
 {% endblock content %}

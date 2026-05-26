@@ -75,15 +75,95 @@
 
 - VS Code
 - PyCharm
-- Django for FE & BE
+- Django 5.2 LTS for FE & BE
 - PSQL
 - Bootstrap 5
 - Adobe Express
+
+## GETTING STARTED
+
+---
+
+### Local development
+
+1. Create or activate a virtual environment.
+2. Install the dependencies with Pipenv:
+
+```bash
+pipenv sync
+```
+
+If you are using the existing project virtual environment instead:
+
+```bash
+./.venv/bin/pip install 'Django>=5.2,<5.3' djangorestframework psycopg2-binary djangorestframework-simplejwt django-cors-headers django-bootstrap5
+```
+
+3. Run the local database migrations:
+
+```bash
+./.venv/bin/python manage.py migrate
+```
+
+4. Start the development server:
+
+```bash
+./.venv/bin/python manage.py runserver 127.0.0.1:8000
+```
+
+The development commands use `ABlueRainbowProject.settings_dev` by default.
+
+The application uses SQLite by default for local development. To switch to PostgreSQL, set `ABR_DB_ENGINE=postgresql` together with `ABR_DB_NAME`, `ABR_DB_USER`, `ABR_DB_PASSWORD`, `ABR_DB_HOST`, and `ABR_DB_PORT` before running migrations.
+
+### Environment configuration
+
+The project now supports environment-driven Django settings. The most useful variables are:
+
+- `DJANGO_DEBUG`
+- `DJANGO_SECRET_KEY`
+- `DJANGO_ALLOWED_HOSTS`
+- `DJANGO_CSRF_TRUSTED_ORIGINS`
+- `DJANGO_SECURE_SSL_REDIRECT`
+- `DJANGO_SESSION_COOKIE_SECURE`
+- `DJANGO_CSRF_COOKIE_SECURE`
+- `DJANGO_SECURE_HSTS_SECONDS`
+- `DJANGO_USE_X_FORWARDED_PROTO`
+
+Example production-style validation:
+
+```bash
+DJANGO_SECRET_KEY='replace-this-with-a-long-random-secret-key' \
+DJANGO_ALLOWED_HOSTS='127.0.0.1,localhost' \
+DJANGO_CSRF_TRUSTED_ORIGINS='http://127.0.0.1:8000,http://localhost:8000' \
+DJANGO_SETTINGS_MODULE=ABlueRainbowProject.settings_prod \
+./.venv/bin/python manage.py check --deploy
+```
+
+### Production server path
+
+The repository now includes a Gunicorn entrypoint and production settings module.
+
+Collect static assets with the production settings before starting the server:
+
+```bash
+DJANGO_SECRET_KEY='replace-this-with-a-long-random-secret-key' \
+DJANGO_ALLOWED_HOSTS='your-domain.example' \
+DJANGO_SETTINGS_MODULE=ABlueRainbowProject.settings_prod \
+./.venv/bin/python manage.py collectstatic --noinput
+```
+
+Start Gunicorn directly:
+
+```bash
+DJANGO_SECRET_KEY='replace-this-with-a-long-random-secret-key' \
+DJANGO_ALLOWED_HOSTS='your-domain.example' \
+./.venv/bin/gunicorn ABlueRainbowProject.wsgi:application --config gunicorn.conf.py
+```
 
 ## RESOURCES
 
 ---
 
 - [W3 SCHOOLS](https://www.w3schools.com/)
-- [Django Docs](https://docs.djangoproject.com/en/4.2/)
+- [Django Docs](https://docs.djangoproject.com/en/5.2/)
 - [Microsoft Entity Framework](https://learn.microsoft.com/en-us/ef/core/) - super weird, I know

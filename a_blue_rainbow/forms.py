@@ -1,11 +1,10 @@
 from django import forms
 from django.forms import ModelForm
-from .models import HospiceFacilities, AssistedLivingFacilities, HomeHealthFacilities, SkilledNursingFacilities, UserFeedback
+from .models import HospiceFacility, AssistedLivingFacility, HomeHealthFacility, SkilledNursingFacility, UserFeedback
 
 
-class HospiceForm(ModelForm):
+class BaseFacilityForm(ModelForm):
     class Meta:
-        model = HospiceFacilities
         fields = ("name", "address", "city", "state", "zip_code")
         labels = {
             "name": "",
@@ -23,67 +22,39 @@ class HospiceForm(ModelForm):
         }
 
 
-class AssistedLivingForm(ModelForm):
+class HospiceFacilityForm(BaseFacilityForm):
     class Meta:
-        model = AssistedLivingFacilities
-        fields = ("name", "address", "city", "state", "zip_code")
-        labels = {
-            "name": "",
-            "address": "",
-            "city": "",
-            "state": "",
-            "zip_code": "",
-        }
-        widgets = {
-            "name": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility Name"}),
-            "address": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility Address"}),
-            "city": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility City"}),
-            "state": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility State"}),
-            "zip_code": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility Zip Code"}),
-        }
+        model = HospiceFacility
+        fields = BaseFacilityForm.Meta.fields
+        labels = BaseFacilityForm.Meta.labels
+        widgets = BaseFacilityForm.Meta.widgets
 
 
-class HomeHealthForm(ModelForm):
+class AssistedLivingFacilityForm(BaseFacilityForm):
     class Meta:
-        model = HomeHealthFacilities
-        fields = ("name", "address", "city", "state", "zip_code")
-        labels = {
-            "name": "",
-            "address": "",
-            "city": "",
-            "state": "",
-            "zip_code": "",
-        }
-        widgets = {
-            "name": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility Name"}),
-            "address": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility Address"}),
-            "city": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility City"}),
-            "state": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility State"}),
-            "zip_code": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility Zip Code"}),
-        }
+        model = AssistedLivingFacility
+        fields = BaseFacilityForm.Meta.fields
+        labels = BaseFacilityForm.Meta.labels
+        widgets = BaseFacilityForm.Meta.widgets
 
 
-class SkilledNursingForm(ModelForm):
+class HomeHealthFacilityForm(BaseFacilityForm):
     class Meta:
-        model = SkilledNursingFacilities
-        fields = ("name", "address", "city", "state", "zip_code")
-        labels = {
-            "name": "",
-            "address": "",
-            "city": "",
-            "state": "",
-            "zip_code": "",
-        }
-        widgets = {
-            "name": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility Name"}),
-            "address": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility Address"}),
-            "city": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility City"}),
-            "state": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility State"}),
-            "zip_code": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Facility Zip Code"}),
-        }
+        model = HomeHealthFacility
+        fields = BaseFacilityForm.Meta.fields
+        labels = BaseFacilityForm.Meta.labels
+        widgets = BaseFacilityForm.Meta.widgets
 
 
-class FeedbackForm(ModelForm):
+class SkilledNursingFacilityForm(BaseFacilityForm):
+    class Meta:
+        model = SkilledNursingFacility
+        fields = BaseFacilityForm.Meta.fields
+        labels = BaseFacilityForm.Meta.labels
+        widgets = BaseFacilityForm.Meta.widgets
+
+
+class UserFeedbackForm(ModelForm):
     class Meta:
         model = UserFeedback
         fields = ("name", "email", "comments")

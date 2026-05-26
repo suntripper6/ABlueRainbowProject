@@ -1,52 +1,68 @@
-{% extends "base.html" %} {% block content %} 
-<div class="container p-5 my-5">
-    <h2>Hospice</h2>
-    <table class="table table-striped table-hover">
-      <thead class="table-info">
-        <tr>
-          <th>Name</th>
-          <th>Address</th>
-          <th>City</th>
-          <th>State</th>
-          <th>Zip Code</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for hospice in hosps %}
+{% extends "base.html" %} {% block content %}
+<section class="page-shell page-shell--wide">
+  <div class="page-intro">
+    <p class="section-kicker">Care Directory</p>
+    <div class="section-heading">
+      <div>
+        <h1 class="page-title">Hospice Resources</h1>
+        <p class="page-subtitle">Review hospice providers in a lighter, more current layout built for quick comparison.</p>
+        <div class="page-meta">
+          <span class="count-pill">{{ hosps.paginator.count }} providers</span>
+        </div>
+      </div>
+      <a href="{% url 'hospice-create-view' %}" class="btn btn-primary page-cta">Add Provider</a>
+    </div>
+  </div>
+  <div class="panel table-panel">
+    <div class="table-responsive">
+      <table class="table app-table align-middle">
+        <thead>
           <tr>
-            <td>
-              <a href="/hospice/details/{{ hospice.id }}">{{ hospice.name }}</a>
-            </td>
-            <td> {{ hospice.address }}</td>
-            <td>{{ hospice.city }}</td>
-            <td>{{ hospice.state }}</td>
-            <td> {{ hospice.zip_code }}</td>
-            </td>
+            <th>Name</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Zip Code</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for hospice in hosps %}
+            <tr>
+              <td><a href="/hospice/details/{{ hospice.id }}">{{ hospice.name }}</a></td>
+              <td>{{ hospice.address }}</td>
+              <td>{{ hospice.city }}</td>
+              <td>{{ hospice.state }}</td>
+              <td>{{ hospice.zip_code }}</td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="5" class="empty-cell">
+                <div class="table-empty-state">
+                  <strong>No hospice providers yet</strong>
+                  <p>Add the first hospice provider to give this section a useful starting point.</p>
+                  <a href="{% url 'hospice-create-view' %}" class="btn btn-secondary">Create First Entry</a>
+                </div>
+              </td>
+            </tr>
           {% endfor %}
-        </tr>
-      </tbody>
-    </table>
-    <div>
-      <nav aria-label="Page navigation example">
-        <ul class="pagination">
+        </tbody>
+      </table>
+    </div>
+    <div class="pagination-bar mt-4">
+      <nav aria-label="Hospice pagination">
+        <ul class="pagination mb-0">
           {% if hosps.has_previous %}
-            <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
+            <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
             <li class="page-item"><a class="page-link" href="?page={{ hosps.previous_page_number }}">Previous</a></li>
           {% endif %}
-            <li class="page-item disabled"><a class="page-link" href="#">Page {{ hosps.number }} of {{ hosps.paginator.num_pages }}</a></li>
+          <li class="page-item disabled"><span class="page-link">Page {{ hosps.number }} of {{ hosps.paginator.num_pages }}</span></li>
           {% if hosps.has_next %}
             <li class="page-item"><a class="page-link" href="?page={{ hosps.next_page_number }}">Next</a></li>
-            <li class="page-item"></li><a class="page-link" href="?page={{ hosps.paginator.num_pages }}">Last &raquo;</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ hosps.paginator.num_pages }}">Last</a></li>
           {% endif %}
         </ul>
       </nav>
-      <div>
-        <a
-          href="{% url 'hospice-create-view'%}"
-          class="btn btn-primary"
-          >CREATE</a
-        >
-      </div>
     </div>
   </div>
+</section>
 {% endblock content %}

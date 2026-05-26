@@ -1,529 +1,381 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.template.loader import render_to_string
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.generic import CreateView, DetailView, ListView, TemplateView, UpdateView, View
 from rest_framework import generics
-from rest_framework.views import APIView
-from .serializer import UserFeedBackSerializer, HomeHealthFacilitiesSerializer, AssistedLivingFacilitiesSerializer, \
-    SkilledNursingFacilitiesSerializer, HospiceFacilitiesSerializer, StateSerializer, ProviderSerializer
-from .models import UserFeedback, HomeHealthFacilities, AssistedLivingFacilities, SkilledNursingFacilities, \
-    HospiceFacilities, States, Providers
-from .forms import HospiceForm, HomeHealthForm, AssistedLivingForm, SkilledNursingForm, FeedbackForm
-from django.core.paginator import Paginator
 
+from .forms import (
+    AssistedLivingFacilityForm,
+    HomeHealthFacilityForm,
+    HospiceFacilityForm,
+    SkilledNursingFacilityForm,
+    UserFeedbackForm,
+)
+from .models import (
+    AssistedLivingFacility,
+    HomeHealthFacility,
+    HospiceFacility,
+    Provider,
+    SkilledNursingFacility,
+    State,
+    UserFeedback,
+)
+from .serializer import (
+    AssistedLivingFacilitySerializer,
+    HomeHealthFacilitySerializer,
+    HospiceFacilitySerializer,
+    ProviderSerializer,
+    SkilledNursingFacilitySerializer,
+    StateSerializer,
+    UserFeedbackSerializer,
+)
 
-# HOME VIEW
-def home_view(request):
-    return render(request, "home-view.html")
 
-# SELECT FACILITY
+def _first_named_match(queryset, query):
+    cleaned_query = (query or "").strip()
+    if not cleaned_query:
+        return None
+    return queryset.filter(name__icontains=cleaned_query).order_by("name").first()
 
 
-# SEARCH FACILITIES
-def search_facilities(request):
-    if request.method == "POST":
-        searched = request.POST["searched"]
-        alf = AssistedLivingFacilities.objects.filter(
-            name__icontains=searched).get()
-        return render(request, "search_facilities.html", {"searched": searched, "object": alf})
+class HomePageView(TemplateView):
+    template_name = "home-view.html"
 
 
-# ASSISTED LIVING VIEWS
-def alf_view(request):
-    alf_qs = AssistedLivingFacilities.objects.get()
+class FacilityDirectorySearchView(TemplateView):
+    template_name = "search_facilities.html"
+    model = AssistedLivingFacility
 
-    context = {
-        "alf_qs": alf_qs
-    }
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        searched = self.request.POST.get("searched", "") if self.request.method == "POST" else ""
+        context.update(
+            {
+                "searched": searched,
+                "object": _first_named_match(self.model.objects.all(), searched),
+            }
+        )
+        return context
 
-    return render(request, "assistedliving-view.html", context=context)
+    def post(self, request, *args, **kwargs):
+        return self.get(request, *args, **kwargs)
 
 
-def alf_list_view(request):
-    alf_p = Paginator(AssistedLivingFacilities.objects.all(), 2)
-    page = request.GET.get("page")
-    alfs = alf_p.get_page(page)
+class FacilityListPageView(ListView):
+    paginate_by = 2
+    ordering = ("name",)
 
-    context = {
-        "alfs": alfs,
-    }
+    def get_queryset(self):
+        return self.model.objects.order_by(*self.ordering)
 
-    return render(request, "assistedliving/list.html", context=context)
 
+class FacilityDetailPageView(DetailView):
+    pk_url_kwarg = "id"
 
-def alf_detail_view(request, id=None):
-    alf_obj = None
 
-    if id is not None:
-        alf_obj = AssistedLivingFacilities.objects.get(id=id)
+class FacilityCreatePageView(CreateView):
+    success_path = "create?submitted=True"
 
-    context = {
-        "alf_obj": alf_obj
-    }
+    def get_success_url(self):
+        return self.success_path
 
-    return render(request, "assistedliving/detail.html", context=context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["submitted"] = "submitted" in self.request.GET
+        return context
 
 
-def alf_update_view(request, id):
-    alf_obj = AssistedLivingFacilities.objects.get(id=id)
-    form = AssistedLivingForm(request.POST or None, instance=alf_obj)
+class FacilityUpdatePageView(UpdateView):
+    pk_url_kwarg = "id"
+    success_path = "/"
 
-    context = {
-        "alf_obj": alf_obj,
-        "form": form
-    }
+    def get_success_url(self):
+        return self.success_path
 
-    if form.is_valid():
-        form.save()
-        return HttpResponseRedirect("/assistedliving/list")
 
-    return render(request, "assistedliving/update.html", context=context)
+class FacilityDeletePageView(View):
+    model = None
+    success_path = "/"
 
+    def get(self, request, *args, **kwargs):
+        return self._delete(kwargs["id"])
 
-def alf_delete_view(request, id=None):
-    alf_obj = None
+    def post(self, request, *args, **kwargs):
+        return self._delete(kwargs["id"])
 
-    if id is not None:
-        alf_obj = AssistedLivingFacilities.objects.get(pk=id)
-        alf_obj.delete()
-        return HttpResponseRedirect("/assistedliving/list")
+    def _delete(self, facility_id):
+        get_object_or_404(self.model, pk=facility_id).delete()
+        return HttpResponseRedirect(self.success_path)
 
-    return redirect("/")
 
+class FacilitySearchPageView(TemplateView):
+    model = None
 
-def alf_search_view(request):
-    query_dict = request.GET
-    query = query_dict.get("q")
-    alf_obj = None
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["object"] = _first_named_match(self.model.objects.all(), self.request.GET.get("q", ""))
+        return context
 
-    try:
-        query = query_dict.get("q")
-    except:
-        query = None
 
-    if query is not None:
-        alf_obj = AssistedLivingFacilities.objects.filter(
-            name__icontains=query).get()
+class AssistedLivingListPageView(FacilityListPageView):
+    model = AssistedLivingFacility
+    context_object_name = "alfs"
+    template_name = "assistedliving/list.html"
 
-    context = {
-        "object": alf_obj,
-    }
 
-    return render(request, "assistedliving/search.html", context=context)
+class AssistedLivingDetailPageView(FacilityDetailPageView):
+    model = AssistedLivingFacility
+    context_object_name = "alf_obj"
+    template_name = "assistedliving/detail.html"
 
 
-def alf_create_view(request):
-    submitted = False
-    if request.method == "POST":
-        form = AssistedLivingForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect("create?submitted=True")
-    else:
-        form = AssistedLivingForm
-        if "submitted" in request.GET:
-            submitted = True
+class AssistedLivingCreatePageView(FacilityCreatePageView):
+    form_class = AssistedLivingFacilityForm
+    template_name = "assistedliving/create.html"
 
-    context = {
-        "form": form,
-        "submitted": submitted,
-    }
 
-    return render(request, "assistedliving/create.html", context=context)
+class AssistedLivingUpdatePageView(FacilityUpdatePageView):
+    model = AssistedLivingFacility
+    form_class = AssistedLivingFacilityForm
+    context_object_name = "alf_obj"
+    template_name = "assistedliving/update.html"
+    success_path = "/assistedliving/list"
 
 
-# HOMEHEALTHCARE VIEWS
-def hhc_view(request):
-    hhc_qs = HomeHealthFacilities.objects.get()
+class AssistedLivingDeletePageView(FacilityDeletePageView):
+    model = AssistedLivingFacility
+    success_path = "/assistedliving/list"
 
-    context = {
-        "hhc_qs": hhc_qs
-    }
 
-    return render(request, "homehealth-view.html", context=context)
+class AssistedLivingSearchPageView(FacilitySearchPageView):
+    model = AssistedLivingFacility
+    template_name = "assistedliving/search.html"
 
 
-def hhc_list_view(request):
-    hhc_p = Paginator(HomeHealthFacilities.objects.all(), 2)
-    page = request.GET.get("page")
-    hhcs = hhc_p.get_page(page)
+class HomeHealthListPageView(FacilityListPageView):
+    model = HomeHealthFacility
+    context_object_name = "hhcs"
+    template_name = "homehealth/list.html"
 
-    context = {
-        "hhcs": hhcs,
-    }
 
-    return render(request, "homehealth/list.html", context=context)
+class HomeHealthDetailPageView(FacilityDetailPageView):
+    model = HomeHealthFacility
+    context_object_name = "hhc_obj"
+    template_name = "homehealth/detail.html"
 
 
-def hhc_detail_view(request, id=None):
-    hhc_obj = None
+class HomeHealthCreatePageView(FacilityCreatePageView):
+    form_class = HomeHealthFacilityForm
+    template_name = "homehealth/create.html"
 
-    if id is not None:
-        hhc_obj = HomeHealthFacilities.objects.get(id=id)
 
-    context = {
-        "hhc_obj": hhc_obj
-    }
+class HomeHealthUpdatePageView(FacilityUpdatePageView):
+    model = HomeHealthFacility
+    form_class = HomeHealthFacilityForm
+    context_object_name = "hhc_obj"
+    template_name = "homehealth/update.html"
+    success_path = "/homehealth/list"
 
-    return render(request, "homehealth/detail.html", context=context)
 
+class HomeHealthDeletePageView(FacilityDeletePageView):
+    model = HomeHealthFacility
+    success_path = "/homehealth/list"
 
-def hhc_update_view(request, id):
-    hhc_obj = HomeHealthFacilities.objects.get(id=id)
-    form = HomeHealthForm(request.POST or None, instance=hhc_obj)
 
-    context = {
-        "hhc_obj": hhc_obj,
-        "form": form
-    }
+class HomeHealthSearchPageView(FacilitySearchPageView):
+    model = HomeHealthFacility
+    template_name = "homehealth/search.html"
 
-    if form.is_valid():
-        form.save()
-        return HttpResponseRedirect("/homehealth/list")
 
-    return render(request, "homehealth/update.html", context=context)
+class SkilledNursingListPageView(FacilityListPageView):
+    model = SkilledNursingFacility
+    context_object_name = "snfs"
+    template_name = "skillednursing/list.html"
 
 
-def hhc_delete_view(request, id=None):
-    hhc_obj = None
+class SkilledNursingDetailPageView(FacilityDetailPageView):
+    model = SkilledNursingFacility
+    context_object_name = "snf_obj"
+    template_name = "skillednursing/detail.html"
 
-    if id is not None:
-        hhc_obj = HomeHealthFacilities.objects.get(pk=id)
-        hhc_obj.delete()
-        return HttpResponseRedirect("/homehealth/list")
 
-    return redirect("/")
+class SkilledNursingCreatePageView(FacilityCreatePageView):
+    form_class = SkilledNursingFacilityForm
+    template_name = "skillednursing/create.html"
 
 
-def hhc_search_view(request):
-    query_dict = request.GET
-    query = query_dict.get("q")
-    hhc_obj = None
+class SkilledNursingUpdatePageView(FacilityUpdatePageView):
+    model = SkilledNursingFacility
+    form_class = SkilledNursingFacilityForm
+    context_object_name = "snf_obj"
+    template_name = "skillednursing/update.html"
+    success_path = "/skillednursing/list"
 
-    try:
-        query = query_dict.get("q")
-    except:
-        query = None
 
-    if query is not None:
-        hhc_obj = HomeHealthFacilities.objects.filter(
-            name__icontains=query).get()
+class SkilledNursingDeletePageView(FacilityDeletePageView):
+    model = SkilledNursingFacility
+    success_path = "/skillednursing/list"
 
-    context = {
-        "object": hhc_obj,
-    }
 
-    return render(request, "homehealth/search.html", context=context)
+class SkilledNursingSearchPageView(FacilitySearchPageView):
+    model = SkilledNursingFacility
+    template_name = "skillednursing/search.html"
 
 
-def hhc_create_view(request):
-    submitted = False
-    if request.method == "POST":
-        form = HomeHealthForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect("create?submitted=True")
-    else:
-        form = HomeHealthForm
-        if "submitted" in request.GET:
-            submitted = True
+class HospiceListPageView(FacilityListPageView):
+    model = HospiceFacility
+    context_object_name = "hosps"
+    template_name = "hospice/list.html"
 
-    context = {
-        "form": form,
-        "submitted": submitted,
-    }
 
-    return render(request, "homehealth/create.html", context=context)
+class HospiceDetailPageView(FacilityDetailPageView):
+    model = HospiceFacility
+    context_object_name = "hospice_obj"
+    template_name = "hospice/detail.html"
 
 
-# SKILLED NURSING VIEWS
-def snf_view(request):
-    snf_qs = SkilledNursingFacilities.objects.get()
+class HospiceCreatePageView(FacilityCreatePageView):
+    form_class = HospiceFacilityForm
+    template_name = "hospice/create.html"
 
-    context = {
-        "snf_qs": snf_qs
-    }
 
-    return render(request, "skillednursing-view.html", context=context)
+class HospiceUpdatePageView(FacilityUpdatePageView):
+    model = HospiceFacility
+    form_class = HospiceFacilityForm
+    context_object_name = "hospice_obj"
+    template_name = "hospice/update.html"
+    success_path = "/hospice/list"
 
 
-def snf_list_view(request):
-    snf_p = Paginator(SkilledNursingFacilities.objects.all(), 2)
-    page = request.GET.get("page")
-    snfs = snf_p.get_page(page)
+class HospiceDeletePageView(FacilityDeletePageView):
+    model = HospiceFacility
+    success_path = "/hospice/list"
 
-    context = {
-        "snfs": snfs,
-    }
 
-    return render(request, "skillednursing/list.html", context=context)
+class HospiceSearchPageView(FacilitySearchPageView):
+    model = HospiceFacility
+    template_name = "hospice/search.html"
 
 
-def snf_detail_view(request, id=None):
-    snf_obj = None
+home_view = HomePageView.as_view()
+search_facilities = FacilityDirectorySearchView.as_view()
 
-    if id is not None:
-        snf_obj = SkilledNursingFacilities.objects.get(id=id)
+alf_list_view = AssistedLivingListPageView.as_view()
+alf_detail_view = AssistedLivingDetailPageView.as_view()
+alf_create_view = AssistedLivingCreatePageView.as_view()
+alf_update_view = AssistedLivingUpdatePageView.as_view()
+alf_delete_view = AssistedLivingDeletePageView.as_view()
+alf_search_view = AssistedLivingSearchPageView.as_view()
 
-    context = {
-        "snf_obj": snf_obj
-    }
+hhc_list_view = HomeHealthListPageView.as_view()
+hhc_detail_view = HomeHealthDetailPageView.as_view()
+hhc_create_view = HomeHealthCreatePageView.as_view()
+hhc_update_view = HomeHealthUpdatePageView.as_view()
+hhc_delete_view = HomeHealthDeletePageView.as_view()
+hhc_search_view = HomeHealthSearchPageView.as_view()
 
-    return render(request, "skillednursing/detail.html", context=context)
+snf_list_view = SkilledNursingListPageView.as_view()
+snf_detail_view = SkilledNursingDetailPageView.as_view()
+snf_create_view = SkilledNursingCreatePageView.as_view()
+snf_update_view = SkilledNursingUpdatePageView.as_view()
+snf_delete_view = SkilledNursingDeletePageView.as_view()
+snf_search_view = SkilledNursingSearchPageView.as_view()
 
+hospice_list_view = HospiceListPageView.as_view()
+hospice_detail_view = HospiceDetailPageView.as_view()
+hospice_create_view = HospiceCreatePageView.as_view()
+hospice_update_view = HospiceUpdatePageView.as_view()
+hospice_delete_view = HospiceDeletePageView.as_view()
+hospice_search_view = HospiceSearchPageView.as_view()
 
-def snf_update_view(request, id):
-    snf_obj = SkilledNursingFacilities.objects.get(id=id)
-    form = SkilledNursingForm(request.POST or None, instance=snf_obj)
 
-    context = {
-        "snf_obj": snf_obj,
-        "form": form
-    }
+class UserFeedbackCreatePageView(CreateView):
+    form_class = UserFeedbackForm
+    template_name = "userfeedback/feedback.html"
+    success_url = "/?submitted"
 
-    if form.is_valid():
-        form.save()
-        return HttpResponseRedirect("/skillednursing/list")
 
-    return render(request, "skillednursing/update.html", context=context)
+userfeedback_create_view = UserFeedbackCreatePageView.as_view()
 
 
-def snf_delete_view(request, id=None):
-    snf_obj = None
+class OrderedListCreateAPIView(generics.ListCreateAPIView):
+    ordering = ()
 
-    if id is not None:
-        snf_obj = SkilledNursingFacilities.objects.get(pk=id)
-        snf_obj.delete()
-        return HttpResponseRedirect("/skillednursing/list")
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.order_by(*self.ordering) if self.ordering else queryset
 
-    return redirect("/")
 
+class OrderedFacilityListView(OrderedListCreateAPIView):
+    ordering = ("name",)
 
-def snf_search_view(request):
-    query_dict = request.GET
-    query = query_dict.get("q")
-    snf_obj = None
 
-    try:
-        query = query_dict.get("q")
-    except:
-        query = None
+class UserFeedbackListView(generics.ListCreateAPIView):
+    queryset = UserFeedback.objects.order_by("name", "id")
+    serializer_class = UserFeedbackSerializer
 
-    if query is not None:
-        snf_obj = HomeHealthFacilities.objects.filter(
-            name__icontains=query).get()
 
-    context = {
-        "object": snf_obj,
-    }
-
-    return render(request, "skillednursing/search.html", context=context)
-
-
-def snf_create_view(request):
-    submitted = False
-    if request.method == "POST":
-        form = SkilledNursingForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect("create?submitted=True")
-    else:
-        form = SkilledNursingForm
-        if "submitted" in request.GET:
-            submitted = True
-
-    context = {
-        "form": form,
-        "submitted": submitted,
-    }
-
-    return render(request, "skillednursing/create.html", context=context)
-
-
-# HOSPICE VIEWS
-def hospice_view(request):
-    hospice_qs = HospiceFacilities.objects.all()
-
-    context = {
-        "hospice_qs": hospice_qs
-    }
-
-    return render(request, "hospice-view.html", context=context)
-
-
-def hospice_list_view(request):
-    hosp_pg = Paginator(HospiceFacilities.objects.all(), 2)
-    page = request.GET.get("page")
-    hosps = hosp_pg.get_page(page)
-
-    context = {
-        "hosps": hosps,
-    }
-
-    return render(request, "hospice/list.html", context=context)
-
-
-def hospice_detail_view(request, id=None):
-    hospice_obj = None
-
-    if id is not None:
-        hospice_obj = HospiceFacilities.objects.get(id=id)
-
-    context = {
-        "hospice_obj": hospice_obj
-    }
-
-    return render(request, "hospice/detail.html", context=context)
-
-
-def hospice_update_view(request, id):
-    hospice_obj = HospiceFacilities.objects.get(id=id)
-    form = HospiceForm(request.POST or None, instance=hospice_obj)
-
-    context = {
-        "hospice_obj": hospice_obj,
-        "form": form
-    }
-
-    if form.is_valid():
-        form.save()
-        return HttpResponseRedirect("/hospice/list")
-
-    return render(request, "hospice/update.html", context=context)
-
-
-def hospice_delete_view(request, id=None):
-    hospice_obj = None
-
-    if id is not None:
-        hospice_obj = HospiceFacilities.objects.get(pk=id)
-        hospice_obj.delete()
-        return HttpResponseRedirect("/hospice/list")
-
-    return render(request, "hospice/list.html")
-
-
-def hospice_search_view(request):
-    query_dict = request.GET
-    query = query_dict.get("q")
-    hospice_obj = None
-
-    try:
-        query = query_dict.get("q")
-    except:
-        query = None
-
-    if query is not None:
-        hospice_obj = HospiceFacilities.objects.filter(
-            name__icontains=query).get()
-
-    context = {
-        "object": hospice_obj,
-    }
-
-    return render(request, "hospice/search.html", context=context)
-
-
-def hospice_create_view(request):
-    submitted = False
-    if request.method == "POST":
-        form = HospiceForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect("create?submitted=True")
-    else:
-        form = HospiceForm
-        if "submitted" in request.GET:
-            submitted = True
-
-    context = {
-        "form": form,
-        "submitted": submitted,
-    }
-
-    return render(request, "hospice/create.html", context=context)
-
-
-# USER FEEDBACK
-def userfeedback_create_view(request):
-    form = FeedbackForm(request.POST or None)
-
-    if request.method == "POST":
-        if form.is_valid():
-            form.save()
-            return redirect("/?submitted")
-
-    context = {
-        "form": form,
-    }
-
-    return render(request, "userfeedback/feedback.html", context=context)
-
-
-class UserFeedBackListView(generics.ListCreateAPIView):
+class UserFeedbackDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = UserFeedback.objects.all()
-    serializer_class = UserFeedBackSerializer
+    serializer_class = UserFeedbackSerializer
 
 
-class UserFeedBackDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = UserFeedback.objects.all()
-    serializer_class = UserFeedBackSerializer
-
-
-class HomeHealthListView(generics.ListCreateAPIView):
-    queryset = HomeHealthFacilities.objects.all()
-    serializer_class = HomeHealthFacilitiesSerializer
+class HomeHealthListView(OrderedFacilityListView):
+    queryset = HomeHealthFacility.objects.all()
+    serializer_class = HomeHealthFacilitySerializer
 
 
 class HomeHealthDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = HomeHealthFacilities.objects.all()
-    serializer_class = HomeHealthFacilitiesSerializer
+    queryset = HomeHealthFacility.objects.all()
+    serializer_class = HomeHealthFacilitySerializer
 
 
-class AssistedLivingListView(generics.ListCreateAPIView):
-    queryset = AssistedLivingFacilities.objects.all()
-    serializer_class = AssistedLivingFacilitiesSerializer
+class AssistedLivingListView(OrderedFacilityListView):
+    queryset = AssistedLivingFacility.objects.all()
+    serializer_class = AssistedLivingFacilitySerializer
 
 
 class AssistedLivingDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = AssistedLivingFacilities.objects.all()
-    serializer_class = AssistedLivingFacilitiesSerializer
+    queryset = AssistedLivingFacility.objects.all()
+    serializer_class = AssistedLivingFacilitySerializer
 
 
-class SkilledNursingListView(generics.ListCreateAPIView):
-    queryset = SkilledNursingFacilities.objects.all()
-    serializer_class = SkilledNursingFacilitiesSerializer
+class SkilledNursingListView(OrderedFacilityListView):
+    queryset = SkilledNursingFacility.objects.all()
+    serializer_class = SkilledNursingFacilitySerializer
 
 
 class SkilledNursingDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = SkilledNursingFacilities.objects.all()
-    serializer_class = SkilledNursingFacilitiesSerializer
+    queryset = SkilledNursingFacility.objects.all()
+    serializer_class = SkilledNursingFacilitySerializer
 
 
-class HospiceListView(generics.ListCreateAPIView):
-    queryset = HospiceFacilities.objects.all()
-    serializer_class = HospiceFacilitiesSerializer
+class HospiceListView(OrderedFacilityListView):
+    queryset = HospiceFacility.objects.all()
+    serializer_class = HospiceFacilitySerializer
 
 
 class HospiceDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = HospiceFacilities.objects.all()
-    serializer_class = HospiceFacilitiesSerializer
+    queryset = HospiceFacility.objects.all()
+    serializer_class = HospiceFacilitySerializer
 
 
-class StateListView(generics.ListCreateAPIView):
-    queryset = States.objects.all()
+class StateListView(OrderedListCreateAPIView):
+    queryset = State.objects.all()
+    ordering = ("state", "city", "zip_code")
     serializer_class = StateSerializer
 
 
 class StateDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = States.objects.all()
+    queryset = State.objects.all()
     serializer_class = StateSerializer
 
 
-class ProviderListView(generics.ListCreateAPIView):
-    queryset = Providers.objects.all()
+class ProviderListView(OrderedListCreateAPIView):
+    queryset = Provider.objects.all()
+    ordering = ("facility_type", "facility_name")
     serializer_class = ProviderSerializer
 
 
 class ProviderDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Providers.objects.all()
+    queryset = Provider.objects.all()
     serializer_class = ProviderSerializer

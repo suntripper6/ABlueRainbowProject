@@ -1,11 +1,29 @@
 {% extends "base.html" %} {% block content %}
-
-<center>
-  {% if searched %}
-  <h1>You searched for..{{ object }}.</h1>
-  {% else %}
-  <h1>You forgot to search</h1>
-  {% endif %}
-</center>
-
+<section class="page-shell">
+  <div class="panel result-panel">
+    <p class="section-kicker">Directory Search</p>
+    {% if object %}
+      <div class="search-result-card">
+        <div>
+          <h1 class="page-title">{{ object.name }}</h1>
+          <p class="page-subtitle">We found a matching facility for "{{ searched }}".</p>
+        </div>
+        <div class="search-meta">
+          <span><strong>Address:</strong> {{ object.address|default:"Not listed" }}</span>
+          <span><strong>City:</strong> {{ object.city|default:"Not listed" }}</span>
+          <span><strong>Phone:</strong> {{ object.phone_number|default:"Not listed" }}</span>
+        </div>
+        <div class="action-row">
+          <a href="/assistedliving/details/{{ object.id }}" class="btn btn-primary">View Details</a>
+          <a href="/assistedliving/list" class="btn btn-secondary">Browse Assisted Living</a>
+        </div>
+      </div>
+    {% else %}
+      <div class="empty-state">
+        <h1 class="page-title">No matching facility found</h1>
+        <p>{% if searched %}We could not find a result for "{{ searched }}".{% else %}Enter a facility name in the header search to get started.{% endif %}</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
 {% endblock content %}

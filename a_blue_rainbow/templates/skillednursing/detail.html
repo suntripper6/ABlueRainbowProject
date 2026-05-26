@@ -1,29 +1,39 @@
 {% extends "base.html" %} {% block content %}
+<section class="page-shell">
+  <div class="panel detail-panel">
+    <p class="section-kicker">Skilled Nursing</p>
+    <h1 class="page-title">{{ snf_obj.name }}</h1>
+    <p class="detail-address">{{ snf_obj.address }}</p>
+    <p class="detail-description">{{ snf_obj.city }}, {{ snf_obj.state }} {{ snf_obj.zip_code }}</p>
 
-<div class="container p-5 my-5 details">
-  <h2>{{ snf_obj.name }}</h2>
-  <p>{{ snf_obj.address }}</p>
-  <p>{{ snf_obj.city }}, {{ snf_obj.state }} {{ snf_obj.zip_code }}</p>
-  <p>{{ snf_obj.phone_number }}</p>
-  <p>
-    <a href="{{ snf_obj.official_website }}"
-      >Official Website: {{ snf_obj.name }}</a
-    >
-  </p>
-  <p>
-    <a href="{{ snf_obj.map }}" target="_blank" class="btn btn-success"
-      >Find On Map</a
-    >
-  </p>
-  <br />
-  <div>
-    <a href="{% url 'snf-update-view' snf_obj.id %}" class="btn btn-warning"
-      >UPDATE</a
-    >
-    <a href="{% url 'snf-delete-view' snf_obj.id %}" class="btn btn-danger"
-      >DELETE</a
-    >
+    <div class="detail-grid">
+      <div class="detail-card">
+        <h3>Phone</h3>
+        <p>{{ snf_obj.phone_number|default:"Not listed" }}</p>
+      </div>
+      <div class="detail-card">
+        <h3>Website</h3>
+        {% if snf_obj.official_website %}
+          <a href="{{ snf_obj.official_website }}" class="detail-link" target="_blank" rel="noreferrer">Visit official site</a>
+        {% else %}
+          <p>Not listed</p>
+        {% endif %}
+      </div>
+      <div class="detail-card">
+        <h3>Map</h3>
+        {% if snf_obj.map %}
+          <a href="{{ snf_obj.map }}" class="detail-link" target="_blank" rel="noreferrer">Open map</a>
+        {% else %}
+          <p>Not listed</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="action-row">
+      {% if snf_obj.map %}<a href="{{ snf_obj.map }}" target="_blank" rel="noreferrer" class="btn btn-success">Find on Map</a>{% endif %}
+      <a href="{% url 'snf-update-view' snf_obj.id %}" class="btn btn-warning">Update</a>
+      <a href="{% url 'snf-delete-view' snf_obj.id %}" class="btn btn-danger">Delete</a>
+    </div>
   </div>
-</div>
-
+</section>
 {% endblock content %}

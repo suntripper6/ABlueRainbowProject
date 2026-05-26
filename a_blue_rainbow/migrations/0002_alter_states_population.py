@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='states',
             name='population',
-            field=models.CharField(null=True),
+            field=models.CharField(max_length=50, null=True),
         ),
     ]

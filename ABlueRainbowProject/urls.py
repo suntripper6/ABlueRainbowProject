@@ -22,6 +22,7 @@ from a_blue_rainbow import views
 urlpatterns = [
     # HOME
     path("", views.home_view, name="home-view"),
+     path("api/", include("a_blue_rainbow.urls")),
 
     # ASSISTED LIVING
     path("assistedliving/", views.alf_search_view),
@@ -65,5 +66,4 @@ urlpatterns = [
     path("search_facilities", views.search_facilities, name="search-facilities"),
     path("admin/", admin.site.urls),
 
-    # path('api/', include('a_blue_rainbow.urls')),
 ]

@@ -1,7 +1,6 @@
 from django.db import models
 
 
-# Create your models here.
 class UserFeedback(models.Model):
     name = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
@@ -11,7 +10,7 @@ class UserFeedback(models.Model):
         return self.name
 
 
-class States(models.Model):
+class State(models.Model):
     zip_code = models.IntegerField(null=True)
     latitude = models.FloatField(null=True)
     longitude = models.FloatField(null=True)
@@ -31,21 +30,26 @@ class States(models.Model):
     timezone = models.CharField(max_length=50, null=True)
     state_abbrev = models.CharField(max_length=50, null=True)
 
+    class Meta:
+        db_table = "a_blue_rainbow_states"
+
     def __str__(self):
-        return self.state, self.state_abbrev, self.county_name, self.city
+        parts = [self.city, self.state_abbrev or self.state, self.zip_code]
+        return ", ".join(str(part) for part in parts if part)
 
 
-class Providers(models.Model):
+class Provider(models.Model):
     facility_type = models.CharField(max_length=50)
     facility_name = models.CharField(max_length=255)
 
+    class Meta:
+        db_table = "a_blue_rainbow_providers"
+
     def __str__(self):
-        return self.facility_type
+        return self.facility_name or self.facility_type
 
 
-class HospiceFacilities(models.Model):
-    facility_type = models.ForeignKey(
-        Providers, on_delete=models.CASCADE, related_name='hospice', default=3)
+class FacilityBase(models.Model):
     name = models.CharField(max_length=500)
     address = models.CharField(max_length=500)
     city = models.CharField(max_length=255)
@@ -58,71 +62,49 @@ class HospiceFacilities(models.Model):
     reviews = models.TextField(null=True)
     official_website = models.CharField(max_length=255, null=True)
 
+    class Meta:
+        abstract = True
+
     def __str__(self):
         return self.name
 
 
-class SkilledNursingFacilities(models.Model):
+class HospiceFacility(FacilityBase):
     facility_type = models.ForeignKey(
-        Providers, on_delete=models.CASCADE, related_name='skilled_nursing', default=4)
-    name = models.CharField(max_length=500)
-    address = models.CharField(max_length=500)
-    city = models.CharField(max_length=255)
-    state = models.CharField(max_length=255)
-    zip_code = models.CharField(max_length=15)
-    phone_number = models.CharField(max_length=15, null=True)
-    medicare_elig = models.BooleanField(default=True, null=True)
+        Provider, on_delete=models.CASCADE, related_name='hospice', default=3)
+
+    class Meta:
+        db_table = "a_blue_rainbow_hospicefacilities"
+
+
+class SkilledNursingFacility(FacilityBase):
+    facility_type = models.ForeignKey(
+        Provider, on_delete=models.CASCADE, related_name='skilled_nursing', default=4)
     transportation_services = models.BooleanField(default=True, null=True)
     case_management = models.BooleanField(default=True, null=True)
-    map = models.TextField(null=True)
-    rating = models.IntegerField(null=True)
-    reviews = models.TextField(null=True)
-    official_website = models.CharField(max_length=255, null=True)
 
-    def __str__(self):
-        return self.name
+    class Meta:
+        db_table = "a_blue_rainbow_skillednursingfacilities"
 
 
-class AssistedLivingFacilities(models.Model):
+class AssistedLivingFacility(FacilityBase):
     facility_type = models.ForeignKey(
-        Providers, on_delete=models.CASCADE, related_name='assisted_living', default=1)
-    name = models.CharField(max_length=500)
-    address = models.CharField(max_length=500)
-    city = models.CharField(max_length=255)
-    state = models.CharField(max_length=255)
-    zip_code = models.CharField(max_length=15)
-    phone_number = models.CharField(max_length=15, null=True)
-    medicare_elig = models.BooleanField(default=True, null=True)
+        Provider, on_delete=models.CASCADE, related_name='assisted_living', default=1)
     transportation_services = models.BooleanField(default=True, null=True)
     case_management = models.BooleanField(default=True, null=True)
-    map = models.TextField(null=True)
-    rating = models.IntegerField(null=True)
-    reviews = models.TextField(null=True)
-    official_website = models.CharField(max_length=255, null=True)
 
-    def __str__(self):
-        return self.name
+    class Meta:
+        db_table = "a_blue_rainbow_assistedlivingfacilities"
 
 
-class HomeHealthFacilities(models.Model):
+class HomeHealthFacility(FacilityBase):
     facility_type = models.ForeignKey(
-        Providers, on_delete=models.CASCADE, related_name='home_health', default=2)
-    name = models.CharField(max_length=500)
-    address = models.CharField(max_length=500)
-    city = models.CharField(max_length=255)
-    state = models.CharField(max_length=255)
-    zip_code = models.CharField(max_length=15)
-    phone_number = models.CharField(max_length=15, null=True)
-    medicare_elig = models.BooleanField(default=True, null=True)
+        Provider, on_delete=models.CASCADE, related_name='home_health', default=2)
     private_duty_aide = models.BooleanField(default=True, null=True)
     private_duty_nurse = models.BooleanField(default=True, null=True)
     skilled_therapy = models.BooleanField(default=True, null=True)
     transportation_services = models.BooleanField(default=True, null=True)
     case_management = models.BooleanField(default=True, null=True)
-    map = models.TextField(null=True)
-    rating = models.IntegerField(null=True)
-    reviews = models.TextField(null=True)
-    official_website = models.CharField(max_length=255, null=True)
 
-    def __str__(self):
-        return self.name
+    class Meta:
+        db_table = "a_blue_rainbow_homehealthfacilities"

@@ -1,10 +1,18 @@
 from django.contrib import admin
-from .models import UserFeedback, HomeHealthFacilities, AssistedLivingFacilities, SkilledNursingFacilities, \
-    HospiceFacilities, Providers, States
-# Register your models here.
+from .models import (
+    AssistedLivingFacility,
+    HomeHealthFacility,
+    HospiceFacility,
+    Provider,
+    SkilledNursingFacility,
+    State,
+    UserFeedback,
+)
+
+
 admin.site.register(UserFeedback)
-admin.site.register(Providers)
-admin.site.register(States)
+admin.site.register(Provider)
+admin.site.register(State)
 
 
 class FacilityAdmin(admin.ModelAdmin):
@@ -12,7 +20,7 @@ class FacilityAdmin(admin.ModelAdmin):
     search_fields = ['name', 'state']
 
 
-admin.site.register(AssistedLivingFacilities, FacilityAdmin)
-admin.site.register(HomeHealthFacilities, FacilityAdmin)
-admin.site.register(SkilledNursingFacilities, FacilityAdmin)
-admin.site.register(HospiceFacilities, FacilityAdmin)
+admin.site.register(AssistedLivingFacility, FacilityAdmin)
+admin.site.register(HomeHealthFacility, FacilityAdmin)
+admin.site.register(SkilledNursingFacility, FacilityAdmin)
+admin.site.register(HospiceFacility, FacilityAdmin)
