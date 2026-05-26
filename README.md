@@ -4,7 +4,7 @@
 
 ### This is a centralized, online resource to assist primary caretakers in locating the best possible care for their loved ones.
 
-### Initially the Project will start with 1 county (Manatee) and 1 state (FL) .
+### Initially the Project will start with 1 county and 1 state.
 
 ## PROFESSIONAL LINKS
 

@@ -10,7 +10,9 @@
           <span class="count-pill">{{ hosps.paginator.count }} providers</span>
         </div>
       </div>
-      <a href="{% url 'hospice-create-view' %}" class="btn btn-primary page-cta">Add Provider</a>
+      {% if user.is_staff %}
+        <a href="{% url 'hospice-create-view' %}" class="btn btn-primary page-cta">Add Provider</a>
+      {% endif %}
     </div>
   </div>
   <div class="panel table-panel">
@@ -40,7 +42,9 @@
                 <div class="table-empty-state">
                   <strong>No hospice providers yet</strong>
                   <p>Add the first hospice provider to give this section a useful starting point.</p>
-                  <a href="{% url 'hospice-create-view' %}" class="btn btn-secondary">Create First Entry</a>
+                  {% if user.is_staff %}
+                    <a href="{% url 'hospice-create-view' %}" class="btn btn-secondary">Create First Entry</a>
+                  {% endif %}
                 </div>
               </td>
             </tr>

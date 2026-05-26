@@ -1,9 +1,13 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.views import LoginView
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import CreateView, DetailView, ListView, TemplateView, UpdateView, View
-from rest_framework import generics
+from rest_framework import generics, permissions
 
 from .forms import (
+    AdminAuthenticationForm,
     AssistedLivingFacilityForm,
     HomeHealthFacilityForm,
     HospiceFacilityForm,
@@ -35,6 +39,31 @@ def _first_named_match(queryset, query):
     if not cleaned_query:
         return None
     return queryset.filter(name__icontains=cleaned_query).order_by("name").first()
+
+
+class StaffRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
+    login_url = "/login/"
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def handle_no_permission(self):
+        if not self.request.user.is_authenticated:
+            return super().handle_no_permission()
+        raise PermissionDenied("Admin access is required.")
+
+
+class IsStaffOrReadOnly(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.method in permissions.SAFE_METHODS or bool(
+            request.user and request.user.is_staff
+        )
+
+
+class AdminLoginPageView(LoginView):
+    authentication_form = AdminAuthenticationForm
+    template_name = "registration/login.html"
+    redirect_authenticated_user = True
 
 
 class HomePageView(TemplateView):
@@ -72,7 +101,7 @@ class FacilityDetailPageView(DetailView):
     pk_url_kwarg = "id"
 
 
-class FacilityCreatePageView(CreateView):
+class FacilityCreatePageView(StaffRequiredMixin, CreateView):
     success_path = "create?submitted=True"
 
     def get_success_url(self):
@@ -84,7 +113,7 @@ class FacilityCreatePageView(CreateView):
         return context
 
 
-class FacilityUpdatePageView(UpdateView):
+class FacilityUpdatePageView(StaffRequiredMixin, UpdateView):
     pk_url_kwarg = "id"
     success_path = "/"
 
@@ -92,7 +121,7 @@ class FacilityUpdatePageView(UpdateView):
         return self.success_path
 
 
-class FacilityDeletePageView(View):
+class FacilityDeletePageView(StaffRequiredMixin, View):
     model = None
     success_path = "/"
 
@@ -307,6 +336,11 @@ class OrderedListCreateAPIView(generics.ListCreateAPIView):
 
 class OrderedFacilityListView(OrderedListCreateAPIView):
     ordering = ("name",)
+    permission_classes = [IsStaffOrReadOnly]
+
+
+class FacilityDetailApiView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsStaffOrReadOnly]
 
 
 class UserFeedbackListView(generics.ListCreateAPIView):
@@ -324,7 +358,7 @@ class HomeHealthListView(OrderedFacilityListView):
     serializer_class = HomeHealthFacilitySerializer
 
 
-class HomeHealthDetailView(generics.RetrieveUpdateDestroyAPIView):
+class HomeHealthDetailView(FacilityDetailApiView):
     queryset = HomeHealthFacility.objects.all()
     serializer_class = HomeHealthFacilitySerializer
 
@@ -334,7 +368,7 @@ class AssistedLivingListView(OrderedFacilityListView):
     serializer_class = AssistedLivingFacilitySerializer
 
 
-class AssistedLivingDetailView(generics.RetrieveUpdateDestroyAPIView):
+class AssistedLivingDetailView(FacilityDetailApiView):
     queryset = AssistedLivingFacility.objects.all()
     serializer_class = AssistedLivingFacilitySerializer
 
@@ -344,7 +378,7 @@ class SkilledNursingListView(OrderedFacilityListView):
     serializer_class = SkilledNursingFacilitySerializer
 
 
-class SkilledNursingDetailView(generics.RetrieveUpdateDestroyAPIView):
+class SkilledNursingDetailView(FacilityDetailApiView):
     queryset = SkilledNursingFacility.objects.all()
     serializer_class = SkilledNursingFacilitySerializer
 
@@ -354,7 +388,7 @@ class HospiceListView(OrderedFacilityListView):
     serializer_class = HospiceFacilitySerializer
 
 
-class HospiceDetailView(generics.RetrieveUpdateDestroyAPIView):
+class HospiceDetailView(FacilityDetailApiView):
     queryset = HospiceFacility.objects.all()
     serializer_class = HospiceFacilitySerializer
 

@@ -10,7 +10,9 @@
           <span class="count-pill">{{ hhcs.paginator.count }} resources</span>
         </div>
       </div>
-      <a href="{% url 'hhc-create-view' %}" class="btn btn-primary page-cta">Add Resource</a>
+      {% if user.is_staff %}
+        <a href="{% url 'hhc-create-view' %}" class="btn btn-primary page-cta">Add Resource</a>
+      {% endif %}
     </div>
   </div>
   <div class="panel table-panel">
@@ -40,7 +42,9 @@
                 <div class="table-empty-state">
                   <strong>No home health resources yet</strong>
                   <p>Add the first home health provider to make this directory section useful.</p>
-                  <a href="{% url 'hhc-create-view' %}" class="btn btn-secondary">Create First Entry</a>
+                  {% if user.is_staff %}
+                    <a href="{% url 'hhc-create-view' %}" class="btn btn-secondary">Create First Entry</a>
+                  {% endif %}
                 </div>
               </td>
             </tr>

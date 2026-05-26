@@ -31,8 +31,10 @@
 
     <div class="action-row">
       {% if alf_obj.map %}<a href="{{ alf_obj.map }}" target="_blank" rel="noreferrer" class="btn btn-success">Find on Map</a>{% endif %}
-      <a href="{% url 'alf-update-view' alf_obj.id %}" class="btn btn-warning">Update</a>
-      <a href="{% url 'alf-delete-view' alf_obj.id %}" class="btn btn-danger">Delete</a>
+      {% if user.is_staff %}
+        <a href="{% url 'alf-update-view' alf_obj.id %}" class="btn btn-warning">Update</a>
+        <a href="{% url 'alf-delete-view' alf_obj.id %}" class="btn btn-danger">Delete</a>
+      {% endif %}
     </div>
   </div>
 </section>

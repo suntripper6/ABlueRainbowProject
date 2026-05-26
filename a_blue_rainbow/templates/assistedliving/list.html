@@ -10,7 +10,9 @@
           <span class="count-pill">{{ alfs.paginator.count }} facilities</span>
         </div>
       </div>
-      <a href="{% url 'alf-create-view' %}" class="btn btn-primary page-cta">Add Facility</a>
+      {% if user.is_staff %}
+        <a href="{% url 'alf-create-view' %}" class="btn btn-primary page-cta">Add Facility</a>
+      {% endif %}
     </div>
   </div>
   <div class="panel table-panel">
@@ -40,7 +42,9 @@
                 <div class="table-empty-state">
                   <strong>No assisted living facilities yet</strong>
                   <p>Start building the directory by adding the first assisted living provider.</p>
-                  <a href="{% url 'alf-create-view' %}" class="btn btn-secondary">Create First Entry</a>
+                  {% if user.is_staff %}
+                    <a href="{% url 'alf-create-view' %}" class="btn btn-secondary">Create First Entry</a>
+                  {% endif %}
                 </div>
               </td>
             </tr>

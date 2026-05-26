@@ -41,11 +41,26 @@
               </li>
               <li class="nav-item"><a class="nav-link" href="/feedback">Feedback</a></li>
             </ul>
-            <form class="d-flex top-search" action="{% url 'search-facilities' %}" method="POST">
-              {% csrf_token %}
-              <input type="search" class="form-control" aria-label="Search" placeholder="Search facilities by name" name="searched">
-              <button class="btn btn-outline-secondary" type="submit">Search</button>
-            </form>
+            <div class="d-flex align-items-center gap-3 flex-column flex-lg-row ms-lg-auto">
+              <form class="d-flex top-search" action="{% url 'search-facilities' %}" method="POST">
+                {% csrf_token %}
+                <input type="search" class="form-control" aria-label="Search" placeholder="Search facilities by name" name="searched">
+                <button class="btn btn-outline-secondary" type="submit">Search</button>
+              </form>
+              <div class="d-flex align-items-center gap-2">
+                {% if user.is_authenticated %}
+                  {% if user.is_staff %}
+                    <span class="text-white-50 small">Admin: {{ user.get_username }}</span>
+                  {% endif %}
+                  <form action="{% url 'logout' %}" method="POST" class="m-0">
+                    {% csrf_token %}
+                    <button class="btn btn-outline-light" type="submit">Log Out</button>
+                  </form>
+                {% else %}
+                  <a class="btn btn-outline-light" href="{% url 'login' %}">Admin Login</a>
+                {% endif %}
+              </div>
+            </div>
           </div>
         </div>
       </nav>

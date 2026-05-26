@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
@@ -16,6 +17,11 @@ class HomePageTests(TestCase):
 class AssistedLivingViewTests(TestCase):
 	@classmethod
 	def setUpTestData(cls):
+		cls.admin_user = get_user_model().objects.create_user(
+			username="facility-admin",
+			password="secure-pass-123",
+			is_staff=True,
+		)
 		provider = Provider.objects.create(
 			id=1,
 			facility_type="Assisted Living",
@@ -48,6 +54,8 @@ class AssistedLivingViewTests(TestCase):
 		self.assertEqual(response.status_code, 404)
 
 	def test_assisted_living_create_persists_new_facility(self):
+		self.client.force_login(self.admin_user)
+
 		response = self.client.post(
 			reverse("alf-create-view"),
 			{
@@ -66,6 +74,8 @@ class AssistedLivingViewTests(TestCase):
 		)
 
 	def test_assisted_living_update_changes_existing_facility(self):
+		self.client.force_login(self.admin_user)
+
 		response = self.client.post(
 			f"/assistedliving/update/{self.facility.pk}",
 			{
@@ -82,12 +92,45 @@ class AssistedLivingViewTests(TestCase):
 		self.assertEqual(self.facility.name, "Sunrise Manor Updated")
 
 	def test_assisted_living_delete_removes_facility(self):
+		self.client.force_login(self.admin_user)
+
 		response = self.client.get(f"/assistedliving/delete/{self.facility.pk}")
 
 		self.assertEqual(response.status_code, 302)
 		self.assertFalse(
 			AssistedLivingFacility.objects.filter(pk=self.facility.pk).exists()
 		)
+
+	def test_assisted_living_create_requires_admin_login(self):
+		response = self.client.get(reverse("alf-create-view"))
+
+		self.assertEqual(response.status_code, 302)
+		self.assertTrue(response["Location"].startswith("/login/?next="))
+
+
+class AuthenticationViewTests(TestCase):
+	@classmethod
+	def setUpTestData(cls):
+		cls.admin_user = get_user_model().objects.create_user(
+			username="site-admin",
+			password="secure-pass-123",
+			is_staff=True,
+		)
+
+	def test_login_page_renders(self):
+		response = self.client.get(reverse("login"))
+
+		self.assertEqual(response.status_code, 200)
+		self.assertContains(response, "Admin Sign In")
+
+	def test_staff_user_can_log_in(self):
+		response = self.client.post(
+			reverse("login"),
+			{"username": "site-admin", "password": "secure-pass-123"},
+		)
+
+		self.assertEqual(response.status_code, 302)
+		self.assertEqual(response["Location"], "/")
 
 
 class UserFeedbackViewTests(TestCase):
@@ -118,6 +161,11 @@ class UserFeedbackViewTests(TestCase):
 class ApiEndpointTests(TestCase):
 	@classmethod
 	def setUpTestData(cls):
+		cls.admin_user = get_user_model().objects.create_user(
+			username="api-admin",
+			password="secure-pass-123",
+			is_staff=True,
+		)
 		cls.provider = Provider.objects.create(
 			facility_type="Assisted Living",
 			facility_name="API Provider",
@@ -167,3 +215,38 @@ class ApiEndpointTests(TestCase):
 
 		self.assertEqual(response.status_code, 200)
 		self.assertEqual(response.json()["name"], "Avery Stone")
+
+	def test_assisted_living_api_create_requires_admin_authentication(self):
+		response = self.client.post(
+			"/api/assistedliving/",
+			{
+				"facility_type": self.provider.pk,
+				"name": "Locked Resource",
+				"address": "100 Secure Way",
+				"city": "Bradenton",
+				"state": "FL",
+				"zip_code": "34208",
+			},
+		)
+
+		self.assertIn(response.status_code, {401, 403})
+
+	def test_assisted_living_api_create_allows_admin_user(self):
+		self.client.force_login(self.admin_user)
+
+		response = self.client.post(
+			"/api/assistedliving/",
+			{
+				"facility_type": self.provider.pk,
+				"name": "Admin Manor",
+				"address": "100 Secure Way",
+				"city": "Bradenton",
+				"state": "FL",
+				"zip_code": "34208",
+			},
+		)
+
+		self.assertEqual(response.status_code, 201)
+		self.assertTrue(
+			AssistedLivingFacility.objects.filter(name="Admin Manor").exists()
+		)

@@ -31,8 +31,10 @@
 
     <div class="action-row">
       {% if hhc_obj.map %}<a href="{{ hhc_obj.map }}" target="_blank" rel="noreferrer" class="btn btn-success">Find on Map</a>{% endif %}
-      <a href="{% url 'hhc-update-view' hhc_obj.id %}" class="btn btn-warning">Update</a>
-      <a href="{% url 'hhc-delete-view' hhc_obj.id %}" class="btn btn-danger">Delete</a>
+      {% if user.is_staff %}
+        <a href="{% url 'hhc-update-view' hhc_obj.id %}" class="btn btn-warning">Update</a>
+        <a href="{% url 'hhc-delete-view' hhc_obj.id %}" class="btn btn-danger">Delete</a>
+      {% endif %}
     </div>
   </div>
 </section>

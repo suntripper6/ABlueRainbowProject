@@ -1,3 +1,4 @@
+from django.contrib.auth.forms import AuthenticationForm
 from django import forms
 from django.forms import ModelForm
 from .models import HospiceFacility, AssistedLivingFacility, HomeHealthFacility, SkilledNursingFacility, UserFeedback
@@ -68,3 +69,14 @@ class UserFeedbackForm(ModelForm):
             "email": forms.EmailInput(attrs={"class": "form-control", "placeholder": "Enter your email address"}),
             "comments": forms.Textarea(attrs={"class": "form-control", "placeholder": "Enter your comments"}),
         }
+
+
+class AdminAuthenticationForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["username"].widget.attrs.update(
+            {"class": "form-control", "placeholder": "Admin username", "autofocus": True}
+        )
+        self.fields["password"].widget.attrs.update(
+            {"class": "form-control", "placeholder": "Password"}
+        )
