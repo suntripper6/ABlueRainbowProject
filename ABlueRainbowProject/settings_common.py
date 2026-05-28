@@ -2,6 +2,8 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
+from django.core.exceptions import ImproperlyConfigured
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -18,23 +20,20 @@ def env_list(name, default=""):
     return [item.strip() for item in value.split(",") if item.strip()]
 
 
-def database_config():
-    if os.getenv("ABR_DB_ENGINE", "sqlite").lower() == "postgresql":
-        return {
-            "default": {
-                "ENGINE": "django.db.backends.postgresql",
-                "NAME": os.getenv("ABR_DB_NAME", "abluerainbow"),
-                "USER": os.getenv("ABR_DB_USER", "rainbowuser"),
-                "PASSWORD": os.getenv("ABR_DB_PASSWORD", "rainbow"),
-                "HOST": os.getenv("ABR_DB_HOST", "localhost"),
-                "PORT": os.getenv("ABR_DB_PORT", "5432"),
-            }
-        }
+def database_config(default_port="5432"):
+    if os.getenv("ABR_DB_ENGINE", "postgresql").lower() != "postgresql":
+        raise ImproperlyConfigured(
+            "ABR_DB_ENGINE must be set to 'postgresql' for this project."
+        )
 
     return {
         "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.getenv("ABR_DB_NAME", "abluerainbow"),
+            "USER": os.getenv("ABR_DB_USER", "rainbowuser"),
+            "PASSWORD": os.getenv("ABR_DB_PASSWORD", "rainbow"),
+            "HOST": os.getenv("ABR_DB_HOST", "localhost"),
+            "PORT": os.getenv("ABR_DB_PORT", default_port),
         }
     }
 

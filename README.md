@@ -113,7 +113,21 @@ If you are using the existing project virtual environment instead:
 
 The development commands use `ABlueRainbowProject.settings_dev` by default.
 
-The application uses SQLite by default for local development. To switch to PostgreSQL, set `ABR_DB_ENGINE=postgresql` together with `ABR_DB_NAME`, `ABR_DB_USER`, `ABR_DB_PASSWORD`, `ABR_DB_HOST`, and `ABR_DB_PORT` before running migrations.
+Local development now defaults to PostgreSQL. The default connection values are:
+
+- `ABR_DB_NAME=abluerainbow`
+- `ABR_DB_USER=rainbowuser`
+- `ABR_DB_PASSWORD=rainbow`
+- `ABR_DB_HOST=localhost`
+- `ABR_DB_PORT=5432`
+
+Override any of them with environment variables before running migrations.
+
+Load the local sample data after migrating:
+
+```bash
+./.venv/bin/python manage.py seed_sample_data
+```
 
 ### Environment configuration
 

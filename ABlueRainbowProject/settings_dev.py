@@ -3,6 +3,9 @@ import os
 from .settings_common import *
 
 
+DATABASES = database_config(default_port="5432")
+
+
 MIDDLEWARE = [
     middleware
     for middleware in MIDDLEWARE

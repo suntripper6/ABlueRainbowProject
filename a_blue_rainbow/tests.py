@@ -1,8 +1,17 @@
 from django.contrib.auth import get_user_model
+from django.core.management import call_command
 from django.test import TestCase
 from django.urls import reverse
 
-from .models import AssistedLivingFacility, Provider, UserFeedback
+from .models import (
+	AssistedLivingFacility,
+	HomeHealthFacility,
+	HospiceFacility,
+	Provider,
+	SkilledNursingFacility,
+	State,
+	UserFeedback,
+)
 
 
 class HomePageTests(TestCase):
@@ -250,3 +259,21 @@ class ApiEndpointTests(TestCase):
 		self.assertTrue(
 			AssistedLivingFacility.objects.filter(name="Admin Manor").exists()
 		)
+
+
+class SeedSampleDataCommandTests(TestCase):
+	def test_seed_sample_data_is_idempotent(self):
+		call_command("seed_sample_data")
+		call_command("seed_sample_data")
+
+		self.assertEqual(Provider.objects.count(), 4)
+		self.assertEqual(AssistedLivingFacility.objects.count(), 1)
+		self.assertEqual(HomeHealthFacility.objects.count(), 1)
+		self.assertEqual(HospiceFacility.objects.count(), 1)
+		self.assertEqual(SkilledNursingFacility.objects.count(), 1)
+		self.assertEqual(State.objects.count(), 1)
+		self.assertEqual(UserFeedback.objects.count(), 1)
+
+		assisted_living = AssistedLivingFacility.objects.get()
+		self.assertEqual(assisted_living.facility_type.facility_type, "Assisted Living")
+		self.assertEqual(assisted_living.city, "Palmetto")
