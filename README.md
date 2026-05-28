@@ -75,7 +75,7 @@
 
 - VS Code
 - PyCharm
-- Django 5.2 LTS for FE & BE
+- Django 6.0 for FE & BE
 - PSQL
 - Bootstrap 5
 - Adobe Express
@@ -96,7 +96,7 @@ pipenv sync
 If you are using the existing project virtual environment instead:
 
 ```bash
-./.venv/bin/pip install 'Django>=5.2,<5.3' djangorestframework psycopg2-binary djangorestframework-simplejwt django-cors-headers django-bootstrap5
+./.venv/bin/pip install 'Django>=6.0,<6.1' djangorestframework psycopg2-binary djangorestframework-simplejwt django-cors-headers django-bootstrap5
 ```
 
 3. Run the local database migrations:
@@ -179,5 +179,5 @@ DJANGO_ALLOWED_HOSTS='your-domain.example' \
 ---
 
 - [W3 SCHOOLS](https://www.w3schools.com/)
-- [Django Docs](https://docs.djangoproject.com/en/5.2/)
+- [Django Docs](https://docs.djangoproject.com/en/6.0/)
 - [Microsoft Entity Framework](https://learn.microsoft.com/en-us/ef/core/) - super weird, I know
