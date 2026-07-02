@@ -1,1 +1,0 @@
-web: gunicorn ABlueRainbowProject.wsgi:application --config gunicorn.conf.py

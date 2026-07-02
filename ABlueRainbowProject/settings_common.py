@@ -86,7 +86,7 @@ ROOT_URLCONF = "ABlueRainbowProject.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"] if (BASE_DIR / "templates").exists() else [],
+        "DIRS": [],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
