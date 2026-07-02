@@ -1,4 +1,5 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, filters
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import (
     AssistedLivingFacility,
     HomeHealthFacility,
@@ -34,6 +35,9 @@ class OrderedListCreateAPIView(generics.ListCreateAPIView):
 class OrderedFacilityListView(OrderedListCreateAPIView):
     ordering = ("name",)
     permission_classes = [IsStaffOrReadOnly]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_fields = ["city", "state", "zip_code"]
+    search_fields = ["name", "address", "city", "state", "zip_code"]
 
 class FacilityDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsStaffOrReadOnly]

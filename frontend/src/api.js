@@ -9,13 +9,13 @@ const api = axios.create({
   },
 });
 
-export const getAssistedLiving = () => api.get('assistedliving/');
+export const getAssistedLiving = (params) => api.get('assistedliving/', { params });
 export const getAssistedLivingDetail = (id) => api.get(`assistedliving/${id}/`);
-export const getHomeHealth = () => api.get('homehealth/');
+export const getHomeHealth = (params) => api.get('homehealth/', { params });
 export const getHomeHealthDetail = (id) => api.get(`homehealth/${id}/`);
-export const getSkilledNursing = () => api.get('skillednursing/');
+export const getSkilledNursing = (params) => api.get('skillednursing/', { params });
 export const getSkilledNursingDetail = (id) => api.get(`skillednursing/${id}/`);
-export const getHospice = () => api.get('hospice/');
+export const getHospice = (params) => api.get('hospice/', { params });
 export const getHospiceDetail = (id) => api.get(`hospice/${id}/`);
 export const getProviders = () => api.get('providers/');
 export const postFeedback = (data) => api.post('feedback/', data);

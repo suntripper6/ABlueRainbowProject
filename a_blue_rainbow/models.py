@@ -11,11 +11,11 @@ class UserFeedback(models.Model):
 
 
 class State(models.Model):
-    zip_code = models.IntegerField(null=True)
+    zip_code = models.IntegerField(null=True, db_index=True)
     latitude = models.FloatField(null=True)
     longitude = models.FloatField(null=True)
-    city = models.CharField(max_length=50, null=True)
-    state = models.CharField(max_length=50, null=True)
+    city = models.CharField(max_length=50, null=True, db_index=True)
+    state = models.CharField(max_length=50, null=True, db_index=True)
     zcta = models.BooleanField(null=True)
     parent_zcta = models.CharField(max_length=50, null=True)
     population = models.IntegerField(null=True)
@@ -39,8 +39,8 @@ class State(models.Model):
 
 
 class Provider(models.Model):
-    facility_type = models.CharField(max_length=50)
-    facility_name = models.CharField(max_length=255)
+    facility_type = models.CharField(max_length=50, db_index=True)
+    facility_name = models.CharField(max_length=255, db_index=True)
 
     class Meta:
         db_table = "a_blue_rainbow_providers"
@@ -50,11 +50,11 @@ class Provider(models.Model):
 
 
 class FacilityBase(models.Model):
-    name = models.CharField(max_length=500)
+    name = models.CharField(max_length=500, db_index=True)
     address = models.CharField(max_length=500)
-    city = models.CharField(max_length=255)
-    state = models.CharField(max_length=255)
-    zip_code = models.CharField(max_length=15)
+    city = models.CharField(max_length=255, db_index=True)
+    state = models.CharField(max_length=255, db_index=True)
+    zip_code = models.CharField(max_length=15, db_index=True)
     phone_number = models.CharField(max_length=15, null=True)
     medicare_elig = models.BooleanField(default=True, null=True)
     map = models.TextField(null=True)
