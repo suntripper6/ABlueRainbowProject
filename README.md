@@ -29,155 +29,64 @@
 
 ---
 
-- Be a new repo &check;
-- Include a beautiful, professional README.md (use markdown)
-- Your README should have links to socials, a detailed description of your project, technologies used, a getting started section (with links to your deployed site and Trello), screenshots of your final product, future updates, and credits.
-- Include a minimum of 3 models with at least 2 related to each other
-- At least 5 Components
-- Have full CRUD operations (POST, GET, PUT, DELETE) on at least one model
-- Use functional components with React hooks.
-- Utilize at least One piece of technology that we have not covered in class
-- Have at least 60 meaningful git commits - You should be committing your changes every time you build a new feature.
-- Your code should be properly indented, spaced, and within code blocks. DO NOT leave in commented out code that was left unused (bad practice).
-
-## STRETCH GOALS
-
----
-
-- Add auth
-- Add additional counties and states
-- Update DB with Python Web Scraper
-- Add timer to Python Web Scraper
-- Add throttling to manage web traffic
-- Give consideration and planning for load balancing
-
-## TRELLO
-
----
-
-## [<img src="https://i.imgur.com/gaQKJDe.png" width="auto" height="auto">](https://trello.com/invite/b/1SdKlV4i/ATTI4fff3197d33c9f135d00c0c16341fbd5E8239493/a-blue-rainbow)
-
-## FIGMA
-
----
-
-## [<img src="https://i.imgur.com/H9Ewk1I.png" width="auto" height="auto">](https://www.figma.com/file/9wPt9jTNYenlrenaPXJ1EN/a-blue-rainbow?node-id=0%3A1&t=NCAIVY6DkH5cBFRv-1)
-
-## ERD
-
----
-
-## [<img src="https://i.imgur.com/15im14W.png" width="auto" height="auto">](https://lucid.app/lucidchart/484a42ec-2a22-42e9-b235-1cf9540c5ee5/edit?viewport_loc=32%2C-142%2C2160%2C2460%2C0_0&invitationId=inv_61cfa2cd-203f-49d1-976a-6ec5c7470dd5)
+- Centralized care directory
+- Professional UI using React & Bootstrap 5
+- Robust backend using ASP.NET Core 8
+- PostgreSQL for reliable data storage
+- Full CRUD operations on care facilities
 
 ## TECHNOLOGIES USED
 
 ---
 
-- VS Code
-- PyCharm
-- Django 6.0 for FE & BE
-- PSQL
-- Bootstrap 5
-- Adobe Express
+- **Backend**: [ASP.NET Core 8 Web API (C#)](ABlueRainbowBackend/)
+- **Frontend**: [React (Vite)](frontend/)
+- **Database**: PostgreSQL
+- **ORM**: Entity Framework Core 8
+- **Styling**: Bootstrap 5
 
 ## GETTING STARTED
 
 ---
 
+### Prerequisites
+
+- [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+- [Node.js](https://nodejs.org/)
+- [PostgreSQL](https://www.postgresql.org/)
+
 ### Local development
 
-1. Create or activate a virtual environment.
-2. Install the dependencies with Pipenv:
+#### 1. Backend Setup
+
+Configure your PostgreSQL connection string in [ABlueRainbowBackend/appsettings.json](ABlueRainbowBackend/appsettings.json).
 
 ```bash
-pipenv sync
+cd ABlueRainbowBackend
+dotnet run
 ```
+The backend will automatically create the database and seed it with sample data on first run.
 
-If you are using the existing project virtual environment instead:
+#### 2. Frontend Setup
 
 ```bash
-./.venv/bin/pip install 'Django>=6.0,<6.1' djangorestframework psycopg2-binary djangorestframework-simplejwt django-cors-headers django-bootstrap5
+cd frontend
+npm install
+npm run dev
 ```
 
-3. Run the local database migrations:
-
-```bash
-./.venv/bin/python manage.py migrate
-```
-
-4. Start the development server:
-
-```bash
-./.venv/bin/python manage.py runserver 127.0.0.1:8000
-```
-
-The development commands use `ABlueRainbowProject.settings_dev` by default.
-
-Local development now defaults to PostgreSQL. The default connection values are:
-
-- `ABR_DB_NAME=abluerainbow`
-- `ABR_DB_USER=rainbowuser`
-- `ABR_DB_PASSWORD=rainbow`
-- `ABR_DB_HOST=localhost`
-- `ABR_DB_PORT=5432`
-
-Override any of them with environment variables before running migrations.
-
-Load the local sample data after migrating:
-
-```bash
-./.venv/bin/python manage.py seed_sample_data
-```
-
-### Environment configuration
-
-The project now supports environment-driven Django settings. The most useful variables are:
-
-- `DJANGO_DEBUG`
-- `DJANGO_SECRET_KEY`
-- `DJANGO_ALLOWED_HOSTS`
-- `DJANGO_CSRF_TRUSTED_ORIGINS`
-- `DJANGO_SECURE_SSL_REDIRECT`
-- `DJANGO_SESSION_COOKIE_SECURE`
-- `DJANGO_CSRF_COOKIE_SECURE`
-- `DJANGO_SECURE_HSTS_SECONDS`
-- `DJANGO_USE_X_FORWARDED_PROTO`
-
-Example production-style validation:
-
-```bash
-DJANGO_SECRET_KEY='replace-this-with-a-long-random-secret-key' \
-DJANGO_ALLOWED_HOSTS='127.0.0.1,localhost' \
-DJANGO_CSRF_TRUSTED_ORIGINS='http://127.0.0.1:8000,http://localhost:8000' \
-DJANGO_SETTINGS_MODULE=ABlueRainbowProject.settings_prod \
-./.venv/bin/python manage.py check --deploy
-```
-
-### Production server path
-
-The repository now includes a Gunicorn entrypoint and production settings module.
-
-Collect static assets with the production settings before starting the server:
-
-```bash
-DJANGO_SECRET_KEY='replace-this-with-a-long-random-secret-key' \
-DJANGO_ALLOWED_HOSTS='your-domain.example' \
-DJANGO_SETTINGS_MODULE=ABlueRainbowProject.settings_prod \
-./.venv/bin/python manage.py collectstatic --noinput
-```
-
-Start Gunicorn directly:
-
-```bash
-DJANGO_SECRET_KEY='replace-this-with-a-long-random-secret-key' \
-DJANGO_ALLOWED_HOSTS='your-domain.example' \
-./.venv/bin/gunicorn ABlueRainbowProject.wsgi:application --config gunicorn.conf.py
-```
+The application will be available at http://localhost:5174.
 
 ## RESOURCES
 
 ---
 
 - [W3 SCHOOLS](https://www.w3schools.com/)
-- [Django Docs](https://docs.djangoproject.com/en/6.0/)
-- [Microsoft Entity Framework](https://learn.microsoft.com/en-us/ef/core/) - super weird, I know
+- [Microsoft Entity Framework](https://learn.microsoft.com/en-us/ef/core/)
+- [React Documentation](https://react.dev/)
+
+## CREDITS
+
+---
+
+- © 2026 A Blue Rainbow

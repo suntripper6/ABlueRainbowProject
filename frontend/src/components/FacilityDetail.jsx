@@ -40,18 +40,18 @@ const FacilityDetail = ({ kicker, fetchData }) => {
         <h1 className="page-title">{facility.name}</h1>
         <p className="detail-address">{facility.address || facility.address_line_1}</p>
         <p className="detail-description">
-          {facility.city}, {facility.state} {facility.zip_code || facility.zipcode}
+          {facility.city}, {facility.state} {facility.zip_code || facility.zipcode || facility.zipCode}
         </p>
 
         <div className="detail-grid mt-4">
           <div className="detail-card">
             <h3>Phone</h3>
-            <p>{facility.phone_number || 'Not listed'}</p>
+            <p>{facility.phone_number || facility.phoneNumber || 'Not listed'}</p>
           </div>
           <div className="detail-card">
             <h3>Website</h3>
-            {facility.official_website ? (
-              <a href={facility.official_website} className="detail-link" target="_blank" rel="noreferrer">
+            {facility.official_website || facility.officialWebsite ? (
+              <a href={facility.official_website || facility.officialWebsite} className="detail-link" target="_blank" rel="noreferrer">
                 Visit official site
               </a>
             ) : (
