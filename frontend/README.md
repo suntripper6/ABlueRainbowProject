@@ -1,16 +1,36 @@
-# React + Vite
+# Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This frontend is a Vue 3 and Vite application for browsing elder-care resources.
 
-Currently, two official plugins are available:
+## Commands
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev
+npm run lint
+npm test
+npm run build
+```
 
-## React Compiler
+## Environment
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Create `.env.local` from `.env.example`.
 
-## Expanding the ESLint configuration
+```bash
+cp .env.example .env.local
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Available variables:
+
+- `VITE_API_BASE_URL`: Base URL for the backend API, for example `http://localhost:5080/api`
+
+## Tech Notes
+
+- Vue 3 with single-file components
+- Vue Router for navigation
+- Axios for API requests
+- Bootstrap 5 for layout and components
+- Admin sign-in uses the backend `/api/auth/login` endpoint and stores the JWT in local storage
+- Authenticated admins can create facilities at `/admin/facilities/new` and edit or delete them from detail pages
+- Authenticated admins can manage other admin accounts at `/admin/users`
+- Authenticated admins can review, filter, and export audit events at `/admin/audit-logs`

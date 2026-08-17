@@ -1,92 +1,76 @@
-# A BLUE RAINBOW PROJECT
+# A Blue Rainbow Project
 
-### An online database and dashboard for elderly care
+A Blue Rainbow is a care-directory application for families comparing assisted living, home health, skilled nursing, and hospice providers.
 
-### This is a centralized, online resource to assist primary caretakers in locating the best possible care for their loved ones.
+## Stack
 
-### Initially the Project will start with 1 county and 1 state.
+- Backend: ASP.NET Core 8 Web API with Entity Framework Core and PostgreSQL
+- Frontend: Vue 3, Vue Router, Vite, Axios, Bootstrap 5
+- Tooling: ESLint flat config, GitHub Actions CI
 
-## PROFESSIONAL LINKS
+## Current Capabilities
 
----
+- Browse multiple facility categories
+- Search provider lists by name and address terms
+- View facility details and external map or website links
+- Submit feedback through the public site
 
-### [LinkedIn](https://www.linkedin.com/in/jason-bundy)
-
-## USER STORIES
-
----
-
-- As an user/visitor, I want to search by zip code
-- As an user/visitor, I want to select types of facility providers
-- As an user/visitor, I want to see more details on a selected provider
-- As an user/visitor, I want to click on a map hyperlink to locate a provider
-- As an user/visitor, I want to provide feedback/comments
-- As an user/admin, I want the ability to Create an entry
-- As an user/admin, I want the ability to Update an entry
-- As an user/admin, I want the ability to Delete an entry
-
-## MVP
-
----
-
-- Centralized care directory
-- Professional UI using React & Bootstrap 5
-- Robust backend using ASP.NET Core 8
-- PostgreSQL for reliable data storage
-- Full CRUD operations on care facilities
-
-## TECHNOLOGIES USED
-
----
-
-- **Backend**: [ASP.NET Core 8 Web API (C#)](ABlueRainbowBackend/)
-- **Frontend**: [React (Vite)](frontend/)
-- **Database**: PostgreSQL
-- **ORM**: Entity Framework Core 8
-- **Styling**: Bootstrap 5
-
-## GETTING STARTED
-
----
+## Local Development
 
 ### Prerequisites
 
-- [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
-- [Node.js](https://nodejs.org/)
-- [PostgreSQL](https://www.postgresql.org/)
+- .NET 8 SDK
+- Node.js 20.19 or newer
+- PostgreSQL
 
-### Local development
+### Backend
 
-#### 1. Backend Setup
+The backend now expects the connection string outside source control.
 
-Configure your PostgreSQL connection string in [ABlueRainbowBackend/appsettings.json](ABlueRainbowBackend/appsettings.json).
+From [ABlueRainbowBackend](ABlueRainbowBackend/):
 
 ```bash
-cd ABlueRainbowBackend
+dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Host=localhost;Database=abluerainbow;Username=postgres;Password=postgres"
+dotnet user-secrets set "Authentication:AdminUsername" "admin"
+dotnet user-secrets set "Authentication:AdminPassword" "change-this-password"
+dotnet user-secrets set "Authentication:JwtSigningKey" "replace-with-a-long-random-secret"
 dotnet run
 ```
-The backend will automatically create the database and seed it with sample data on first run.
 
-#### 2. Frontend Setup
+On first startup, those bootstrap admin credentials are hashed and seeded into the database as the initial persisted admin account.
+
+The API runs on `http://localhost:5080` by default and exposes Swagger in development.
+
+### Frontend
+
+Copy the example environment file and start Vite:
 
 ```bash
 cd frontend
+cp .env.example .env.local
 npm install
 npm run dev
 ```
 
-The application will be available at http://localhost:5174.
+The frontend runs on `http://localhost:5173` by default.
 
-## RESOURCES
+## Quality Gates
 
----
+- Frontend lint: `cd frontend && npm run lint`
+- Frontend tests: `cd frontend && npm test`
+- Frontend build: `cd frontend && npm run build`
+- Backend build: `cd ABlueRainbowBackend && dotnet build`
+- Backend tests: `dotnet test ABlueRainbowBackend.Tests/ABlueRainbowBackend.Tests.csproj`
 
-- [W3 SCHOOLS](https://www.w3schools.com/)
-- [Microsoft Entity Framework](https://learn.microsoft.com/en-us/ef/core/)
-- [React Documentation](https://react.dev/)
+## Notes
 
-## CREDITS
+- Production CORS origins are configured through `Cors:AllowedOrigins`.
+- Admin login is available at `/api/auth/login`, and protected endpoints require a Bearer token.
+- Auth now uses a persisted `AdminUser` record store; the configured username and password are only used to seed the first admin account.
+- Admin accounts can be managed in-app from `/admin/users`, including creating new admins, deactivating them, and rotating passwords.
+- Audit logs are available to admins at `/admin/audit-logs`, with filtering by actor, action type, and date range plus CSV export.
+- The repository includes a CI workflow for frontend lint, test, and build plus backend build and test validation.
 
----
+## Credits
 
-- © 2026 A Blue Rainbow
+© 2026 A Blue Rainbow

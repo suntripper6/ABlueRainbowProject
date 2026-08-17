@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ABlueRainbowBackend.Data;
@@ -54,6 +55,7 @@ namespace ABlueRainbowBackend.Controllers
         private readonly ApplicationDbContext _context;
         public FeedbackController(ApplicationDbContext context) { _context = context; }
 
+        [Authorize(Policy = "AdminOnly")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserFeedback>>> GetFeedbacks()
         {

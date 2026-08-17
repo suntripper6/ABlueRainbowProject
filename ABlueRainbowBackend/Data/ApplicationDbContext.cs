@@ -17,6 +17,8 @@ namespace ABlueRainbowBackend.Data
         public DbSet<HomeHealthFacility> HomeHealthFacilities { get; set; }
         public DbSet<State> States { get; set; }
         public DbSet<UserFeedback> UserFeedbacks { get; set; }
+        public DbSet<AdminUser> AdminUsers { get; set; }
+        public DbSet<AdminAuditLog> AdminAuditLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -31,6 +33,8 @@ namespace ABlueRainbowBackend.Data
             modelBuilder.Entity<SkilledNursingFacility>().ToTable("a_blue_rainbow_skillednursingfacilities");
             modelBuilder.Entity<AssistedLivingFacility>().ToTable("a_blue_rainbow_assistedlivingfacilities");
             modelBuilder.Entity<HomeHealthFacility>().ToTable("a_blue_rainbow_homehealthfacilities");
+            modelBuilder.Entity<AdminUser>().ToTable("a_blue_rainbow_adminusers");
+            modelBuilder.Entity<AdminAuditLog>().ToTable("a_blue_rainbow_adminauditlogs");
         }
     }
 }
